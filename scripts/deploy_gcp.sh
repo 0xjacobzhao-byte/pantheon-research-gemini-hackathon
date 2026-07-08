@@ -17,8 +17,9 @@ set -euo pipefail
 GCP_PROJECT="${GCP_PROJECT:-$(gcloud config get-value project 2>/dev/null)}"
 GCP_REGION="${GCP_REGION:-asia-southeast1}"
 SERVICE_NAME="${SERVICE_NAME:-pantheon-gemini}"
+AR_REPO="${AR_REPO:-pantheon-research}"
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-IMAGE="${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT}/${SERVICE_NAME}/${SERVICE_NAME}:latest"
+IMAGE="${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT}/${AR_REPO}/${SERVICE_NAME}:latest"
 
 echo "== Pantheon Research Gemini Cloud Run Deploy =="
 echo "  Project:  ${GCP_PROJECT}"
@@ -49,9 +50,9 @@ gcloud services enable \
 
 # Artifact Registry
 echo "==> Ensuring Artifact Registry..."
-gcloud artifacts repositories describe "${SERVICE_NAME}" \
+gcloud artifacts repositories describe "${AR_REPO}" \
     --location="${GCP_REGION}" --project="${GCP_PROJECT}" 2>/dev/null || \
-gcloud artifacts repositories create "${SERVICE_NAME}" \
+gcloud artifacts repositories create "${AR_REPO}" \
     --repository-format=docker --location="${GCP_REGION}" \
     --project="${GCP_PROJECT}" \
     --description="Pantheon Research Gemini backend"
@@ -63,7 +64,7 @@ gcloud auth configure-docker "${GCP_REGION}-docker.pkg.dev" --quiet
 # Build & push (context = repo root, uses root Dockerfile)
 echo "==> Building image..."
 cd "${REPO_ROOT}"
-docker build -t "${IMAGE}" -f Dockerfile .
+docker build --platform linux/amd64 -t "${IMAGE}" -f Dockerfile .
 echo "==> Pushing image..."
 docker push "${IMAGE}"
 

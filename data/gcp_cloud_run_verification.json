@@ -1,0 +1,110 @@
+{
+  "schema_version": "gcp-live-verification-v1",
+  "service_url": "https://pantheon-gemini-1051238642633.asia-southeast1.run.app",
+  "timestamp_utc": "2026-07-08T11:22:19Z",
+  "endpoints_verified": {
+    "health": {
+      "status": "ok",
+      "http_status": 200,
+      "response_keys": [
+        "status",
+        "demo_mode",
+        "tickers"
+      ]
+    },
+    "gemini_proof": {
+      "status": "ok",
+      "http_status": 200,
+      "response_keys": [
+        "schema_version",
+        "project",
+        "status",
+        "provider",
+        "credential_configured",
+        "demo_mode",
+        "model",
+        "base_url",
+        "prompt_version",
+        "output_schema_version",
+        "actual_call_implementation",
+        "proof_endpoint_external_calls",
+        "safe_claims",
+        "non_claims",
+        "attestation"
+      ]
+    },
+    "gcp_proof": {
+      "status": "ok",
+      "http_status": 200,
+      "response_keys": [
+        "schema_version",
+        "project",
+        "status",
+        "cloud_provider",
+        "deployment_platform",
+        "deployment_detected",
+        "service_name",
+        "revision",
+        "configuration",
+        "port",
+        "hostname",
+        "region",
+        "gcp_project",
+        "timestamp_utc",
+        "proof_endpoint_external_calls",
+        "secrets_policy",
+        "safe_claims",
+        "non_claims",
+        "attestation"
+      ]
+    },
+    "gemini_overlay_nvda": {
+      "status": "ok",
+      "http_status": 200,
+      "response_keys": [
+        "provider",
+        "model",
+        "ticker",
+        "status",
+        "takeaway",
+        "assessment",
+        "error_message",
+        "latency_ms",
+        "attempts",
+        "prompt_version",
+        "output_schema_version",
+        "usage"
+      ]
+    },
+    "evidence_nvda": {
+      "status": "ok",
+      "http_status": 200,
+      "response_keys": [
+        "evidence",
+        "provenance"
+      ]
+    },
+    "comparison_ma": {
+      "status": "ok",
+      "http_status": 200,
+      "response_keys": [
+        "ticker",
+        "data_state",
+        "qwen_status",
+        "deepseek_status",
+        "evidence",
+        "evidence_hash",
+        "qwen_overlay",
+        "deepseek_overlay",
+        "agreement_score",
+        "agreement_level",
+        "qwen_tone",
+        "deepseek_tone",
+        "divergences",
+        "evidence_gaps",
+        "human_review_required",
+        "human_review_reason"
+      ]
+    }
+  }
+}

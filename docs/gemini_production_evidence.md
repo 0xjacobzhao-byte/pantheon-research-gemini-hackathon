@@ -136,3 +136,34 @@ curl -s http://localhost:8000/api/overlay/gemini/MA | jq
 - Not claiming investment performance or returns
 - Not exposing private production strategy code
 - Pantheon Research existed before the hackathon; the Gemini-powered analyst layer is the new hackathon work
+
+
+## Google Cloud Run Deployment (Live)
+
+**Service URL:** https://pantheon-gemini-1051238642633.asia-southeast1.run.app
+
+**Deployed:** 2026-07-08, asia-southeast1 region
+
+**Infrastructure:**
+- Google Cloud Run (managed, auto-scaling 0-3 instances)
+- Google Artifact Registry (container image storage)
+- Google Secret Manager (available for Gemini API key)
+- Cloud Logging (request/response logging)
+
+**Endpoints verified (all HTTP 200):**
+- `GET /health` — healthy, offline mode, tickers: MA, NVDA
+- `GET /api/proof/gemini` — schema_version: gemini-proof-v1, no secrets
+- `GET /api/proof/gcp` — deployment_detected: true, Cloud Run metadata confirmed
+- `GET /api/overlay/gemini/NVDA` — OFFLINE_SAMPLE with full 7-field assessment
+- `GET /api/evidence/NVDA` — evidence pack with SHA-256 provenance hash
+- `GET /api/comparison/MA` — dual-provider comparison, MEDIUM agreement
+
+**Reproduce:**
+```bash
+curl -s https://pantheon-gemini-1051238642633.asia-southeast1.run.app/health | jq
+curl -s https://pantheon-gemini-1051238642633.asia-southeast1.run.app/api/proof/gemini | jq
+curl -s https://pantheon-gemini-1051238642633.asia-southeast1.run.app/api/proof/gcp | jq
+curl -s https://pantheon-gemini-1051238642633.asia-southeast1.run.app/api/overlay/gemini/NVDA | jq
+```
+
+**No secrets exposed:** verified via grep scan on all proof and overlay responses.

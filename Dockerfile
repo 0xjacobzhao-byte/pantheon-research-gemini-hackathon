@@ -10,7 +10,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY backend/ ./
 
 # Copy offline sample data
-COPY data/ /app/data
+COPY data/ /data
 
 # Cloud Run injects $PORT; local uses 8000.
 ENV PORT=8080
