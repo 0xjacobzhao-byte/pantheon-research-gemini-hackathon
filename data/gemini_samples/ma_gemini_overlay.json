@@ -1,0 +1,20 @@
+{
+  "provider": "gemini",
+  "model": "gemini-2.0-flash",
+  "ticker": "MA",
+  "takeaway": "Mastercard is a high-quality compounder benefiting from secular digital payments growth, with exceptional profitability metrics and a dominant duopoly position in global payment networks.",
+  "assessment": {
+    "business_quality": "Excellent. Near-100% gross margins reflect an asset-light network business model. Net margins of approximately 46% and ROIC near 45% place Mastercard among the most profitable companies in financial services.",
+    "moat": "Very wide moat from a two-sided network effect connecting consumers and merchants globally. High switching costs for both sides, combined with the Visa-Mastercard duopoly, create significant barriers to entry.",
+    "pricing_power": "Strong pricing power demonstrated by consistent fee increases above inflation with minimal customer attrition. The essential nature of the payment network and lack of viable alternatives support continued pricing discipline.",
+    "capital_allocation": "Disciplined capital allocation balancing share buybacks, dividends, and strategic acquisitions. Low dividend yield reflects reinvestment priorities in technology and new markets rather than capital return concerns.",
+    "red_flags": "Regulatory scrutiny on interchange fees, potential disruption from CBDCs or alternative payment rails, currency headwinds from a strong dollar, and an elevated P/B ratio near 100x indicating significant premium pricing.",
+    "confidence": 0.83,
+    "missing_evidence": [
+      "No real-time earnings data",
+      "No management forward guidance",
+      "No competitive landscape deep-dive",
+      "No regulatory impact quantification"
+    ]
+  }
+}
