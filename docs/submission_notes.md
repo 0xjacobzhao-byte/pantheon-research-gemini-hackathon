@@ -1,9 +1,9 @@
 # Submission Notes
 
-## Qwen Cloud Hackathon Submission
+## Platform Deployment Notes (Secondary Context)
 
 ### Project Name
-Pantheon Research — Qwen Cloud Hackathon Demo
+Pantheon Research — Platform Deployment (Qwen/Alibaba context; primary submission is Gemini Hackathon)
 
 ### Author
 Jacob Zhao ([0xjacobzhao-byte](https://github.com/0xjacobzhao-byte))

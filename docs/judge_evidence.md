@@ -87,7 +87,7 @@ grep -RInE "(sk-|AKIA|DASHSCOPE_API_KEY=|DEEPSEEK_API_KEY=|DATABASE_URL=postgres
 | Metric | Value |
 |--------|-------|
 | Qwen comparison-capable coverage | 312 tickers |
-| Healthy comparisons | 312 / 312 |
+| Healthy comparisons | 312 / 312 (production; not in this public demo) |
 | DeepSeek baseline universe | 1,331 |
 | Markets | US 117 / CN 69 / HK 103 / SG 23 |
 | Full-universe parity | not pursued; low-liquidity tail intentionally excluded |

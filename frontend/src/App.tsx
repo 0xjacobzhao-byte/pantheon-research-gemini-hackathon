@@ -4,7 +4,6 @@ import {
   fetchDemoFlow,
   fetchComparison,
   fetchAlibabaProof,
-  fetchQwenConfig,
   fetchDataQuality,
   fetchModules,
   fetchTickerProfile,
@@ -13,11 +12,12 @@ import {
   fetchMacroMini,
   fetchMarketPulseMini,
   fetchFiccMini,
+  fetchGeminiOverlay,
+  fetchGeminiProof,
   type ProjectInfo,
   type DemoFlow,
   type ComparisonResult,
   type AlibabaCloudProof,
-  type QwenConfig,
   type DataQualityReport,
   type ModuleSnapshotGridData,
   type TickerProfile,
@@ -26,6 +26,8 @@ import {
   type MacroMiniPanelData,
   type MarketPulseMiniPanelData,
   type FiccMiniPanelData,
+  type QualitativeOverlay,
+  type GeminiProof,
 } from "./api";
 import OverlayComparisonPanel from "./components/equity/OverlayComparisonPanel";
 import DataQualityPanel from "./components/DataQualityPanel";
@@ -36,6 +38,7 @@ import ValidationTimeline from "./components/ValidationTimeline";
 import MacroMiniPanel from "./components/MacroMiniPanel";
 import MarketPulseMiniPanel from "./components/MarketPulseMiniPanel";
 import FiccMiniPanel from "./components/FiccMiniPanel";
+import GeminiOverlayPanel from "./components/GeminiOverlayPanel";
 
 const TICKERS = ["MA", "NVDA"];
 
@@ -43,7 +46,6 @@ function App() {
   const [project, setProject] = useState<ProjectInfo | null>(null);
   const [demoFlow, setDemoFlow] = useState<DemoFlow | null>(null);
   const [proof, setProof] = useState<AlibabaCloudProof | null>(null);
-  const [qwenCfg, setQwenCfg] = useState<QwenConfig | null>(null);
   const [dataQuality, setDataQuality] = useState<DataQualityReport | null>(null);
   const [modules, setModules] = useState<ModuleSnapshotGridData | null>(null);
   const [providerHealth, setProviderHealth] = useState<ProviderHealthData | null>(null);
@@ -51,6 +53,8 @@ function App() {
   const [macro, setMacro] = useState<MacroMiniPanelData | null>(null);
   const [marketPulse, setMarketPulse] = useState<MarketPulseMiniPanelData | null>(null);
   const [ficc, setFicc] = useState<FiccMiniPanelData | null>(null);
+  const [geminiProof, setGeminiProof] = useState<GeminiProof | null>(null);
+  const [geminiOverlay, setGeminiOverlay] = useState<QualitativeOverlay | null>(null);
   const [selected, setSelected] = useState<string>("");
   const [comparison, setComparison] = useState<ComparisonResult | null>(null);
   const [tickerProfile, setTickerProfile] = useState<TickerProfile | null>(null);
@@ -61,7 +65,6 @@ function App() {
     fetchProject().then(setProject).catch(() => {});
     fetchDemoFlow().then(setDemoFlow).catch(() => {});
     fetchAlibabaProof().then(setProof).catch(() => {});
-    fetchQwenConfig().then(setQwenCfg).catch(() => {});
     fetchDataQuality().then(setDataQuality).catch(() => {});
     fetchModules().then(setModules).catch(() => {});
     fetchProviderHealth().then(setProviderHealth).catch(() => {});
@@ -69,6 +72,7 @@ function App() {
     fetchMacroMini().then(setMacro).catch(() => {});
     fetchMarketPulseMini().then(setMarketPulse).catch(() => {});
     fetchFiccMini().then(setFicc).catch(() => {});
+    fetchGeminiProof().then(setGeminiProof).catch(() => {});
   }, []);
 
   const handleCompare = useCallback(async () => {
@@ -76,13 +80,16 @@ function App() {
     setLoading(true);
     setError(null);
     setTickerProfile(null);
+    setGeminiOverlay(null);
     try {
-      const [comp, profile] = await Promise.all([
+      const [comp, profile, gemini] = await Promise.all([
         fetchComparison(selected),
         fetchTickerProfile(selected).catch(() => null),
+        fetchGeminiOverlay(selected).catch(() => null),
       ]);
       setComparison(comp);
       setTickerProfile(profile);
+      setGeminiOverlay(gemini);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Unknown error");
     } finally {
@@ -97,8 +104,9 @@ function App() {
       <header className="hero">
         <h1>Pantheon Research — Gemini Hackathon</h1>
         <p className="subtitle">
-          Gemini-Powered Investment Research Overlay with Dual-Provider Comparison (Qwen vs DeepSeek as secondary),
-          with agreement scoring, fail-closed handling, and a human-review gate.
+          Gemini-powered investment research overlay for human-in-the-loop
+          financial decision intelligence. Qwen and DeepSeek serve as secondary
+          comparison models.
         </p>
         {project && (
           <p className="demo-mode">
@@ -106,6 +114,72 @@ function App() {
           </p>
         )}
       </header>
+
+      {/* Gemini proof banner */}
+      {geminiProof && (
+        <section className="card" style={{ borderTop: "3px solid #4285f4" }}>
+          <h2>Gemini Integration</h2>
+          <p className="section-lead">
+            The Gemini Analyst layer is the hackathon-specific AI research feature.
+            Gemini converts structured evidence packs into explainable financial
+            research overlays. Gemini does not execute trades — humans remain
+            final decision-makers.
+          </p>
+          <div className="alibaba-grid">
+            <div className="alibaba-item">
+              <span className="label">Provider</span>
+              <span className="value">{geminiProof.provider}</span>
+            </div>
+            <div className="alibaba-item">
+              <span className="label">Model</span>
+              <span className="value">{geminiProof.model}</span>
+            </div>
+            <div className="alibaba-item">
+              <span className="label">Demo Mode</span>
+              <span className="value">{geminiProof.demo_mode}</span>
+            </div>
+            <div className="alibaba-item">
+              <span className="label">Credential</span>
+              <span className="value">
+                {geminiProof.credential_configured
+                  ? "configured"
+                  : "not set (offline samples)"}
+              </span>
+            </div>
+            <div className="alibaba-item">
+              <span className="label">Prompt</span>
+              <span className="value">{geminiProof.prompt_version}</span>
+            </div>
+            <div className="alibaba-item">
+              <span className="label">External Calls</span>
+              <span className="value">
+                {geminiProof.proof_endpoint_external_calls ? "yes" : "none (secret-free)"}
+              </span>
+            </div>
+          </div>
+          <details className="proof-claims" style={{ marginTop: "1rem" }}>
+            <summary>Safe claims &amp; non-claims</summary>
+            <div className="claims-grid">
+              <div>
+                <h4>Safe claims</h4>
+                <ul>
+                  {geminiProof.safe_claims.map((c, i) => (
+                    <li key={i}>{c}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h4>Non-claims</h4>
+                <ul>
+                  {geminiProof.non_claims.map((c, i) => (
+                    <li key={i}>{c}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </details>
+        </section>
+      )}
 
       {/* Four-layer architecture */}
       <section className="card">
@@ -126,7 +200,7 @@ function App() {
           ))}
         </div>
         <p className="arch-desc">
-          Strategy → Information (evidence pack) → Signal (dual-LLM overlay) →
+          Strategy → Information (evidence pack) → Signal (Gemini + dual-LLM overlay) →
           Trading — every signal gated by human review.
         </p>
       </section>
@@ -138,7 +212,7 @@ function App() {
           <p className="section-lead">
             Pantheon Research is a multi-asset research operating system. This grid
             maps its full scope (Macro · TA · FICC · Equity · Research-Ops) with
-            each module's honest governance state — not just the Qwen overlay.
+            each module&apos;s honest governance state.
           </p>
           <ModuleSnapshotGrid grid={modules} />
         </section>
@@ -149,7 +223,7 @@ function App() {
         <section className="card">
           <h2>Multi-Asset Context (Context-Only)</h2>
           <p className="section-lead">
-            Illustrative panels showing the shape of Pantheon Research's Macro, TA, and FICC modules.
+            Illustrative panels showing the shape of Pantheon Research&apos;s Macro, TA, and FICC modules.
             Not investment advice. Values are bundled samples, not live feeds.
           </p>
           <div className="mini-panels-grid">
@@ -167,126 +241,13 @@ function App() {
         </section>
       )}
 
-      {/* Alibaba Cloud proof v2 */}
-      {proof && (
-        <section className="card">
-          <h2>Alibaba Cloud Deployment Proof</h2>
-          <p className="proof-schema">
-            schema <code>{proof.schema_version}</code> · git{" "}
-            <code>{proof.git_sha}</code> · {proof.demo_mode} mode
-          </p>
-          <div className="alibaba-grid">
-            <div className="alibaba-item">
-              <span className="label">Qwen AI Provider</span>
-              <span className="value">{proof.qwen_provider}</span>
-            </div>
-            <div className="alibaba-item">
-              <span className="label">Compute Host (honest)</span>
-              <span className="value">
-                {proof.host_runtime}{" "}
-                <span
-                  className="host-flag"
-                  style={{ color: proof.alibaba_hosted ? "#16a34a" : "#b45309" }}
-                >
-                  {proof.alibaba_hosted
-                    ? "Alibaba-hosted"
-                    : "not Alibaba compute"}
-                </span>
-              </span>
-            </div>
-            <div className="alibaba-item">
-              <span className="label">Backend</span>
-              <span className="value">{proof.backend_runtime}</span>
-            </div>
-            <div className="alibaba-item">
-              <span className="label">Reverse Proxy</span>
-              <span className="value">{proof.reverse_proxy}</span>
-            </div>
-            <div className="alibaba-item">
-              <span className="label">DashScope Key</span>
-              <span className="value">
-                {proof.dashscope_api_key_configured
-                  ? "configured"
-                  : "not set (offline)"}
-              </span>
-            </div>
-            <div className="alibaba-item">
-              <span className="label">Database</span>
-              <span className="value">{proof.database.provider}</span>
-            </div>
-          </div>
-          <p className="proof-db-note">
-            <strong>Database claim (precise):</strong> {proof.database.note}
-          </p>
-          <details className="proof-claims">
-            <summary>Safe claims &amp; non-claims</summary>
-            <div className="claims-grid">
-              <div>
-                <h4>Safe claims</h4>
-                <ul>
-                  {proof.safe_claims.map((c, i) => (
-                    <li key={i}>{c}</li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h4>Non-claims</h4>
-                <ul>
-                  {proof.non_claims.map((c, i) => (
-                    <li key={i}>{c}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </details>
-        </section>
-      )}
-
-      {/* Qwen config */}
-      {qwenCfg && (
-        <section className="card">
-          <h2>Qwen Integration</h2>
-          <div className="alibaba-grid">
-            <div className="alibaba-item">
-              <span className="label">Model</span>
-              <span className="value">{qwenCfg.model}</span>
-            </div>
-            <div className="alibaba-item">
-              <span className="label">Base URL</span>
-              <span className="value cfg-url">{qwenCfg.base_url}</span>
-            </div>
-            <div className="alibaba-item">
-              <span className="label">Prompt / Schema</span>
-              <span className="value">
-                {qwenCfg.prompt_version} · {qwenCfg.output_schema_version}
-              </span>
-            </div>
-            <div className="alibaba-item">
-              <span className="label">Integration</span>
-              <span className="value">{qwenCfg.integration_type}</span>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Research-Ops mini: data quality */}
-      {dataQuality && (
-        <section className="card">
-          <h2>Research-Ops · Data Quality</h2>
-          <DataQualityPanel report={dataQuality} />
-        </section>
-      )}
-
-      {/* Validation Timeline */}
-      {timeline && (
-        <section className="card">
-          <ValidationTimeline data={timeline} />
-        </section>
-      )}
-
       {/* Ticker panel */}
       <section className="card">
-        <h2>Run a Dual-Model Comparison</h2>
+        <h2>Run an Analysis</h2>
+        <p className="section-lead">
+          Select a ticker to load the Gemini Analyst overlay alongside the
+          Qwen vs DeepSeek comparison.
+        </p>
         <div className="ticker-panel">
           {TICKERS.map((t) => (
             <button
@@ -302,7 +263,7 @@ function App() {
             onClick={handleCompare}
             disabled={!selected || loading}
           >
-            {loading ? "Analyzing…" : "Run Comparison"}
+            {loading ? "Analyzing…" : "Run Analysis"}
           </button>
         </div>
         {error && <div className="error-box">{error}</div>}
@@ -353,25 +314,94 @@ function App() {
         </section>
       )}
 
-      {/* Dual-model comparison */}
+      {/* Gemini Analyst Overlay — PRIMARY */}
+      {geminiOverlay && (
+        <section className="card" style={{ borderTop: "3px solid #4285f4" }}>
+          <h2>Gemini Analyst Overlay</h2>
+          <p className="section-lead">
+            Gemini-powered qualitative research overlay — this is the
+            hackathon-specific AI analyst layer. Gemini does not execute trades.
+            All outputs are research overlays reviewed by humans.
+          </p>
+          <GeminiOverlayPanel overlay={geminiOverlay} />
+          <p className="safety-text" style={{ marginTop: "1rem", fontStyle: "italic" }}>
+            Human-in-the-loop: Gemini outputs are research overlays, not trade signals.
+            A human portfolio manager always makes the final decision.
+          </p>
+        </section>
+      )}
+
+      {/* Qwen vs DeepSeek comparison — SECONDARY */}
       {comparison && (
         <section className="card">
-          <h2>Qwen vs DeepSeek — Overlay Comparison</h2>
+          <h2>Qwen vs DeepSeek — Secondary Comparison</h2>
+          <p className="section-lead">
+            For additional context, Qwen and DeepSeek provide independent overlays.
+            The Gemini Analyst overlay above is the primary hackathon submission feature.
+          </p>
           <OverlayComparisonPanel comparison={comparison} />
+        </section>
+      )}
+
+      {/* Alibaba Cloud proof (secondary context) */}
+      {proof && (
+        <section className="card">
+          <details>
+            <summary style={{ cursor: "pointer", fontWeight: 600 }}>
+              Platform Deployment Proof (Alibaba Cloud — secondary context)
+            </summary>
+            <p className="proof-schema" style={{ marginTop: "0.5rem" }}>
+              schema <code>{proof.schema_version}</code> · git{" "}
+              <code>{proof.git_sha}</code> · {proof.demo_mode} mode
+            </p>
+            <div className="alibaba-grid">
+              <div className="alibaba-item">
+                <span className="label">Compute Host</span>
+                <span className="value">{proof.host_runtime}</span>
+              </div>
+              <div className="alibaba-item">
+                <span className="label">Backend</span>
+                <span className="value">{proof.backend_runtime}</span>
+              </div>
+              <div className="alibaba-item">
+                <span className="label">Database</span>
+                <span className="value">{proof.database.provider}</span>
+              </div>
+            </div>
+          </details>
+        </section>
+      )}
+
+      {/* Research-Ops mini: data quality */}
+      {dataQuality && (
+        <section className="card">
+          <h2>Research-Ops · Data Quality</h2>
+          <DataQualityPanel report={dataQuality} />
+        </section>
+      )}
+
+      {/* Validation Timeline */}
+      {timeline && (
+        <section className="card">
+          <ValidationTimeline data={timeline} />
         </section>
       )}
 
       {/* Safety statement */}
       <section className="card safety-card">
-        <h2>Safety Statement</h2>
+        <h2>Safety &amp; Human-in-the-Loop Statement</h2>
         <p className="safety-text">
           LLMs do not execute trades; a human remains the portfolio manager.
         </p>
         <p className="safety-text">
           Pantheon Research is not an autonomous trading bot. It is a
           framework-first, data-governed, human-in-the-loop AI research
-          operating system. This public repository is a sanitized vertical
-          slice; the production system stays private.
+          operating system. The Gemini Analyst layer produces explainable
+          research overlays — not trade signals, not alpha, not investment advice.
+        </p>
+        <p className="safety-text">
+          This public repository is a sanitized vertical slice; the production
+          system stays private.
         </p>
       </section>
 

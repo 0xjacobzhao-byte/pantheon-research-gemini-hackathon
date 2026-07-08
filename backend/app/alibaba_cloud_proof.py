@@ -1,4 +1,4 @@
-"""Alibaba Cloud deployment proof (v2) for the Qwen Cloud Hackathon.
+"""Alibaba Cloud deployment proof (v2) — platform context (secondary to Gemini Hackathon submission).
 
 Public-safe and honest by construction:
 

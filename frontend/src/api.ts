@@ -410,3 +410,29 @@ export const fetchMarketPulseMini = () =>
   getJson<MarketPulseMiniPanelData>("/mini/market-pulse");
 export const fetchFiccMini = () =>
   getJson<FiccMiniPanelData>("/mini/ficc");
+
+// ---------------------------------------------------------------------------
+// Gemini Integration
+// ---------------------------------------------------------------------------
+
+export interface GeminiProof {
+  schema_version: string;
+  project: string;
+  status: string;
+  provider: string;
+  credential_configured: boolean;
+  demo_mode: string;
+  model: string;
+  base_url: string;
+  prompt_version: string;
+  output_schema_version: string;
+  actual_call_implementation: string;
+  proof_endpoint_external_calls: boolean;
+  safe_claims: string[];
+  non_claims: string[];
+}
+
+export const fetchGeminiOverlay = (ticker: string) =>
+  getJson<QualitativeOverlay>(`/overlay/gemini/${ticker}`);
+export const fetchGeminiProof = () =>
+  getJson<GeminiProof>("/proof/gemini");

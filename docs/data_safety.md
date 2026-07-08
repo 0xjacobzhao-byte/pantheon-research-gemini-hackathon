@@ -8,7 +8,7 @@ Pantheon Research is not an autonomous trading bot. It is a framework-first, dat
 
 ## What Is Excluded
 
-This repository is a **public-safe standalone demo** for the Qwen Cloud Hackathon. The following are explicitly **NOT included**:
+This repository is a **public-safe standalone demo** for the Gemini Hackathon (platform context includes Qwen/Alibaba deployment). The following are explicitly **NOT included**:
 
 ### Secrets & Credentials
 - `.env` files (only `.env.example` with empty values)
