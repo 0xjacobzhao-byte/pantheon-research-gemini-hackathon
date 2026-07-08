@@ -18,6 +18,7 @@ from app.deepseek_overlay import run_deepseek_overlay
 from app.gemini_overlay import run_gemini_overlay
 from app.gemini_proof import get_gemini_proof
 from app.gcp_proof import get_gcp_proof
+from app.google_cloud_proof import get_google_cloud_proof
 from app.sample_loader import list_available_tickers, load_evidence
 from app.sample_modules import get_module_snapshots
 from app.validation_stub import get_validation_methodology
@@ -140,6 +141,12 @@ async def gemini_proof():
 async def gcp_proof():
     """GCP Cloud Run deployment proof (secret-free, no external calls)."""
     return get_gcp_proof()
+
+
+@app.get("/api/proof/google-cloud")
+async def google_cloud_proof():
+    """Comprehensive Google Cloud proof (secret-free, no external calls)."""
+    return get_google_cloud_proof()
 
 
 # ---------------------------------------------------------------------------

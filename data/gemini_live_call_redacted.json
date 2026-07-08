@@ -1,0 +1,43 @@
+{
+  "schema_version": "gemini-live-call-evidence-v1",
+  "provider": "Gemini API",
+  "google_cloud_runtime": "Cloud Run",
+  "service": "pantheon-gemini",
+  "region": "asia-southeast1",
+  "model": "gemini-2.0-flash",
+  "ticker": "NVDA",
+  "status": "API_ERROR",
+  "status_reason": "GEMINI_API_KEY format mismatch (AQ.Ab8... vs expected AIza...); key needs replacement via Secret Manager",
+  "service_url": "https://pantheon-gemini-549837878368.asia-southeast1.run.app",
+  "timestamp_utc": "2026-07-08T11:41:53Z",
+  "redacted": true,
+  "no_secrets": true,
+  "deployment": {
+    "project": "pantheon-research",
+    "image": "asia-southeast1-docker.pkg.dev/pantheon-research/pantheon-research/pantheon-gemini:e6f5927",
+    "service_account": "pantheon-gemini-runner@pantheon-research.iam.gserviceaccount.com",
+    "secret_manager": true,
+    "cloud_logging": true,
+    "artifact_registry": true,
+    "memory": "1Gi",
+    "cpu": 1,
+    "min_instances": 0,
+    "max_instances": 3,
+    "demo_mode": "live"
+  },
+  "endpoints_verified": {
+    "/health": "healthy, demo_mode=live",
+    "/api/proof/google-cloud": "google-cloud-proof-v1, all fields correct",
+    "/api/proof/gemini": "gemini-proof-v1, credential_configured=true",
+    "/api/overlay/gemini/NVDA": "API_ERROR (key format mismatch, fail-closed as designed)"
+  },
+  "non_claims": [
+    "not investment advice",
+    "not autonomous trading",
+    "not alpha or performance claim"
+  ],
+  "next_steps": [
+    "Replace GEMINI_API_KEY in Secret Manager with valid AIza... key from https://aistudio.google.com/apikey",
+    "Redeploy to switch overlay from API_ERROR to SUCCESS"
+  ]
+}
