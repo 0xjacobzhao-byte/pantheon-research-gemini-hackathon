@@ -107,11 +107,28 @@ The business model is sustainable because:
 **Google Gemini API** (Generative Language API v1beta):
 - Used as the primary AI service for generating qualitative research overlays
 - Called via REST `generateContent` endpoint with JSON response mode
-- Model: `gemini-2.0-flash`
+- Model: `gemini-2.5-flash`
 - Implementation: [`backend/app/gemini_overlay.py`](../backend/app/gemini_overlay.py)
+
+**Google Cloud Run:**
+- Backend deployed as a managed container service on Cloud Run (asia-southeast1)
+- Auto-scaling from 0 to 3 instances, 1 Gi memory, 1 CPU
+- Live URL: https://pantheon-gemini-549837878368.asia-southeast1.run.app
+
+**Google Artifact Registry:**
+- Container images stored in `asia-southeast1-docker.pkg.dev/pantheon-research/pantheon-research/`
+
+**Google Secret Manager:**
+- GEMINI_API_KEY stored and bound to Cloud Run via `--set-secrets`
+- Custom service account `pantheon-gemini-runner@pantheon-research.iam.gserviceaccount.com` with least-privilege IAM
+
+**Google Cloud Logging:**
+- Automatic request/response logging for the Cloud Run service
 
 **Google AI Studio:**
 - Used for prompt engineering and model evaluation during development
+
+**Cloud SQL:** Not used in this deployment.
 
 ---
 
@@ -119,7 +136,7 @@ The business model is sustainable because:
 
 | LLM | Role | How Used |
 |-----|------|----------|
-| **Google Gemini 2.0 Flash** | Primary analyst | Generates structured qualitative overlays from evidence packs via REST API |
+| **Google Gemini 2.5 Flash** | Primary analyst | Generates structured qualitative overlays from evidence packs via REST API |
 | **Qwen (Alibaba DashScope)** | Secondary comparison | Independent overlay for divergence detection |
 | **DeepSeek** | Secondary comparison | Independent overlay for divergence detection |
 
@@ -144,7 +161,17 @@ https://github.com/0xjacobzhao-byte/pantheon-research-gemini-hackathon
 docs/gemini_production_evidence.md
 ```
 
-(Will be: `https://github.com/0xjacobzhao-byte/pantheon-research-gemini-hackathon/blob/main/docs/gemini_production_evidence.md`)
+**GitHub:** https://github.com/0xjacobzhao-byte/pantheon-research-gemini-hackathon/blob/main/docs/gemini_production_evidence.md
+
+**Google Cloud Live URL:** https://pantheon-gemini-549837878368.asia-southeast1.run.app
+
+**Google Cloud Proof:** https://pantheon-gemini-549837878368.asia-southeast1.run.app/api/proof/google-cloud
+
+**Gemini Proof:** https://pantheon-gemini-549837878368.asia-southeast1.run.app/api/proof/gemini
+
+**Gemini Overlay:** https://pantheon-gemini-549837878368.asia-southeast1.run.app/api/overlay/gemini/NVDA
+
+**Redacted Live Call Artifact:** `data/gemini_live_call_redacted.json`
 
 ---
 

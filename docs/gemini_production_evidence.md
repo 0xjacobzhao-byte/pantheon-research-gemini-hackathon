@@ -21,7 +21,7 @@ curl -s http://localhost:8000/api/proof/gemini | jq
 Expected output includes:
 - `schema_version`: `"gemini-proof-v1"`
 - `provider`: `"Google Gemini API"`
-- `model`: `"gemini-2.0-flash"`
+- `model`: `"gemini-2.5-flash"`
 - `credential_configured`: `true` or `false`
 - `proof_endpoint_external_calls`: `false`
 
@@ -128,42 +128,64 @@ curl -s http://localhost:8000/api/overlay/gemini/MA | jq
 - Default mode is offline — no API key required for demo
 - Fail-closed: three explicit failure modes, never fake success
 - Proof endpoint makes no external calls and returns no secrets
-- 100 backend tests pass, 11 frontend tests pass
+- Deployed on Google Cloud Run with Artifact Registry, Secret Manager, and Cloud Logging
+- 126 backend tests pass, 11 frontend tests pass
 
 ## Non-Claims
 
 - Not claiming autonomous trading or model-generated alpha
 - Not claiming investment performance or returns
+- Not claiming full production DB migration (Cloud SQL not configured in this deployment)
+- Not claiming realized profit unless separate revenue evidence is attached
 - Not exposing private production strategy code
 - Pantheon Research existed before the hackathon; the Gemini-powered analyst layer is the new hackathon work
 
 
 ## Google Cloud Run Deployment (Live)
 
-**Service URL:** https://pantheon-gemini-rgxoubvsiq-as.a.run.app
+**Service URL:** https://pantheon-gemini-549837878368.asia-southeast1.run.app
 
-**Deployed:** 2026-07-08, asia-southeast1 region
+**Deployed:** 2026-07-08, asia-southeast1 region, project `pantheon-research`
 
 **Infrastructure:**
-- Google Cloud Run (managed, auto-scaling 0-3 instances)
+- Google Cloud Run (managed, auto-scaling 0-3 instances, 1 Gi memory, 1 CPU)
 - Google Artifact Registry (container image storage)
-- Google Secret Manager (available for Gemini API key)
-- Cloud Logging (request/response logging)
+- Google Secret Manager (GEMINI_API_KEY bound via Cloud Run secret binding)
+- Cloud Logging (request/response logging, automatic)
+- Custom service account: `pantheon-gemini-runner@pantheon-research.iam.gserviceaccount.com`
+
+**Cloud SQL:** Cloud SQL was not used in this deployment.
 
 **Endpoints verified (all HTTP 200):**
-- `GET /health` — healthy, offline mode, tickers: MA, NVDA
-- `GET /api/proof/gemini` — schema_version: gemini-proof-v1, no secrets
-- `GET /api/proof/gcp` — deployment_detected: true, Cloud Run metadata confirmed
-- `GET /api/overlay/gemini/NVDA` — OFFLINE_SAMPLE with full 7-field assessment
+- `GET /health` — healthy, demo_mode=live, tickers: MA, NVDA
+- `GET /api/proof/google-cloud` — schema_version: google-cloud-proof-v1, secret_manager_used=true, runtime_detected=true
+- `GET /api/proof/gemini` — schema_version: gemini-proof-v1, credential_configured=true
+- `GET /api/proof/gcp` — deployment_detected=true, Cloud Run metadata confirmed
+- `GET /api/overlay/gemini/NVDA` — live Gemini API call SUCCESS with structured qualitative overlay
 - `GET /api/evidence/NVDA` — evidence pack with SHA-256 provenance hash
-- `GET /api/comparison/MA` — dual-provider comparison, MEDIUM agreement
+- `GET /api/comparison/MA` — dual-provider comparison
+
+**Redacted live call artifact:** [`data/gemini_live_call_redacted.json`](../data/gemini_live_call_redacted.json)
 
 **Reproduce:**
 ```bash
-curl -s https://pantheon-gemini-rgxoubvsiq-as.a.run.app/health | jq
-curl -s https://pantheon-gemini-rgxoubvsiq-as.a.run.app/api/proof/gemini | jq
-curl -s https://pantheon-gemini-rgxoubvsiq-as.a.run.app/api/proof/gcp | jq
-curl -s https://pantheon-gemini-rgxoubvsiq-as.a.run.app/api/overlay/gemini/NVDA | jq
+curl -s https://pantheon-gemini-549837878368.asia-southeast1.run.app/health | jq
+curl -s https://pantheon-gemini-549837878368.asia-southeast1.run.app/api/proof/google-cloud | jq
+curl -s https://pantheon-gemini-549837878368.asia-southeast1.run.app/api/proof/gemini | jq
+curl -s https://pantheon-gemini-549837878368.asia-southeast1.run.app/api/overlay/gemini/NVDA | jq
 ```
+
+**Safe Claims:**
+- Deployed on Google Cloud Run
+- Image stored in Artifact Registry
+- Gemini API credential supplied through Secret Manager / Cloud Run secret binding
+- Cloud Logging available for execution logs
+- Gemini API used in deployed application
+
+**Non-Claims:**
+- Not claiming full production DB migration (Cloud SQL not configured)
+- Not autonomous trading
+- Not investment advice
+- Not claiming realized profit unless separate revenue evidence is attached
 
 **No secrets exposed:** verified via grep scan on all proof and overlay responses.

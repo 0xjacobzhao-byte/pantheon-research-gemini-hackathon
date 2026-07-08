@@ -20,6 +20,7 @@ Pantheon Research uses Google Gemini to convert structured quantitative evidence
 |---|---|
 | 💻 GitHub Repo | https://github.com/0xjacobzhao-byte/pantheon-research-gemini-hackathon |
 | 🌐 Live Product | https://pantheon-research.com |
+| ☁️ Google Cloud Run | https://pantheon-gemini-549837878368.asia-southeast1.run.app |
 | 📄 Product-Running Evidence | [docs/gemini_production_evidence.md](docs/gemini_production_evidence.md) |
 | 📈 Business Model / P&L | [docs/business_model_and_pnl.md](docs/business_model_and_pnl.md) |
 | 📖 Project Story | [docs/project_story.md](docs/project_story.md) |
@@ -44,10 +45,15 @@ Pantheon Research uses Google Gemini to convert structured quantitative evidence
    curl -s http://localhost:8000/api/overlay/gemini/NVDA | jq
    ```
 
-4. **Inspect Gemini API implementation:**
+4. **Verify Google Cloud deployment (live):**
+   ```bash
+   curl -s https://pantheon-gemini-549837878368.asia-southeast1.run.app/api/proof/google-cloud | jq
+   ```
+
+5. **Inspect Gemini API implementation:**
    [`backend/app/gemini_overlay.py`](backend/app/gemini_overlay.py)
 
-5. **Read evidence docs:**
+6. **Read evidence docs:**
    [`docs/gemini_production_evidence.md`](docs/gemini_production_evidence.md)
 
 ---
@@ -103,7 +109,7 @@ cd frontend && npm install && npm run dev
 | Property | Value |
 |----------|-------|
 | Provider | Google Gemini API (Generative Language API v1beta) |
-| Model | `gemini-2.0-flash` (configurable via `GEMINI_MODEL`) |
+| Model | `gemini-2.5-flash` (configurable via `GEMINI_MODEL`) |
 | Auth | API key (`GEMINI_API_KEY` or `GOOGLE_API_KEY`) |
 | Protocol | REST generateContent with JSON response mode |
 | Default Mode | **Offline** — bundled samples, no API key required |
@@ -144,6 +150,8 @@ Set `DEMO_MODE=live` + `GEMINI_API_KEY` (or `GOOGLE_API_KEY`) for live Gemini AP
 |--------|------|-------------|
 | GET | `/api/overlay/gemini/{ticker}` | Gemini qualitative overlay |
 | GET | `/api/proof/gemini` | Gemini proof (secret-free, no external calls) |
+| GET | `/api/proof/google-cloud` | Google Cloud deployment proof (secret-free) |
+| GET | `/api/proof/gcp` | GCP Cloud Run metadata proof |
 
 </details>
 
@@ -206,7 +214,7 @@ Strategy ──▶ Information ──▶ Signal ──▶ Trading
 ## Tests
 
 ```bash
-cd backend && python -m pytest            # 100 backend tests
+cd backend && python -m pytest            # 126 backend tests
 cd frontend && npm test -- --run          # 11 frontend tests
 cd frontend && npm run build              # production build
 ```
@@ -223,7 +231,8 @@ cd frontend && npm run build              # production build
 | LLM (Qwen) | Alibaba Cloud DashScope (secondary comparison) |
 | LLM (DeepSeek) | DeepSeek API (secondary comparison) |
 | Database | PostgreSQL — production only |
-| Deploy | Docker Compose |
+| Deploy (local) | Docker Compose |
+| Deploy (cloud) | Google Cloud Run · Artifact Registry · Secret Manager · Cloud Logging |
 | Tests | pytest (backend) · vitest + Testing Library (frontend) |
 
 ---
