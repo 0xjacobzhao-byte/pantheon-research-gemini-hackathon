@@ -140,7 +140,7 @@ curl -s http://localhost:8000/api/overlay/gemini/MA | jq
 
 ## Google Cloud Run Deployment (Live)
 
-**Service URL:** https://pantheon-gemini-1051238642633.asia-southeast1.run.app
+**Service URL:** https://pantheon-gemini-549837878368.asia-southeast1.run.app
 
 **Deployed:** 2026-07-08, asia-southeast1 region
 
@@ -160,10 +160,10 @@ curl -s http://localhost:8000/api/overlay/gemini/MA | jq
 
 **Reproduce:**
 ```bash
-curl -s https://pantheon-gemini-1051238642633.asia-southeast1.run.app/health | jq
-curl -s https://pantheon-gemini-1051238642633.asia-southeast1.run.app/api/proof/gemini | jq
-curl -s https://pantheon-gemini-1051238642633.asia-southeast1.run.app/api/proof/gcp | jq
-curl -s https://pantheon-gemini-1051238642633.asia-southeast1.run.app/api/overlay/gemini/NVDA | jq
+curl -s https://pantheon-gemini-549837878368.asia-southeast1.run.app/health | jq
+curl -s https://pantheon-gemini-549837878368.asia-southeast1.run.app/api/proof/gemini | jq
+curl -s https://pantheon-gemini-549837878368.asia-southeast1.run.app/api/proof/gcp | jq
+curl -s https://pantheon-gemini-549837878368.asia-southeast1.run.app/api/overlay/gemini/NVDA | jq
 ```
 
 **No secrets exposed:** verified via grep scan on all proof and overlay responses.

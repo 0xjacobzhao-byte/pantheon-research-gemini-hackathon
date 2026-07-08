@@ -1,7 +1,9 @@
 {
   "schema_version": "gcp-live-verification-v1",
-  "service_url": "https://pantheon-gemini-1051238642633.asia-southeast1.run.app",
-  "timestamp_utc": "2026-07-08T11:22:19Z",
+  "service_url": "https://pantheon-gemini-549837878368.asia-southeast1.run.app",
+  "gcp_project": "pantheon-research",
+  "region": "asia-southeast1",
+  "timestamp_utc": "2026-07-08T11:33:33Z",
   "endpoints_verified": {
     "health": {
       "status": "ok",
