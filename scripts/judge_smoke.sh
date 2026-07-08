@@ -2,9 +2,10 @@
 #
 # judge_smoke.sh — one-command smoke test for judges.
 #
-# Exercises the local backend (offline mode, no secrets required) end-to-end,
-# then pings the live Alibaba Cloud proof endpoint. Zero configuration needed:
-# offline sample overlays are bundled.
+# Exercises the local backend (offline mode, no secrets required) end-to-end.
+# Covers: health, evidence, Qwen/DeepSeek overlays, Gemini overlay & proof,
+# comparison, data quality, module grid, Alibaba proof, provider health,
+# validation timeline, ticker profiles, mini modules.
 #
 # Usage:
 #   ./scripts/judge_smoke.sh                 # assumes backend on :8000
@@ -12,7 +13,7 @@
 #   ALIBABA=http://8.222.191.152 ./scripts/judge_smoke.sh
 #
 # To start the local backend first:
-#   cd backend && pip install -r requirements.txt && uvicorn main:app --port 8000
+#   docker compose up -d --build backend
 set -uo pipefail
 
 BASE="${BASE:-http://localhost:8000}"
@@ -29,6 +30,17 @@ check() { # name url jq-filter expected-substring
     printf "  PASS  %-34s %s\n" "$name" "$out"; PASS=$((PASS+1))
   else
     printf "  FAIL  %-34s got=[%s] want~[%s]\n" "$name" "$out" "$want"; FAIL=$((FAIL+1))
+  fi
+}
+
+# secret_check: assert that a string does NOT contain secret-like patterns
+secret_check() { # name url
+  local name="$1" url="$2"
+  local body; body=$(curl -sS -m 30 "$url" 2>/dev/null)
+  if printf '%s' "$body" | grep -qE "(AIza[A-Za-z0-9_\-]{30,}|sk-[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{36}|x-admin-token|BEGIN PRIVATE KEY)"; then
+    printf "  FAIL  %-34s SECRET DETECTED IN RESPONSE\n" "$name"; FAIL=$((FAIL+1))
+  else
+    printf "  PASS  %-34s no secrets in response\n" "$name"; PASS=$((PASS+1))
   fi
 }
 
@@ -62,6 +74,15 @@ check "ticker profile NVDA" "$BASE/api/ticker-profile/NVDA"          '.company_n
 check "mini macro"          "$BASE/api/mini/macro"                   '.data_state'         "CONTEXT"
 check "mini market pulse"   "$BASE/api/mini/market-pulse"            '.data_state'         "CONTEXT"
 check "mini ficc"           "$BASE/api/mini/ficc"                    '.data_state'         "CONTEXT"
+
+echo
+echo "== Gemini checks (offline mode) =="
+check "gemini overlay"     "$BASE/api/overlay/gemini/NVDA"       '.status'            "OFFLINE_SAMPLE"
+check "gemini proof"       "$BASE/api/proof/gemini"              '.schema_version'    "gemini-proof-v1"
+check "gemini proof cred"  "$BASE/api/proof/gemini"              '.credential_configured' "false\|true"
+check "gemini proof no-ext" "$BASE/api/proof/gemini"             '.proof_endpoint_external_calls' "false"
+secret_check "no secrets in Gemini proof"  "$BASE/api/proof/gemini"
+secret_check "no secrets in Gemini overlay" "$BASE/api/overlay/gemini/NVDA"
 
 echo
 echo "== Live Alibaba Cloud ECS proof @ $ALIBABA (best-effort; production backend) =="

@@ -48,3 +48,4 @@ docker-compose.override.yml
 # Data (keep sample JSON, exclude real data)
 data/real_*
 data/private_*
+submission_pack/

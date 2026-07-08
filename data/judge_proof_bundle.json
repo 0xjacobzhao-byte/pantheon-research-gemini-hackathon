@@ -1,6 +1,6 @@
 {
   "schema_version": "judge-proof-bundle-v1",
-  "project": "Pantheon Research — Qwen Cloud Hackathon",
+  "project": "Pantheon Research \u2014 Gemini Hackathon (with Qwen/DeepSeek comparison context)",
   "live_product": "https://pantheon-research.com",
   "alibaba_deployment": "http://8.222.191.152",
   "deployment_proof_endpoint": "http://8.222.191.152/api/proof/alibaba-cloud",
@@ -29,6 +29,9 @@
     "url": "https://github.com/0xjacobzhao-byte/Pantheon-Research",
     "visibility": "private",
     "reason": "protects proprietary trading-strategy IP, provider integrations, operational runbooks, and production data infrastructure",
-    "judge_access": "available on request to Qwen Hackathon judges"
-  }
+    "judge_access": "available on request to Gemini Hackathon judges"
+  },
+  "gemini_api_implementation": "backend/app/gemini_overlay.py",
+  "gemini_model": "gemini-2.0-flash",
+  "gemini_proof_endpoint": "/api/proof/gemini"
 }
