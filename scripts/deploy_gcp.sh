@@ -109,7 +109,7 @@ gcloud run deploy ${SERVICE_NAME} \
 SERVICE_URL=$(gcloud run services describe "${SERVICE_NAME}" \
     --region="${GCP_REGION}" --project="${GCP_PROJECT}" --format="value(status.url)")
 echo ""
-echo "== Deployed ==
+echo "== Deployed =="
 echo "  URL:              ${SERVICE_URL}"
 echo "  Health:           ${SERVICE_URL}/health"
 echo "  Gemini proof:     ${SERVICE_URL}/api/proof/gemini"
