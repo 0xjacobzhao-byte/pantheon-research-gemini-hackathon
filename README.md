@@ -24,6 +24,7 @@ Pantheon Research uses Google Gemini to convert structured quantitative evidence
 | 📄 Product-Running Evidence | [docs/gemini_production_evidence.md](docs/gemini_production_evidence.md) |
 | 📈 Business Model / P&L | [docs/business_model_and_pnl.md](docs/business_model_and_pnl.md) |
 | 📖 Project Story | [docs/project_story.md](docs/project_story.md) |
+| 🔵 Circle Agentic Economy | [docs/circle_agentic_economy_evidence.md](docs/circle_agentic_economy_evidence.md) · [BaseScan proof](https://basescan.org/tx/0x699bbb9ddb03f9a98525749374fb976a9cd7ef6319414d1cb5e422d810eac6e3) |
 
 ---
 
@@ -184,6 +185,25 @@ Set `DEMO_MODE=live` + `GEMINI_API_KEY` (or `GOOGLE_API_KEY`) for live Gemini AP
 ## Business Model & P&L
 
 See [docs/business_model_and_pnl.md](docs/business_model_and_pnl.md) for pricing model, 5-year projections, and path to profitability. No realized profit is claimed for this hackathon submission.
+
+---
+
+## Circle Agentic Economy
+
+Pantheon Research completed a bounded Circle Agent Wallet on-chain payment proof: founder-funded, operator-mediated, policy-limited by Circle wallet transfer caps, and independently verified on Base. The proof demonstrates Circle Agent Wallet usage for agentic research workflow payments while preserving strict boundaries: no user capital, no trading, no Pro entitlement, and no user-payment flow.
+
+| | |
+|---|---|
+| Circle product | Circle Agent Stack — Agent Wallets |
+| Agent wallet | `0xaae4fab28919e5d0275fed67fca2100e0eb454bc` |
+| Chain / token | Base mainnet (`8453`) · USDC |
+| Amount | 0.100000 USDC |
+| Proof | [BaseScan](https://basescan.org/tx/0x699bbb9ddb03f9a98525749374fb976a9cd7ef6319414d1cb5e422d810eac6e3) · [redacted proof JSON](data/circle_agentic_payment_proof_redacted.json) · [full evidence](docs/circle_agentic_economy_evidence.md) |
+| Circle policy caps | per-tx 1 · daily 2 · weekly 5 · monthly 10 USDC |
+
+> **Verifying:** the wallet is an **ERC-4337 smart account**, so the outer transaction's `from` is a bundler and its `to` is the EntryPoint contract. Read the **"ERC-20 Tokens Transferred"** row on BaseScan, not the top-level From/To. Gas was sponsored by Circle — the wallet held 0 ETH before and after.
+
+**Limitations, stated plainly.** The payment was operator-mediated and does **not** demonstrate an autonomous or recurring treasury. Pantheon's production Agent Treasury architecture (policy engine, single-use human approval gate, server-side proof verifier, append-only ledger) exists separately in the private system, but **this final proof did not complete the production signed-in approval flow**, and the Pantheon cloud proof verifier did not execute or verify this payment. **No recipient allowlist was machine-enforced** on either the Circle or Pantheon side — the recipient is operator-attested as Pantheon-controlled, with risk bounded instead by funding the wallet with exactly the proof amount. Full detail: [docs/circle_agentic_economy_evidence.md](docs/circle_agentic_economy_evidence.md).
 
 ---
 
