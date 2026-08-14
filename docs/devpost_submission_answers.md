@@ -1,216 +1,263 @@
-# Devpost Submission Answers — Gemini Hackathon
+# Devpost Submission Answers
 
-> Draft answers for the Devpost submission form. Conservative language, no overclaiming.
+> Reconciled against the **live Devpost submission** and current product truth
+> as of **2026-08-14**.
+>
+> Live submission: https://devpost.com/software/pantheon-research-qzn50k
+
+---
+
+## Tagline
+
+> Pantheon Research is an institutional cross-asset command center using
+> quantitative frameworks to turn market noise into actionable intelligence
+> across Macro, Equities, Crypto, and FICC.
 
 ---
 
 ## Project Story
 
-See [docs/project_story.md](project_story.md) for the full narrative.
+Full narrative: [`project_story.md`](project_story.md).
 
-**Short version:** Pantheon Research is a framework-first, data-governed, human-in-the-loop investment research operating system. For the Gemini Hackathon, we built a Gemini-powered Analyst / Risk-Review layer that converts structured quantitative evidence into explainable qualitative research overlays. Gemini does not execute trades — humans remain final decision-makers.
+**Short version:** Pantheon Research is a live, human-in-the-loop, cross-asset
+investment research operating system with seven layers — external data, a
+governed data platform, deterministic research engines, a deterministic +
+five-model AI layer, the information layer, the signal/agent layer, and a
+separated trading boundary. For this hackathon we built the **Gemini Analyst /
+Risk-Review layer**, deployed it on Google Cloud Run, and added a **Circle Agent
+Wallet on-chain payment proof**. Gemini does not execute trades, does not
+override deterministic ratings, and does not manage assets.
+
+**Scope boundary:** Pantheon existed before the hackathon. See
+[`SUBMISSION_SCOPE.md`](SUBMISSION_SCOPE.md).
 
 ---
 
-## Built With Tags
+## Built With
 
 ```
-Gemini API, Google AI Studio, Google Cloud, Python, FastAPI, React, TypeScript,
-Vite, PostgreSQL, Docker, Financial Technology, Investment Research, Public Markets,
-Equities, Macro, Crypto, FICC, Data Quality, Model Comparison, Human-in-the-loop AI,
-Structured Outputs, Evidence Provenance, Risk Analysis, Business Intelligence
+gemini · google-cloud · claude · chatgpt · deepseek · qwen · circle
+python · fastapi · postgresql · react · typescript · vite · docker
+vercel · railway · human-in-the-loop · codex · hermes · openclaw
 ```
 
 ---
 
-## How the Project Uses AI to Impact the World in Money & Financial Access
+## How the Project Uses AI to Impact Money & Financial Access
 
-Pantheon Research uses Google Gemini to democratize access to professional-grade investment research. Individual investors and small funds typically lack the analyst teams that large institutions deploy. Gemini levels the playing field by converting structured financial evidence into explainable qualitative assessments — business quality, moat analysis, pricing power, capital allocation, red flags — in seconds.
+Pantheon uses AI to democratize access to professional-grade investment
+research. Individual investors, family offices, and small advisory teams lack
+the analyst teams, data engineers, and risk committees that large institutions
+deploy. Pantheon converts governed financial evidence into explainable
+qualitative assessments — business quality, moat, pricing power, capital
+allocation, red flags, evidence gaps — across macro, equities, crypto, and FICC.
 
-Critically, the system is **fail-closed and human-in-the-loop**: it never fabricates results, never hides uncertainty, and never executes trades. It amplifies human judgment rather than replacing it, making professional research methodology accessible without the risks of autonomous AI trading.
-
----
-
-## Underlying Business Model
-
-Subscription SaaS + API access:
-- Pro individual: $49–$99/month
-- Premium reports: $29–$99/report
-- B2B API: $500–$5,000/month
-- Enterprise white-label: $10,000–$50,000+/month
-
-See [docs/business_model_and_pnl.md](business_model_and_pnl.md) for details.
+Critically, the system is **fail-closed and human-in-the-loop**: it never
+fabricates results, never hides uncertainty, and never executes trades. It
+amplifies human judgment rather than replacing it — professional research
+methodology without the risks of autonomous AI trading.
 
 ---
 
-## How Business Operations Will Be Sustained
+## What AI Actually Does (AI-Native Operations)
 
-- **Recurring subscription revenue** with high retention (research tools become workflow-embedded)
-- **Low marginal cost per user** (LLM API costs are $0.001–$0.01 per overlay call)
-- **Tiered pricing** from individual to enterprise creates natural growth ladder
-- **No dependency on trading performance** — revenue comes from research tooling, not investment returns
+AI performs **research-operation decisions**:
+
+evidence synthesis · factor classification · risk identification · evidence-gap
+detection · model disagreement detection · confidence assessment ·
+verification-task generation · human-review escalation · research summarization
+· agent routing and tool selection · personalized research explanation
+
+And explicitly **not** capital decisions:
+
+```text
+AI research decisions  ≠  capital-allocation / trading decisions
+```
+
+The boundary is enforced in code, not policy prose — see
+[`../production_reference/advice_policy.py`](../production_reference/advice_policy.py).
+Advice is ALLOWED; execution is NOT AUTHORIZED. Pantheon has no order path, no
+broker credential, and no signing key.
 
 ---
 
-## Which AI Tools Were Leveraged
+## Which LLMs Are Used, and How Gemini Is Used
 
-- **Google Gemini API** (primary): Powers the qualitative research overlay — converts evidence packs into structured financial assessments
-- **Google AI Studio**: Used for prompt prototyping and model evaluation during development
-- **Qwen / Alibaba Cloud DashScope** (secondary): Comparison model for divergence analysis
-- **DeepSeek API** (secondary): Independent comparison model
+Pantheon runs a **five-model** research overlay behind one schema-validated
+pipeline:
+
+| LLM | Role |
+|---|---|
+| **Google Gemini 2.5 Flash** | Hackathon analyst layer — structured qualitative overlays from evidence packs |
+| **Claude** | Qualitative overlay & risk reasoning |
+| **ChatGPT** | Qualitative overlay & comparison |
+| **DeepSeek** | Qualitative overlay (production lane) |
+| **Qwen** (Alibaba DashScope) | Qualitative overlay |
+
+Gemini is called via `POST {base_url}/models/{model}:generateContent` with:
+
+- `contents` — the evidence pack formatted as a structured prompt
+- `generationConfig.temperature` — 0.7
+- `generationConfig.responseMimeType` — `application/json`
+
+Implementation: [`../backend/app/gemini_overlay.py`](../backend/app/gemini_overlay.py)
+
+**Fail-closed:** missing key → `BLOCKED_BY_MISSING_CREDENTIAL`; API error →
+`API_ERROR`; non-JSON → `PARSE_ERROR`. Never a hollow SUCCESS.
+
+---
+
+## Which Google Cloud Products Were Used and How
+
+| Product | How used |
+|---|---|
+| **Google Gemini API** (Generative Language API v1beta) | Primary AI service for qualitative research overlays. Model `gemini-2.5-flash`, REST `generateContent`, JSON response mode. |
+| **Google Cloud Run** | Backend deployed as a managed container in `asia-southeast1`, auto-scaling 0–3 instances, 1 Gi memory, 1 CPU. Live: https://pantheon-gemini-549837878368.asia-southeast1.run.app |
+| **Google Artifact Registry** | Container image storage. |
+| **Google Secret Manager** | `GEMINI_API_KEY` stored and bound to Cloud Run via `--set-secrets`, with a least-privilege custom service account. |
+| **Google Cloud Logging** | Automatic request/response logging for the Cloud Run service. |
+| **Google AI Studio** | Prompt prototyping and model evaluation during development. |
+| **Cloud SQL** | **Not used** in this deployment. Explicitly not claimed. |
+
+The Cloud Run service is a **shadow / proof** deployment, not the canonical
+production writer. Primary production is Vercel + Railway.
+
+---
+
+## Circle Agentic Economy
+
+| | |
+|---|---|
+| Circle product | Circle Agent Stack — Agent Wallets |
+| Agent wallet | `0xaae4fab28919e5d0275fed67fca2100e0eb454bc` |
+| Chain / token | Base mainnet (`8453`) · USDC |
+| Amount | 0.100000 USDC |
+| Transaction | `0x699bbb9ddb03f9a98525749374fb976a9cd7ef6319414d1cb5e422d810eac6e3` |
+| Block | `49907662` |
+
+**Limitations, stated plainly:** founder-funded, operator-mediated,
+policy-limited, **not autonomous**. No user capital, no trading, no Pro
+entitlement. The production signed-in Treasury approval flow was **not**
+demonstrated by this proof, and no recipient allowlist was machine-enforced.
+
+Full evidence: [`circle_agentic_economy_evidence.md`](circle_agentic_economy_evidence.md).
+
+> The wallet is an **ERC-4337 smart account** — verify via the ERC-20 `Transfer`
+> log, not the outer transaction's From/To.
+
+---
+
+## Business Model
+
+Free research → Pantheon Pro → Research Credits → premium research/playbooks →
+skills marketplace → advanced data/API → B2B/enterprise licensing.
+
+Only free research is live; Pro is a controlled beta with billing gated off.
+Everything else is roadmap.
+
+---
+
+## Actual Hackathon-Period Financials
+
+| Line item | Actual (USD) |
+|---|---:|
+| **Revenue** | **$0.00** |
+| COGS | $316.85 |
+| Sales & Marketing | $33.69 |
+| R&D | $560.58 |
+| G&A | $15.00 |
+| **Total Expenses** | **$926.12** |
+| **Profit / (Loss)** | **−$926.12** |
+
+| Metric | Actual |
+|---|---:|
+| Revenue | **$0** |
+| Verified external users | **0** |
+| Paying users | **0** |
+
+**No realized profit, revenue, or traction is claimed.** Full detail and the
+clear separation of actuals from projections:
+[`business_model_and_pnl.md`](business_model_and_pnl.md).
 
 ---
 
 ## Business Model Sustainability and Viability
 
-The business model is sustainable because:
-1. Research tooling revenue is **decoupled from market performance** — we earn from subscriptions, not from trading results
-2. **Marginal costs are low and predictable** — LLM API pricing is per-call with caching
-3. **Evidence-first architecture creates defensibility** — provenance hashing and fail-closed design build trust that pure LLM wrappers cannot replicate
-4. **Multiple revenue tiers** reduce concentration risk
+1. Research-tooling revenue is **decoupled from market performance** — income
+   comes from subscriptions, not trading results.
+2. **Marginal costs are low and predictable** — evidence packs are built once,
+   hashed, and reused across five providers; overlays are cached.
+3. **Defensibility is governance, not model access.** Anyone can call an LLM.
+   Evidence provenance, fail-closed states, lane separation, forward validation,
+   and human-review gating are the hard parts.
+4. **Multiple revenue tiers** reduce concentration risk.
+
+Five-year target $5M–$10M ARR against a $1B–$3B niche TAM, targeting <1% share,
+with projected profitability in Year 3 — **all projections, none realized.**
 
 ---
 
-## Five-Year Goal, TAM, Market Share, P&L, Path to Profitability
+## Extent to Which AI Is Live in Production
 
-- **Five-year revenue target:** $5M–$10M ARR
-- **TAM:** $1B–$3B (AI-assisted qualitative investment research overlay niche)
-- **Target market share:** <1% of niche (realistic, conservative)
-- **Path to profitability:** Year 3 with 2,000+ Pro subscribers and 50+ B2B clients
-- **See:** [docs/business_model_and_pnl.md](business_model_and_pnl.md)
-
----
-
-## How the Business Operates with AI
-
-1. User selects a stock ticker
-2. Backend loads a structured evidence pack (P/E, P/B, ROIC, FCF, margins, growth)
-3. Gemini generates a qualitative overlay: business quality, moat, pricing power, capital allocation, red flags, confidence, missing evidence
-4. System compares against Qwen/DeepSeek for divergence detection
-5. Human review is flagged if models disagree significantly
-6. **Human makes the final decision** — Gemini never executes trades
+- **Live:** AI generates real qualitative overlays from governed evidence packs
+  in the production research surface, across five providers.
+- **Not done by AI:** trade execution, investment decisions, asset management,
+  capital movement, or mutation of deterministic ratings.
+- **Fail-closed by design:** missing credentials, API errors, and parse failures
+  each produce explicit states — never fabricated results.
+- **Public demo default is offline:** the judge demo runs end-to-end with
+  bundled samples and no API keys.
 
 ---
 
-## Extent to Which AI Is Live in Production and Executes Key Decisions
+## Links
 
-- **AI is live in the research overlay:** Gemini generates real qualitative assessments from evidence packs
-- **AI does NOT execute trades or make investment decisions:** Every output is a research overlay reviewed by a human
-- **AI does NOT manage assets or provide investment advice**
-- **Fail-closed by design:** Missing credentials, API errors, and parse failures each produce explicit error states — never fabricated results
-- **Default mode is offline:** The demo runs end-to-end with bundled samples and no API keys
+| Field | Value |
+|---|---|
+| Live product | https://pantheon-research.com |
+| Public repo | https://github.com/0xjacobzhao-byte/pantheon-research-gemini-hackathon |
+| Cloud Run service | https://pantheon-gemini-549837878368.asia-southeast1.run.app |
+| Google Cloud proof | https://pantheon-gemini-549837878368.asia-southeast1.run.app/api/proof/google-cloud |
+| Gemini proof | https://pantheon-gemini-549837878368.asia-southeast1.run.app/api/proof/gemini |
+| Gemini overlay | https://pantheon-gemini-549837878368.asia-southeast1.run.app/api/overlay/gemini/NVDA |
+| Product-running evidence | [`gemini_production_evidence.md`](gemini_production_evidence.md) |
+| Evidence index | [`PRODUCT_EVIDENCE_INDEX.md`](PRODUCT_EVIDENCE_INDEX.md) |
+| Submission scope | [`SUBMISSION_SCOPE.md`](SUBMISSION_SCOPE.md) |
+| P&L evidence | [`business_model_and_pnl.md`](business_model_and_pnl.md) |
+| Circle proof | https://basescan.org/tx/0x699bbb9ddb03f9a98525749374fb976a9cd7ef6319414d1cb5e422d810eac6e3 |
+| Redacted live Gemini call | [`../data/gemini_live_call_redacted.json`](../data/gemini_live_call_redacted.json) |
 
----
-
-## Which Google Cloud Product Was Used and How
-
-**Google Gemini API** (Generative Language API v1beta):
-- Used as the primary AI service for generating qualitative research overlays
-- Called via REST `generateContent` endpoint with JSON response mode
-- Model: `gemini-2.5-flash`
-- Implementation: [`backend/app/gemini_overlay.py`](../backend/app/gemini_overlay.py)
-
-**Google Cloud Run:**
-- Backend deployed as a managed container service on Cloud Run (asia-southeast1)
-- Auto-scaling from 0 to 3 instances, 1 Gi memory, 1 CPU
-- Live URL: https://pantheon-gemini-549837878368.asia-southeast1.run.app
-
-**Google Artifact Registry:**
-- Container images stored in `asia-southeast1-docker.pkg.dev/pantheon-research/pantheon-research/`
-
-**Google Secret Manager:**
-- GEMINI_API_KEY stored and bound to Cloud Run via `--set-secrets`
-- Custom service account `pantheon-gemini-runner@pantheon-research.iam.gserviceaccount.com` with least-privilege IAM
-
-**Google Cloud Logging:**
-- Automatic request/response logging for the Cloud Run service
-
-**Google AI Studio:**
-- Used for prompt engineering and model evaluation during development
-
-**Cloud SQL:** Not used in this deployment.
+> ⚠️ **The private repository is not judge-accessible.** If the Devpost "Try it
+> out" section links https://github.com/0xjacobzhao-byte/Pantheon-Research,
+> judges will hit a 404. Link the **public** repo there.
 
 ---
 
-## Which LLMs Are Used and How Gemini API Is Used
+## Submitter Details
 
-| LLM | Role | How Used |
-|-----|------|----------|
-| **Google Gemini 2.5 Flash** | Primary analyst | Generates structured qualitative overlays from evidence packs via REST API |
-| **Qwen (Alibaba DashScope)** | Secondary comparison | Independent overlay for divergence detection |
-| **DeepSeek** | Secondary comparison | Independent overlay for divergence detection |
-
-Gemini API is called via `POST {base_url}/models/{model}:generateContent` with:
-- `contents`: evidence pack formatted as a structured prompt
-- `generationConfig.temperature`: 0.7
-- `generationConfig.responseMimeType`: `application/json`
+| Field | Value |
+|---|---|
+| Submitter type | Individual |
+| Country | Singapore |
+| Hackathon | Build with Gemini XPRIZE |
 
 ---
 
-## GitHub Repo URL
+## Pre-Existing Work Disclosure
 
-```
-https://github.com/0xjacobzhao-byte/pantheon-research-gemini-hackathon
-```
+Pantheon Research (brand, product, data infrastructure, private production
+repository, and existing audience) pre-existed this hackathon and is reused as
+permitted. The work added during the submission period is the Gemini Analyst /
+Risk-Review layer, the Google Cloud deployment and proof surface, this public
+judge-facing repository, the Circle Agent Wallet on-chain payment proof, and the
+submission evidence package.
 
----
-
-## Product-Running Evidence URL
-
-```
-docs/gemini_production_evidence.md
-```
-
-**GitHub:** https://github.com/0xjacobzhao-byte/pantheon-research-gemini-hackathon/blob/main/docs/gemini_production_evidence.md
-
-**Google Cloud Live URL:** https://pantheon-gemini-549837878368.asia-southeast1.run.app
-
-**Google Cloud Proof:** https://pantheon-gemini-549837878368.asia-southeast1.run.app/api/proof/google-cloud
-
-**Gemini Proof:** https://pantheon-gemini-549837878368.asia-southeast1.run.app/api/proof/gemini
-
-**Gemini Overlay:** https://pantheon-gemini-549837878368.asia-southeast1.run.app/api/overlay/gemini/NVDA
-
-**Redacted Live Call Artifact:** `data/gemini_live_call_redacted.json`
-
----
-
-## Profit/P&L Evidence URL
-
-```
-docs/business_model_and_pnl.md
-```
-
-(Will be: `https://github.com/0xjacobzhao-byte/pantheon-research-gemini-hackathon/blob/main/docs/business_model_and_pnl.md`)
-
-**Note:** No realized profit is claimed. This document provides conservative projections.
-
----
-
-## Submitter Type
-
-```
-Individual
-```
-
----
-
-## Country
-
-```
-Singapore
-```
-
----
-
-## Start Date
-
-Use the date Gemini-specific module development started (hackathon period), not the original Pantheon Research platform start date.
-
-**Suggested wording:** "Gemini Analyst module development began during the Gemini Hackathon period."
+Full boundary with commit, transaction, and endpoint evidence:
+[`SUBMISSION_SCOPE.md`](SUBMISSION_SCOPE.md).
 
 ---
 
 ## Demo Video
 
-See [docs/demo_video_script.md](demo_video_script.md) for the footage plan and script.
+See [`demo_video_script.md`](demo_video_script.md). Target length: **2:40–2:50**
+(under the 3-minute limit).

@@ -5,7 +5,7 @@ import type { QualitativeOverlay } from "../api";
 
 const sampleOverlay: QualitativeOverlay = {
   provider: "gemini",
-  model: "gemini-2.0-flash",
+  model: "gemini-2.5-flash",
   ticker: "NVDA",
   status: "OFFLINE_SAMPLE",
   takeaway: "NVIDIA commands a dominant position in AI computing.",

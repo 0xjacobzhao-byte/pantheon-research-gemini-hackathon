@@ -33,7 +33,7 @@ def get_google_cloud_proof() -> dict:
     cloud_sql_configured = bool(cloud_sql_conn or database_url_set)
 
     # Gemini model info
-    gemini_model = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash")
+    gemini_model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
 
     # Live call evidence path
     live_evidence_path = "data/gemini_live_call_redacted.json"

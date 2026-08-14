@@ -1,80 +1,262 @@
-# Project Story — Pantheon Research Gemini Hackathon
+# Project Story — Pantheon Research
 
 ## Inspiration
 
-Investment research is drowning in data but starving for insight. Analysts spend 80% of their time collecting and formatting evidence, leaving only 20% for actual judgment. We asked: **what if Gemini could convert structured quantitative evidence into explainable, professional-grade research overlays in seconds — while keeping a human firmly in the loop?**
+Modern investors are not short of data. They are short of **governed,
+explainable, decision-ready intelligence**.
 
-The inspiration is not to replace the analyst. It is to give every analyst a tireless, disciplined research partner that never fabricates conclusions, never hides uncertainty, and never executes trades.
+A single investment decision can require macro liquidity, rates, credit,
+earnings, valuation, crypto flows, on-chain data, derivatives positioning,
+technical structure, news, sentiment, portfolio exposure, and execution risk.
+Large institutions handle this with analyst teams, data engineers, risk
+committees, internal research systems, and trading desks. Individual investors,
+family offices, and smaller advisory teams usually stitch together dashboards,
+spreadsheets, chatbots, broker screens, and manual notes.
 
-$$
-\mathrm{Wrong\ Strategy} \times \mathrm{AI} = \mathrm{Faster\ Loss}
-$$
+Pantheon Research started from one question:
 
-$$
-\mathrm{Right\ Strategy} \times \mathrm{AI} = \mathrm{Compounded\ Discipline}
-$$
+> What would an AI-native investment research operating system look like if it
+> combined institutional-style investment frameworks, governed data,
+> deterministic signal engines, multi-model AI reasoning, forward validation,
+> and human review — **without letting AI execute trades?**
+
+The core thesis:
+
+```text
+Wrong Strategy × AI = Faster Loss
+Right Strategy × AI = Compounded Discipline
+```
+
+**AI should not replace the investor. AI should compound the investor's
+discipline.**
+
+---
 
 ## What It Does
 
-Pantheon Research is a **framework-first, data-governed, human-in-the-loop investment research operating system**. The Gemini Hackathon submission adds a **Gemini-powered Analyst / Risk-Review layer** that:
+Pantheon Research is a live, human-in-the-loop, cross-asset investment research
+operating system. Not a demo, and not a financial chatbot — a research stack
+with **seven layers**:
 
-1. **Ingests** structured quantitative evidence packs (P/E, P/B, ROIC, FCF, margins, growth rates)
-2. **Generates** structured qualitative overlays via Google Gemini: business quality, moat, pricing power, capital allocation, red flags, confidence score, missing evidence
-3. **Compares** Gemini's output against Qwen and DeepSeek overlays for divergence detection
-4. **Flags** human review when models disagree or evidence is incomplete
-5. **Never** executes trades, fabricates results, or returns fake success
+1. **External data sources** — macro/rates, equities, crypto/DeFi, social and
+   alternative data, positioning, derivatives, and market-structure inputs.
+2. **Governed data platform** — raw inputs are never passed straight to an AI.
+   They flow through scheduled ingestion, provider-health checks, validation,
+   normalization, PostgreSQL canonical observations, product and derived
+   snapshots, evidence artifacts, TTL/freshness checks, and explicit
+   data-quality labelling.
+3. **Strategy / research engines** — deterministic engines across Global Macro,
+   US/CN/HK/SG equities, BTC, ETH, DeFi, Fixed Income, FX, Commodities,
+   Technical Analysis, Narrative/capital-flow, and backtest/validation.
+4. **Deterministic + multi-model AI layer** — deterministic engines compute
+   valuations, factor regressions, signals, and hard stops. The LLM layer then
+   interprets governed evidence packs through source-pack building, prompt
+   construction, schema validation, and overlay comparison.
+5. **Information layer** — the live Pantheon dashboard across every cross-asset
+   module.
+6. **Signal + agent layer** — Telegram, user feeds, research alerts, LLM signal
+   channels, and human-review gates.
+7. **Trading layer** — deliberately separated. Execution is manual today. There
+   is no live autonomous trading.
+
+### The hackathon layer
+
+For this submission, the new work is the **Gemini Analyst / Risk-Review layer**.
+Gemini reads structured evidence packs and produces qualitative overlays:
+business quality, moat, pricing power, capital allocation, red flags, missing
+evidence, confidence score, and human-review triggers.
+
+Gemini does not place trades. It does not override deterministic ratings. It
+does not manage assets. It acts as a governed analyst layer inside a larger
+investment-intelligence operating system.
+
+The workflow:
+
+```text
+Data → Canonical Snapshot → Strategy Engine → Signal
+     → Gemini / Multi-Model Overlay → Human Review → Manual Execution
+```
+
+**Scope boundary:** Pantheon Research existed before this hackathon. What was
+built during the submission period — with commit, transaction, and endpoint
+evidence — is documented in [`SUBMISSION_SCOPE.md`](SUBMISSION_SCOPE.md).
+
+---
 
 ## How We Built It
 
-- **Backend:** FastAPI (Python) with fail-closed Gemini API integration
-- **Frontend:** React + TypeScript + Vite with dedicated GeminiOverlayPanel component
-- **Evidence Layer:** JSON evidence packs with SHA-256 content hashing for provenance
-- **Fail-Closed Design:** Missing key → `BLOCKED_BY_MISSING_CREDENTIAL`; API error → `API_ERROR`; non-JSON → `PARSE_ERROR`. Never a hollow SUCCESS.
-- **Offline-First:** Bundled sample overlays let the entire demo run with zero API keys
+Pantheon is framework-first, data-governed, and DB-first.
 
-## Gemini Integration
+The architecture starts with **deterministic investment frameworks**. Each
+framework defines what matters, how evidence is scored, what invalidates a
+conclusion, and when the system must refuse to conclude.
 
-Gemini is the **primary AI analyst layer** for this hackathon submission:
+The **data layer** turns raw market inputs into governed database artifacts.
+Pantheon does not ask an LLM to "look at the market" from scratch. Scheduled
+jobs produce canonical PostgreSQL observations, provider scores, product
+snapshots, ingest runs, derived snapshots, and evidence artifacts. Research
+engines read those stored artifacts rather than refetching at runtime.
 
-- **API:** Google Generative Language API v1beta (`generateContent`)
-- **Model:** `gemini-2.0-flash` with JSON response mode
-- **Prompt Engineering:** Structured prompt requesting specific financial assessment fields
-- **Fail-Closed:** Three explicit failure modes, never fake success
-- **Implementation:** [`backend/app/gemini_overlay.py`](../backend/app/gemini_overlay.py)
+The **AI layer** sits on top of that governed evidence. Pantheon uses a
+**five-model LLM research overlay**:
 
-### Google Cloud Product Used
+| Provider | Role |
+|---|---|
+| **Claude** | Qualitative overlay & risk reasoning |
+| **ChatGPT** | Qualitative overlay & comparison |
+| **Gemini** | Qualitative overlay (Google Cloud integration) |
+| **DeepSeek** | Qualitative overlay (production lane) |
+| **Qwen** | Qualitative overlay (Alibaba DashScope) |
 
-**Google Gemini API** (Generative Language API) — the core AI service powering the qualitative research overlay.
+The LLM workflow is: **Source Pack Builder → Prompt Builder → Schema Validator →
+Overlay Comparison → Human Review Gate.**
 
-We also use **Google AI Studio** for prompt prototyping and model evaluation during development.
+It produces qualitative overlays, confidence labels, red flags, missing
+evidence, disagreement detection, and review triggers. It does **not** directly
+mutate deterministic scores, and it does **not** execute trades.
 
-## Challenges
+### The Gemini build
 
-1. **Fail-Closed Guarantee:** Ensuring the system never returns fabricated results required careful error handling across network failures, auth errors, and malformed model outputs
-2. **Evidence Provenance:** Threading SHA-256 content hashes through every comparison so judges can verify data integrity
-3. **Honest Positioning:** Clearly distinguishing what the system does (research overlays) from what it does not do (execute trades, generate alpha)
-4. **Multi-Provider Comparison:** Making Qwen and DeepSeek overlays compatible with Gemini output for apples-to-apples divergence analysis
+| Component | Detail |
+|---|---|
+| Backend | FastAPI / Python |
+| Frontend | React · TypeScript · Vite |
+| AI | Google Gemini API — **`gemini-2.5-flash`** |
+| Google Cloud | Cloud Run · Artifact Registry · Secret Manager · Cloud Logging |
+| Evidence | Structured JSON evidence packs, SHA-256 provenance hashes, redacted live-call evidence |
+| Safety | Fail-closed Gemini integration with explicit error states |
+| Deployment | Live Cloud Run service with proof endpoints and a verified live Gemini API call |
+
+Implementation: [`backend/app/gemini_overlay.py`](../backend/app/gemini_overlay.py).
+
+### Deployment
+
+- **Primary production:** Vercel frontend + Railway FastAPI backend + PostgreSQL
+  — the only canonical writer.
+- **Google Cloud:** the Gemini service on Cloud Run, as an isolated shadow /
+  proof deployment. Cloud SQL is **not** configured.
+- **Alibaba Cloud:** the Qwen path, as a separate shadow / proof deployment.
+
+Multi-cloud was not built to look complicated. It was built to test
+portability, cost, reliability, and provider integration under real deployment
+constraints. Only one environment is ever the canonical production writer.
+
+---
+
+## Challenges We Ran Into
+
+The hard part was never calling an LLM. It was building a system where AI could
+be useful, auditable, and safe inside a real investment research workflow.
+
+1. **Making AI part of a full research operating system.** A raw LLM answer is
+   not research. Strategy frameworks, data governance, signal outputs,
+   validation clocks, and human-review gates had to exist around the model.
+2. **Data governance before AI reasoning.** Market data can be stale, missing,
+   delayed, revised, or provider-inconsistent. Freshness, provider health,
+   degradation, and gaps had to be labelled before anything downstream could
+   trust the output.
+3. **Fail-closed model behavior.** The Gemini layer must never return a fake
+   success. Missing credentials, API failures, and parse errors map to explicit
+   states: `BLOCKED_BY_MISSING_CREDENTIAL`, `API_ERROR`, `PARSE_ERROR`.
+4. **Separating signal from execution.** The most dangerous shortcut in
+   investment systems is turning a signal directly into a trade. Research,
+   signal, review, paper-trade validation, broker integration, and execution are
+   deliberately separate concerns.
+5. **Backtesting and forward validation.** A backtest is not enough. Pantheon
+   captures outcomes and matures decisions forward over time, so immature
+   evidence is not marketed as proven alpha.
+6. **Multi-model disagreement.** Five models do not always agree. Pantheon
+   treats disagreement as useful information — a review trigger, not an error to
+   hide.
+7. **Multi-cloud deployment complexity.** Cloud Run made containerized
+   deployment and secret management relatively efficient; a traditional
+   ECS/Docker/Nginx/RDS path required considerably more work. That contrast
+   became useful evidence about integration difficulty and operating cost.
+8. **The honest hackathon boundary.** Pantheon existed before this hackathon.
+   The submission-period work is the Gemini Analyst / Risk-Review layer, the
+   Google Cloud deployment, the proof endpoints, the Circle payment proof, and
+   the evidence package. That boundary is documented rather than blurred.
+
+---
+
+## Accomplishments We're Proud Of
+
+- A live cross-asset research platform spanning macro, equities, crypto, DeFi,
+  FICC, technical analysis, narrative, and Research Ops.
+- Deterministic research engines that produce regimes, valuations, ratings, risk
+  states, and signals **before** any LLM interpretation.
+- A governed data platform with canonical PostgreSQL snapshots, provider-health
+  checks, freshness labels, and explicit data-quality states.
+- A five-model AI research overlay with disagreement detection.
+- The Gemini Analyst / Risk-Review layer, deployed on Google Cloud Run with
+  Secret Manager, Artifact Registry, and Cloud Logging, with a **verified live
+  `gemini-2.5-flash` API call**.
+- Proof endpoints judges can inspect without exposing any secret.
+- A **Circle Agent Wallet on-chain USDC payment** on Base mainnet, independently
+  verifiable from public chain data alone.
+- Backtest and forward-validation infrastructure that separates evidence from
+  marketing claims.
+- A strict human-in-the-loop boundary with no live autonomous trading.
+
+---
 
 ## What We Learned
 
-- **AI is a research amplifier, not a decision maker.** The most valuable output is not a buy/sell signal — it is a structured, explainable assessment that a human can act on (or reject).
-- **Fail-closed is more important than fail-fast.** A system that returns a clear "I cannot assess this" is infinitely more valuable than one that returns a confident but fabricated answer.
-- **Evidence provenance matters.** Hashing evidence packs and threading the hash through every downstream output creates an auditable chain of custody.
+**AI in finance should be a governance system, not a magic oracle.**
+
+A useful AI investment system needs frameworks before prompts, data quality
+before conclusions, deterministic scores before LLM interpretation, signal
+separation before execution, backtests *plus* forward validation before
+performance claims, and human review before capital risk.
+
+**Model comparison beats model worship.** Gemini is powerful because it turns
+structured evidence into readable, explainable research quickly. Its output
+becomes *trustworthy* when it is compared against other models, checked against
+deterministic signals, tied to evidence hashes, and passed through human review.
+
+**Cloud deployment is part of product truth.** A local demo is not enough.
+Judges, users, and future customers need to see that the system runs, secrets
+are handled properly, evidence is reproducible, logs exist, costs are
+measurable, and the product does not overclaim what AI is doing.
+
+**The real opportunity is not "AI trading."** It is AI-native investment
+intelligence: a governed system that helps humans process more evidence, more
+consistently, across more markets.
+
+---
 
 ## Business Model
 
-See [docs/business_model_and_pnl.md](business_model_and_pnl.md) for detailed projections.
+Free research → Pantheon Pro → Research Credits → premium research/playbooks →
+skills marketplace → advanced data/API → B2B/enterprise licensing.
 
-- **Pro individual subscription:** $49–$99/month for individual investors
-- **Premium AI research reports:** Per-report pricing for deep-dive analysis
-- **Signal alerts:** Tiered alert subscriptions
-- **B2B research tools:** API access for hedge funds, family offices, RIAs
-- **Enterprise / white-label:** Custom deployments for institutional clients
+**Actual hackathon-period results: $0 revenue, 0 verified external users, 0
+paying users, net loss of $926.12.** No traction is claimed.
+
+Full cash-basis P&L and the separation of actuals from projections:
+[`business_model_and_pnl.md`](business_model_and_pnl.md).
+
+---
 
 ## What's Next
 
-1. **Live Gemini integration testing** with broader ticker universe
-2. **Multi-language overlays** (Chinese, Japanese) for Asian market coverage
-3. **Forward validation framework** — track overlay predictions against actual outcomes over 6–12 month windows
-4. **Institutional API tier** with SLA-backed uptime and dedicated model routing
-5. **Mobile-first research dashboard** extending the Gemini overlay to iOS/Android
+1. **Expand Gemini overlays** beyond judge demo tickers to broader equity and
+   cross-asset coverage.
+2. **Portfolio-aware intelligence** — connect research to user portfolios,
+   watchlists, exposure, and risk constraints.
+3. **Strengthen forward validation** — continue signal-outcome capture and
+   prospective maturation before making any performance claim.
+4. **Develop the agent layer** — governed two-way conversation, memory, tool
+   routing, signal-triggered reports, and cost-aware execution.
+5. **Harden signal delivery** — Telegram, user feed, alerts, weekly reports, and
+   human-review workflows, with execution still separate.
+6. **Evaluate production cloud strategy** across integration difficulty,
+   reliability, cost, and operational burden.
+7. **Keep trading manual until validated.** Paper-trader harnesses and broker
+   integration are on the roadmap; live autonomous trading remains off.
+8. **Build toward B2B / B2B2C distribution** — investment-intelligence
+   infrastructure for serious investors, advisors, family offices, wealth
+   managers, and institutions.
+
+Pantheon's goal is to become the governed intelligence layer between market
+noise and human investment judgment.
