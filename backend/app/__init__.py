@@ -1,3 +1,3 @@
-"""Pantheon Research Qwen Hackathon — Backend Application Package."""
+"""Pantheon Research Gemini Hackathon — Backend Application Package."""
 
 __version__ = "1.0.0"

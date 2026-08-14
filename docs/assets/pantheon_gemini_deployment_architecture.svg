@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 830" width="1180" height="830" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" role="img" aria-label="Pantheon Research Gemini hackathon deployment architecture: a primary production lane on Vercel and Railway with Railway as the single canonical writer, a separate Gemini verification lane on Google Cloud Run using Artifact Registry, Secret Manager, Cloud Logging and the Gemini 2.5 Flash API with no canonical writes and no Cloud SQL, and a local offline judge lane requiring no credentials.">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#94a3b8"/>
+    </marker>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4285f4"/>
+    </marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2e7d32"/>
+    </marker>
+  </defs>
+
+  <!-- explicit white card: legible in light & dark GitHub themes -->
+  <rect x="0" y="0" width="1180" height="830" rx="16" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+
+  <text x="590" y="40" text-anchor="middle" font-size="21" font-weight="700" fill="#0f172a">Pantheon Research — Gemini Hackathon Deployment Architecture</text>
+  <text x="590" y="63" text-anchor="middle" font-size="12.5" fill="#475569">One canonical production writer · one live Gemini verification lane on Google Cloud · one credential-free local judge lane</text>
+
+  <!-- ════════════════ LANE 1: PRIMARY PRODUCTION ════════════════ -->
+  <rect x="22" y="84" width="352" height="510" rx="12" fill="#f6fbf7" stroke="#2e7d32" stroke-width="2"/>
+  <rect x="22" y="84" width="352" height="34" rx="12" fill="#e8f5e9"/>
+  <rect x="22" y="106" width="352" height="12" fill="#e8f5e9"/>
+  <text x="198" y="106" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1b5e20">PRIMARY PRODUCTION LANE</text>
+
+  <rect x="44" y="132" width="308" height="52" rx="8" fill="#eef2f7" stroke="#64748b" stroke-width="1.5"/>
+  <text x="198" y="154" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1f2937">Private Pantheon Production Repo</text>
+  <text x="198" y="172" text-anchor="middle" font-size="11" fill="#475569">closed-source · judges: read-only on request</text>
+  <path d="M198,184 L198,206" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="44" y="208" width="308" height="50" rx="8" fill="#ffffff" stroke="#64748b" stroke-width="1.5"/>
+  <text x="198" y="229" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1f2937">Vercel — Production Frontend</text>
+  <text x="198" y="247" text-anchor="middle" font-size="11" fill="#475569">pantheon-research.com</text>
+  <path d="M198,258 L198,280" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="44" y="282" width="308" height="62" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="3"/>
+  <text x="198" y="304" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1b5e20">Railway — FastAPI Backend</text>
+  <rect x="118" y="312" width="160" height="20" rx="10" fill="#2e7d32"/>
+  <text x="198" y="326" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">CANONICAL WRITER</text>
+  <path d="M198,344 L198,366" fill="none" stroke="#2e7d32" stroke-width="2" marker-end="url(#ag)"/>
+
+  <rect x="44" y="368" width="308" height="50" rx="8" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+  <text x="198" y="389" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1b5e20">Canonical PostgreSQL</text>
+  <text x="198" y="407" text-anchor="middle" font-size="11" fill="#2e7d32">single source of truth</text>
+  <path d="M198,418 L198,440" fill="none" stroke="#2e7d32" stroke-width="2" marker-end="url(#ag)"/>
+
+  <rect x="44" y="442" width="308" height="50" rx="8" fill="#ffffff" stroke="#2e7d32" stroke-width="1.5"/>
+  <text x="198" y="463" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1b5e20">Production Scheduler / Jobs</text>
+  <text x="198" y="481" text-anchor="middle" font-size="11" fill="#2e7d32">ingestion · snapshots · delivery</text>
+
+  <rect x="44" y="506" width="308" height="70" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+  <text x="58" y="527" font-size="11.5" font-weight="700" fill="#14532d">Vercel + Railway = current primary</text>
+  <text x="58" y="543" font-size="11.5" font-weight="700" fill="#14532d">production path.</text>
+  <text x="58" y="562" font-size="11" fill="#166534">Railway is the only environment permitted</text>
+  <text x="58" y="576" font-size="11" fill="#166534">to write canonical data.</text>
+
+  <!-- ════════════════ LANE 2: GEMINI VERIFICATION (HERO) ════════════════ -->
+  <rect x="392" y="84" width="420" height="510" rx="12" fill="#f5f9ff" stroke="#4285f4" stroke-width="3"/>
+  <rect x="392" y="84" width="420" height="34" rx="12" fill="#e8f0fe"/>
+  <rect x="392" y="106" width="420" height="12" fill="#e8f0fe"/>
+  <text x="602" y="106" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1a56db">★  GEMINI HACKATHON VERIFICATION LANE</text>
+
+  <rect x="414" y="132" width="376" height="52" rx="8" fill="#e3f2fd" stroke="#1e88e5" stroke-width="1.5"/>
+  <text x="602" y="154" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0d47a1">Public Gemini Hackathon Repo (this repo)</text>
+  <text x="602" y="172" text-anchor="middle" font-size="11" fill="#0d47a1">sanitized · judge-runnable · Apache-2.0</text>
+  <path d="M602,184 L602,204" fill="none" stroke="#4285f4" stroke-width="1.5" marker-end="url(#ab)"/>
+
+  <rect x="414" y="206" width="376" height="42" rx="8" fill="#ffffff" stroke="#90caf9" stroke-width="1.5"/>
+  <text x="602" y="232" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0d47a1">Docker Build</text>
+  <path d="M602,248 L602,268" fill="none" stroke="#4285f4" stroke-width="1.5" marker-end="url(#ab)"/>
+
+  <rect x="414" y="270" width="376" height="42" rx="8" fill="#ffffff" stroke="#90caf9" stroke-width="1.5"/>
+  <text x="602" y="288" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0d47a1">Google Artifact Registry</text>
+  <text x="602" y="304" text-anchor="middle" font-size="10.5" fill="#1565c0">container image storage</text>
+  <path d="M602,312 L602,332" fill="none" stroke="#4285f4" stroke-width="1.5" marker-end="url(#ab)"/>
+
+  <rect x="414" y="334" width="376" height="58" rx="8" fill="#e8f0fe" stroke="#4285f4" stroke-width="3"/>
+  <text x="602" y="356" text-anchor="middle" font-size="13" font-weight="700" fill="#1a56db">Google Cloud Run — pantheon-gemini</text>
+  <text x="602" y="374" text-anchor="middle" font-size="11" fill="#1a56db">asia-southeast1 · scale 0–3 · 1 Gi · 1 CPU</text>
+  <text x="602" y="387" text-anchor="middle" font-size="10.5" fill="#3b6fd4">live deployed verification environment</text>
+  <path d="M602,392 L602,412" fill="none" stroke="#4285f4" stroke-width="1.5" marker-end="url(#ab)"/>
+
+  <rect x="414" y="414" width="376" height="48" rx="8" fill="#ffffff" stroke="#4285f4" stroke-width="2"/>
+  <text x="602" y="435" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1a56db">Gemini API — gemini-2.5-flash</text>
+  <text x="602" y="452" text-anchor="middle" font-size="10.5" fill="#1565c0">Generative Language API v1beta · fail-closed</text>
+
+  <!-- supporting GCP services -->
+  <rect x="414" y="474" width="182" height="46" rx="8" fill="#f8fafc" stroke="#90caf9" stroke-width="1.5"/>
+  <text x="505" y="493" text-anchor="middle" font-size="11.5" font-weight="700" fill="#0d47a1">Secret Manager</text>
+  <text x="505" y="509" text-anchor="middle" font-size="10" fill="#1565c0">GEMINI_API_KEY binding</text>
+
+  <rect x="608" y="474" width="182" height="46" rx="8" fill="#f8fafc" stroke="#90caf9" stroke-width="1.5"/>
+  <text x="699" y="493" text-anchor="middle" font-size="11.5" font-weight="700" fill="#0d47a1">Cloud Logging</text>
+  <text x="699" y="509" text-anchor="middle" font-size="10" fill="#1565c0">runtime / request observability</text>
+
+  <!-- explicit exclusions -->
+  <rect x="414" y="530" width="376" height="46" rx="8" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+  <text x="602" y="548" text-anchor="middle" font-size="11.5" font-weight="700" fill="#991b1b">NO canonical production writes · NO Cloud SQL</text>
+  <text x="602" y="565" text-anchor="middle" font-size="11.5" font-weight="700" fill="#991b1b">NO production scheduler</text>
+
+  <!-- ════════════════ LANE 3: LOCAL JUDGE ════════════════ -->
+  <rect x="830" y="84" width="328" height="510" rx="12" fill="#fdfaf6" stroke="#f59e0b" stroke-width="2"/>
+  <rect x="830" y="84" width="328" height="34" rx="12" fill="#fef3c7"/>
+  <rect x="830" y="106" width="328" height="12" fill="#fef3c7"/>
+  <text x="994" y="106" text-anchor="middle" font-size="13.5" font-weight="700" fill="#92400e">LOCAL JUDGE LANE</text>
+
+  <rect x="852" y="132" width="284" height="52" rx="8" fill="#e3f2fd" stroke="#1e88e5" stroke-width="1.5"/>
+  <text x="994" y="154" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0d47a1">Public Gemini Repo</text>
+  <text x="994" y="172" text-anchor="middle" font-size="11" fill="#0d47a1">git clone · same repo</text>
+  <path d="M994,184 L994,206" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="852" y="208" width="284" height="50" rx="8" fill="#ffffff" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="994" y="229" text-anchor="middle" font-size="12.5" font-weight="700" fill="#92400e">Docker Compose</text>
+  <text x="994" y="247" text-anchor="middle" font-size="11" fill="#b45309">frontend :5173 · backend :8000</text>
+  <path d="M994,258 L994,280" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="852" y="282" width="284" height="50" rx="8" fill="#ffffff" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="994" y="303" text-anchor="middle" font-size="12.5" font-weight="700" fill="#92400e">Offline Bundled Samples</text>
+  <text x="994" y="321" text-anchor="middle" font-size="11" fill="#b45309">MA · NVDA evidence packs</text>
+  <path d="M994,332 L994,354" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <rect x="852" y="356" width="284" height="62" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="994" y="378" text-anchor="middle" font-size="12.5" font-weight="700" fill="#92400e">./scripts/judge_smoke.sh</text>
+  <text x="994" y="396" text-anchor="middle" font-size="11" fill="#b45309">end-to-end verification</text>
+  <text x="994" y="411" text-anchor="middle" font-size="10.5" fill="#a16207">22 checks · all offline</text>
+
+  <rect x="852" y="434" width="284" height="46" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+  <text x="994" y="452" text-anchor="middle" font-size="11.5" font-weight="700" fill="#14532d">NO credentials required</text>
+  <text x="994" y="469" text-anchor="middle" font-size="11.5" font-weight="700" fill="#14532d">NO production writes</text>
+
+  <rect x="852" y="494" width="284" height="82" rx="8" fill="#fffbeb" stroke="#fde68a" stroke-width="1"/>
+  <text x="866" y="514" font-size="11.5" font-weight="700" fill="#92400e">Ticker scope</text>
+  <text x="866" y="532" font-size="10.5" fill="#b45309">The local demo serves MA and NVDA only</text>
+  <text x="866" y="546" font-size="10.5" fill="#b45309">— the tickers it holds governed offline</text>
+  <text x="866" y="560" font-size="10.5" fill="#b45309">evidence for. It is deliberately not faked</text>
+  <text x="866" y="571" font-size="10.5" fill="#b45309">to match GOOGL production screenshots.</text>
+
+  <!-- ════════════════ SEPARATION NOTE ════════════════ -->
+  <rect x="22" y="610" width="1136" height="42" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="590" y="628" text-anchor="middle" font-size="12.5" font-weight="700" fill="#334155">The Gemini lane is a real, live, deployed verification environment — it is not the production canonical writer.</text>
+  <text x="590" y="645" text-anchor="middle" font-size="11.5" fill="#475569">It runs the same fail-closed Gemini integration a judge can inspect in source, without any path to production data or the production portfolio.</text>
+
+  <!-- ════════════════ NON-CLAIMS FOOTER ════════════════ -->
+  <rect x="22" y="666" width="1136" height="104" rx="10" fill="#fffbfb" stroke="#fecaca" stroke-width="1.5"/>
+  <text x="40" y="688" font-size="13" font-weight="700" fill="#991b1b">Explicit non-claims</text>
+  <text x="40" y="710" font-size="11.5" fill="#7f1d1d">• Exactly <tspan font-weight="700">one canonical production writer</tspan> (Railway). No second writer, no active-active database, no automatic failover.</text>
+  <text x="40" y="729" font-size="11.5" fill="#7f1d1d">• <tspan font-weight="700">No autonomous trading</tspan> anywhere in this topology — no environment holds a broker credential or a signing key.</text>
+  <text x="40" y="748" font-size="11.5" fill="#7f1d1d">• The <tspan font-weight="700">Gemini service does not mutate the production portfolio</tspan>, the canonical database, or any user position.</text>
+  <text x="40" y="764" font-size="11.5" fill="#7f1d1d">• <tspan font-weight="700">No Cloud SQL claim</tspan> for the Gemini hackathon service — verifiable at <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">/api/proof/google-cloud</tspan> → <tspan font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11">cloud_sql.configured: false</tspan>.</text>
+
+  <!-- legend -->
+  <rect x="330" y="786" width="15" height="12" rx="2" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+  <text x="352" y="796" font-size="11" fill="#475569">canonical writer</text>
+  <rect x="466" y="786" width="15" height="12" rx="2" fill="#e8f0fe" stroke="#4285f4" stroke-width="2"/>
+  <text x="488" y="796" font-size="11" fill="#475569">Gemini verification lane</text>
+  <rect x="642" y="786" width="15" height="12" rx="2" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+  <text x="664" y="796" font-size="11" fill="#475569">local judge lane</text>
+  <rect x="784" y="786" width="15" height="12" rx="2" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+  <text x="806" y="796" font-size="11" fill="#475569">explicit non-claim</text>
+
+  <text x="590" y="818" text-anchor="middle" font-size="10.5" fill="#94a3b8">Secret-free by construction — no token, database URL, admin credential, or host IP appears in this diagram or in the public repository.</text>
+</svg>

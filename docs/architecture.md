@@ -6,7 +6,7 @@
 >
 > For the production system — the **seven layers** and the **five-model**
 > research overlay (Claude · ChatGPT · Gemini · DeepSeek · Qwen) — see
-> [README §5](../README.md#5-high-level-architecture) and
+> [README § Architecture](../README.md#architecture) and
 > [`architecture_diagram.md`](architecture_diagram.md). For representative
 > production source, see [`production_reference/`](../production_reference/).
 
@@ -46,31 +46,40 @@ runs five.
 │  │  GET  /health                              │            │
 │  │  GET  /api/project                         │            │
 │  │  GET  /api/evidence/{ticker}              │            │
+│  │  GET  /api/overlay/gemini/{ticker}   ★    │            │
+│  │  GET  /api/proof/gemini              ★    │            │
+│  │  GET  /api/proof/google-cloud        ★    │            │
 │  │  GET  /api/overlay/qwen/{ticker}          │            │
 │  │  GET  /api/overlay/deepseek/{ticker}     │            │
 │  │  GET  /api/comparison/{ticker}           │            │
 │  │  GET  /api/demo-flow                      │            │
 │  │  GET  /api/qwen-config                     │            │
-│  └───┬───────┬──────────┬───────────────────┘            │
-│      │       │          │                               │
-│  ┌───▼──┐ ┌──▼───┐ ┌───▼────────────┐                  │
-│  │Sample│ │Qwen  │ │DeepSeek         │                  │
-│  │Loader│ │Overlay│ │Overlay          │                  │
-│  │      │ │      │ │                 │                  │
-│  │data/ │ │httpx │ │httpx            │                  │
-│  └──────┘ └──┬───┘ └──┬──────────────┘                  │
-│              │        │                                   │
-│  ┌──────────▼────────▼──────────┐                        │
-│  │      comparison.py            │                        │
-│  │  Tone · Divergence · Score    │                        │
-│  └───────────────────────────────┘                        │
-└──────────────┼────────┼───────────────────────────────────┘
-               │        │
-    ┌──────────▼──┐  ┌──▼──────────────┐
-    │  Qwen Cloud  │  │   DeepSeek API   │
-    │ (DashScope)  │  │  (OpenAI-comp.)  │
-    │ Alibaba Cloud│  │                  │
-    └──────────────┘  └──────────────────┘
+│  └──┬──────┬──────────┬──────────┬──────────┘            │
+│     │      │          │          │                       │
+│  ┌──▼───┐ ┌▼────────┐ ┌▼──────┐ ┌▼──────────┐           │
+│  │Sample│ │ GEMINI ★│ │Qwen   │ │DeepSeek    │           │
+│  │Loader│ │ Overlay │ │Overlay│ │Overlay     │           │
+│  │      │ │ PRIMARY │ │(cmp.) │ │(cmp.)      │           │
+│  │data/ │ │ httpx   │ │httpx  │ │httpx       │           │
+│  └──────┘ └────┬────┘ └───┬───┘ └────┬───────┘           │
+│                │          │          │                   │
+│  ┌─────────────▼──────────▼──────────▼────┐              │
+│  │            comparison.py                │              │
+│  │  Tone · Divergence · Score · data_state │              │
+│  └────────────────────┬────────────────────┘              │
+└───────────────────────┼───────────────────────────────────┘
+                        ▼
+              ┌───────────────────────┐
+              │  HUMAN REVIEW GATE    │
+              │  LLMs never trade     │
+              └───────────────────────┘
+
+   External providers
+   ┌──────────────────┐ ┌──────────────┐ ┌──────────────────┐
+   │ ★ Gemini API      │ │  Qwen Cloud  │ │   DeepSeek API   │
+   │ gemini-2.5-flash  │ │ (DashScope)  │ │  (OpenAI-comp.)  │
+   │ Google Cloud Run  │ │  comparison  │ │    comparison    │
+   └──────────────────┘ └──────────────┘ └──────────────────┘
 ```
 
 ## Demo-Slice Layers
@@ -91,7 +100,7 @@ Strategy → Information → Signal → Trading
 data platform, strategy/research engines, the deterministic + multi-model AI
 layer, the information layer, the signal/agent layer, and a separated
 trading/execution boundary. See
-[README §5](../README.md#5-high-level-architecture).
+[README § Architecture](../README.md#architecture).
 
 ## Component Responsibilities
 
@@ -102,8 +111,11 @@ trading/execution boundary. See
 | `main.py`               | FastAPI app, route definitions, CORS                  |
 | `app/models.py`         | Pydantic models: EquityEvidence, OverlayAssessment, QualitativeOverlay, ComparisonResult |
 | `app/sample_loader.py`  | Load sample JSON data from `data/`                     |
-| `app/qwen_overlay.py`    | Qwen Cloud (DashScope) API integration                 |
-| `app/deepseek_overlay.py`| DeepSeek API integration                              |
+| **`app/gemini_overlay.py`** | **★ Gemini API integration — the primary hackathon analyst layer (fail-closed)** |
+| **`app/gemini_proof.py`**   | **★ Secret-free Gemini proof endpoint (no external calls)** |
+| `app/google_cloud_proof.py` | Google Cloud deployment proof (secret-free)        |
+| `app/qwen_overlay.py`    | Qwen (DashScope) API integration — comparison lane     |
+| `app/deepseek_overlay.py`| DeepSeek API integration — comparison lane            |
 | `app/comparison.py`     | Tone classification, divergence detection, agreement scoring, full comparison |
 
 ### Frontend (`frontend/`)
@@ -120,9 +132,11 @@ trading/execution boundary. See
 1. User selects a ticker (MA or NVDA)
 2. Frontend calls `GET /api/comparison/{ticker}`
 3. Backend loads evidence from `data/sample_equity_evidence_{ticker}.json`
-4. Backend concurrently calls:
-   - `run_qwen_overlay()` → Qwen Cloud `POST /chat/completions` (if `DEMO_MODE != offline`)
-   - `run_deepseek_overlay()` → DeepSeek `POST /chat/completions` (if `DEMO_MODE != offline`)
+4. Backend concurrently calls (if `DEMO_MODE != offline`):
+   - **`run_gemini_overlay()` → Gemini `POST …:generateContent` — the primary
+     hackathon analyst layer**
+   - `run_qwen_overlay()` → Qwen `POST /chat/completions` (comparison lane)
+   - `run_deepseek_overlay()` → DeepSeek `POST /chat/completions` (comparison lane)
 5. If `DEMO_MODE=offline` (default), loads pre-generated sample outputs from `data/`
 6. Backend runs comparison logic:
    - **Tone classification** — keyword-based analysis classifies each overlay's tone

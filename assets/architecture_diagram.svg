@@ -1,71 +1,94 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 660" width="960" height="660" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" role="img" aria-label="Pantheon Research public demo architecture: a React frontend calls a FastAPI backend which builds a hash-committed evidence pack, runs the Gemini analyst overlay as the primary hackathon layer alongside Qwen and DeepSeek comparison lanes, compares them, and routes low agreement to a human review gate. LLMs never execute trades.">
   <defs>
-    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-      <path d="M0,0 L10,5 L0,10 Z" fill="#64748b"/>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#94a3b8"/>
+    </marker>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4285f4"/>
+    </marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2e7d32"/>
     </marker>
   </defs>
 
-  <rect width="900" height="620" fill="#0f172a"/>
+  <rect x="0" y="0" width="960" height="660" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
 
-  <text x="450" y="30" text-anchor="middle" fill="#f1f5f9" font-size="18" font-weight="bold">
-    Pantheon Research — Demo Architecture
-  </text>
+  <text x="480" y="36" text-anchor="middle" font-size="19" font-weight="700" fill="#0f172a">Pantheon Research — Public Demo Architecture</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#475569">Gemini analyst layer · multi-model comparison · human review gate · offline by default</text>
 
-  <!-- Frontend -->
-  <rect x="50" y="60" width="800" height="130" rx="8" fill="#1e293b" stroke="#3b82f6" stroke-width="2"/>
-  <text x="450" y="85" text-anchor="middle" fill="#3b82f6" font-size="14" font-weight="bold">Frontend (Vite + React + TypeScript)</text>
+  <!-- FRONTEND -->
+  <rect x="40" y="78" width="880" height="66" rx="9" fill="#f5f9ff" stroke="#4285f4" stroke-width="1.5"/>
+  <text x="480" y="101" text-anchor="middle" font-size="13" font-weight="700" fill="#1a56db">Frontend — React · TypeScript · Vite</text>
+  <text x="480" y="122" text-anchor="middle" font-size="11.5" fill="#1565c0">GeminiOverlayPanel · OverlayComparisonPanel · DataQualityPanel · ModuleSnapshotGrid</text>
+  <text x="480" y="137" text-anchor="middle" font-size="10.5" fill="#64748b">status badges render fail-closed states truthfully — never a fabricated result</text>
 
-  <rect x="80" y="100" width="200" height="70" rx="6" fill="#0f172a" stroke="#334155"/>
-  <text x="180" y="125" text-anchor="middle" fill="#f1f5f9" font-size="12">Ticker Selector</text>
-  <text x="180" y="145" text-anchor="middle" fill="#94a3b8" font-size="10">App.tsx</text>
+  <path d="M480,144 L480,168" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="492" y="162" font-size="10.5" fill="#64748b">/api/*</text>
 
-  <rect x="350" y="100" width="200" height="70" rx="6" fill="#0f172a" stroke="#334155"/>
-  <text x="450" y="125" text-anchor="middle" fill="#f1f5f9" font-size="12">Evidence Panel</text>
-  <text x="450" y="145" text-anchor="middle" fill="#94a3b8" font-size="10">api.ts</text>
+  <!-- BACKEND -->
+  <rect x="40" y="170" width="880" height="292" rx="9" fill="#fafafa" stroke="#10b981" stroke-width="1.5"/>
+  <text x="480" y="192" text-anchor="middle" font-size="13" font-weight="700" fill="#047857">Backend — FastAPI · Python</text>
 
-  <rect x="620" y="100" width="200" height="70" rx="6" fill="#0f172a" stroke="#334155"/>
-  <text x="720" y="125" text-anchor="middle" fill="#f1f5f9" font-size="12">Comparison Grid</text>
-  <text x="720" y="145" text-anchor="middle" fill="#94a3b8" font-size="10">Side-by-side</text>
+  <!-- evidence pack -->
+  <rect x="330" y="206" width="300" height="48" rx="8" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+  <text x="480" y="226" text-anchor="middle" font-size="12.5" font-weight="700" fill="#065f46">Governed Evidence Pack</text>
+  <text x="480" y="243" text-anchor="middle" font-size="10.5" fill="#047857">sample_loader → evidence_pack · SHA-256 content hash</text>
 
-  <!-- Arrow to backend -->
-  <line x1="450" y1="190" x2="450" y2="225" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
-  <text x="460" y="212" fill="#64748b" font-size="10">/api/*</text>
+  <path d="M420,254 L250,282" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M480,254 L480,282" fill="none" stroke="#4285f4" stroke-width="2" marker-end="url(#ab)"/>
+  <path d="M540,254 L712,282" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
 
-  <!-- Backend -->
-  <rect x="50" y="230" width="800" height="180" rx="8" fill="#1e293b" stroke="#10b981" stroke-width="2"/>
-  <text x="450" y="255" text-anchor="middle" fill="#10b981" font-size="14" font-weight="bold">Backend (FastAPI + Python)</text>
+  <!-- GEMINI hero -->
+  <rect x="352" y="284" width="256" height="76" rx="8" fill="#e8f0fe" stroke="#4285f4" stroke-width="3"/>
+  <text x="480" y="305" text-anchor="middle" font-size="13" font-weight="700" fill="#1a56db">★ gemini_overlay.py</text>
+  <text x="480" y="322" text-anchor="middle" font-size="11" fill="#1a56db">gemini-2.5-flash · JSON mode</text>
+  <text x="480" y="338" text-anchor="middle" font-size="10.5" font-weight="600" fill="#3b6fd4">PRIMARY HACKATHON ANALYST LAYER</text>
+  <text x="480" y="353" text-anchor="middle" font-size="10" fill="#5b7fd4">fail-closed · never a hollow SUCCESS</text>
 
-  <rect x="80" y="270" width="220" height="60" rx="6" fill="#0f172a" stroke="#334155"/>
-  <text x="190" y="295" text-anchor="middle" fill="#f1f5f9" font-size="12">Sample Loader</text>
-  <text x="190" y="312" text-anchor="middle" fill="#94a3b8" font-size="10">data/*.json</text>
+  <!-- Qwen comparison lane -->
+  <rect x="76" y="284" width="240" height="76" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="196" y="305" text-anchor="middle" font-size="12.5" font-weight="700" fill="#334155">qwen_overlay.py</text>
+  <text x="196" y="322" text-anchor="middle" font-size="11" fill="#475569">Qwen (Alibaba DashScope)</text>
+  <text x="196" y="338" text-anchor="middle" font-size="10.5" fill="#64748b">secondary comparison lane</text>
+  <text x="196" y="353" text-anchor="middle" font-size="10" fill="#94a3b8">same fail-closed contract</text>
 
-  <rect x="340" y="270" width="220" height="60" rx="6" fill="#0f172a" stroke="#334155"/>
-  <text x="450" y="295" text-anchor="middle" fill="#f1f5f9" font-size="12">Qwen Overlay</text>
-  <text x="450" y="312" text-anchor="middle" fill="#94a3b8" font-size="10">qwen_overlay.py</text>
+  <!-- DeepSeek comparison lane -->
+  <rect x="644" y="284" width="240" height="76" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="764" y="305" text-anchor="middle" font-size="12.5" font-weight="700" fill="#334155">deepseek_overlay.py</text>
+  <text x="764" y="322" text-anchor="middle" font-size="11" fill="#475569">DeepSeek (OpenAI-compatible)</text>
+  <text x="764" y="338" text-anchor="middle" font-size="10.5" fill="#64748b">secondary comparison lane</text>
+  <text x="764" y="353" text-anchor="middle" font-size="10" fill="#94a3b8">same fail-closed contract</text>
 
-  <rect x="600" y="270" width="220" height="60" rx="6" fill="#0f172a" stroke="#334155"/>
-  <text x="710" y="295" text-anchor="middle" fill="#f1f5f9" font-size="12">DeepSeek Overlay</text>
-  <text x="710" y="312" text-anchor="middle" fill="#94a3b8" font-size="10">deepseek_overlay.py</text>
+  <path d="M196,360 L420,392" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M480,360 L480,392" fill="none" stroke="#4285f4" stroke-width="2" marker-end="url(#ab)"/>
+  <path d="M764,360 L540,392" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
 
-  <rect x="200" y="350" width="500" height="45" rx="6" fill="#0f172a" stroke="#334155"/>
-  <text x="450" y="378" text-anchor="middle" fill="#f1f5f9" font-size="12">Comparison Logic (asyncio.gather) — comparison.py</text>
+  <!-- comparison -->
+  <rect x="266" y="394" width="428" height="54" rx="8" fill="#faf5ff" stroke="#7c3aed" stroke-width="2"/>
+  <text x="480" y="415" text-anchor="middle" font-size="12.5" font-weight="700" fill="#5b21b6">comparison.py</text>
+  <text x="480" y="433" text-anchor="middle" font-size="10.5" fill="#6d28d9">data_state · agreement · divergence · tone · evidence gaps</text>
 
-  <!-- Arrows to APIs -->
-  <line x1="450" y1="330" x2="450" y2="350" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
-  <line x1="450" y1="410" x2="300" y2="460" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
-  <line x1="710" y1="330" x2="650" y2="460" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M480,462 L480,486" fill="none" stroke="#2e7d32" stroke-width="2" marker-end="url(#ag)"/>
 
-  <!-- External APIs -->
-  <rect x="80" y="460" width="300" height="120" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
-  <text x="230" y="490" text-anchor="middle" fill="#f59e0b" font-size="14" font-weight="bold">Qwen Cloud</text>
-  <text x="230" y="510" text-anchor="middle" fill="#f1f5f9" font-size="11">DashScope API</text>
-  <text x="230" y="528" text-anchor="middle" fill="#94a3b8" font-size="10">dashscope-intl.aliyuncs.com</text>
-  <text x="230" y="545" text-anchor="middle" fill="#94a3b8" font-size="10">/compatible-mode/v1</text>
-  <text x="230" y="565" text-anchor="middle" fill="#10b981" font-size="10">Alibaba Cloud</text>
+  <!-- HUMAN REVIEW GATE -->
+  <rect x="266" y="488" width="428" height="56" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="3"/>
+  <text x="480" y="510" text-anchor="middle" font-size="13" font-weight="700" fill="#14532d">HUMAN REVIEW GATE</text>
+  <text x="480" y="530" text-anchor="middle" font-size="11" fill="#166534">low agreement or major divergence → mandatory human review</text>
 
-  <rect x="520" y="460" width="300" height="120" rx="8" fill="#1e293b" stroke="#8b5cf6" stroke-width="2"/>
-  <text x="670" y="490" text-anchor="middle" fill="#8b5cf6" font-size="14" font-weight="bold">DeepSeek API</text>
-  <text x="670" y="510" text-anchor="middle" fill="#f1f5f9" font-size="11">OpenAI-compatible</text>
-  <text x="670" y="528" text-anchor="middle" fill="#94a3b8" font-size="10">api.deepseek.com/v1</text>
-  <text x="670" y="548" text-anchor="middle" fill="#94a3b8" font-size="10">model: deepseek-chat</text>
+  <path d="M480,544 L480,568" fill="none" stroke="#2e7d32" stroke-width="2" marker-end="url(#ag)"/>
+
+  <!-- human decision -->
+  <rect x="330" y="570" width="300" height="42" rx="21" fill="#bbf7d0" stroke="#22c55e" stroke-width="2"/>
+  <text x="480" y="596" text-anchor="middle" font-size="12.5" font-weight="700" fill="#14532d">Human Decision — LLMs never trade</text>
+
+  <!-- side notes -->
+  <text x="60" y="590" font-size="10.5" fill="#64748b">Production runs five providers:</text>
+  <text x="60" y="605" font-size="10.5" fill="#64748b">Claude · ChatGPT · Gemini ·</text>
+  <text x="60" y="620" font-size="10.5" fill="#64748b">DeepSeek · Qwen.</text>
+
+  <text x="900" y="590" text-anchor="end" font-size="10.5" fill="#64748b">Offline by default —</text>
+  <text x="900" y="605" text-anchor="end" font-size="10.5" fill="#64748b">bundled samples, no API key,</text>
+  <text x="900" y="620" text-anchor="end" font-size="10.5" fill="#64748b">no external calls.</text>
+
+  <text x="480" y="640" text-anchor="middle" font-size="10" fill="#94a3b8">No order path exists anywhere in this diagram · Pantheon holds no broker credential and no signing key</text>
 </svg>

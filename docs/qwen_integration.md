@@ -1,8 +1,20 @@
-# Qwen Cloud Integration
+# Qwen Integration — Comparison Provider
+
+> **Scope.** Qwen is a **secondary comparison provider** in this submission. The
+> primary hackathon AI layer is **Gemini** — see
+> [README § Gemini](../README.md#gemini--the-hackathon-ai-layer) and
+> [`gemini_production_evidence.md`](gemini_production_evidence.md).
+>
+> This page documents the Qwen integration specifically, because a comparison
+> lane is only meaningful if it is real and independently implemented.
 
 ## Overview
 
-This project integrates with **Qwen Cloud** via Alibaba Cloud's DashScope API in OpenAI-compatible mode. Qwen Cloud serves as one of two LLM providers in the dual-provider qualitative overlay system.
+Pantheon integrates **Qwen** via Alibaba Cloud's DashScope API in
+OpenAI-compatible mode. In production Qwen is one of **five** research providers
+(Claude · ChatGPT · Gemini · DeepSeek · Qwen); in this public demo it runs
+alongside DeepSeek as an independent comparison lane against the Gemini analyst
+overlay, under the same fail-closed contract.
 
 ## API Details
 
