@@ -46,11 +46,17 @@ All credentials are loaded from environment variables — never hardcoded:
 
 | Variable              | Purpose                          | Required for offline? |
 |-----------------------|----------------------------------|------------------------|
+| `GEMINI_API_KEY`      | **Gemini auth — hackathon layer** (or `GOOGLE_API_KEY`) | No |
+| `GEMINI_MODEL`        | Gemini model override (default `gemini-2.5-flash`) | No |
 | `DASHSCOPE_API_KEY`   | Qwen Cloud (DashScope) auth      | No                     |
 | `DEEPSEEK_API_KEY`    | DeepSeek API auth               | No                     |
 | `DEMO_MODE`           | `offline` (default) or `live`   | No                     |
 | `QWEN_MODEL`          | Qwen model override             | No                     |
 | `DEEPSEEK_MODEL`      | DeepSeek model override          | No                     |
+
+In production the Gemini key is supplied by **Google Secret Manager** and bound
+to Cloud Run via `--set-secrets` — it is never stored in the repository, and no
+endpoint ever returns it.
 
 In offline mode (default), no API keys are needed. The app uses bundled sample data in `data/`.
 

@@ -1,18 +1,23 @@
 # Submission Assets
 
-Judge-facing product screenshots for this submission.
+Optional reference for judge-facing product screenshots.
 
-**Status:** the image files are **not yet committed to this repository.** They
-are currently published in the
-[Devpost gallery](https://devpost.com/software/pantheon-research-qzn50k), which
-is the authoritative source for the submission screenshots today.
+**This repository's README does not depend on these images.** The canonical
+README visuals are the two architecture diagrams in
+[`docs/assets/`](../../docs/assets/) — the high-level architecture and the
+Gemini deployment architecture. Product screenshots are supplementary Devpost
+gallery media, not a required or missing piece of this repository's
+presentation.
 
-This file fixes the naming contract and ordering so the PNGs can be dropped in
-without renaming anything or updating links elsewhere.
+The authoritative screenshot gallery is the
+[Devpost submission](https://devpost.com/software/pantheon-research-qzn50k).
+This directory exists only as an optional naming/ordering reference, should
+screenshots ever be added here in the future — it is not a checklist and
+nothing here blocks the submission.
 
 ---
 
-## Naming contract
+## Naming reference (optional, unused)
 
 | # | Filename | Shows |
 |---|---|---|
@@ -31,26 +36,17 @@ without renaming anything or updating links elsewhere.
 
 ---
 
-## Usage rules
+## If images are added here later
 
-- **At most 4–6 inline in the README.** The rest are linked through
-  [`docs/PRODUCT_EVIDENCE_INDEX.md`](../../docs/PRODUCT_EVIDENCE_INDEX.md). Do
-  not inline all twelve — it buries the narrative.
 - **Screenshots are from the live product** at
   [pantheon-research.com](https://pantheon-research.com), which covers GOOGL and
   a broad universe. The local judge demo ships evidence packs for **MA and NVDA
   only**. Do not present a screenshot in a way that implies the local demo
   serves GOOGL.
-- **No secrets on screen.** Before committing any screenshot, confirm it shows
-  no API key, token, admin surface, internal URL, private endpoint, customer
-  data, or account identifier.
+- **No secrets on screen.** Confirm no API key, token, admin surface, internal
+  URL, private endpoint, customer data, or account identifier is visible.
 - **`12_Profit_and_Loss_Statement.png` must match**
   [`docs/business_model_and_pnl.md`](../../docs/business_model_and_pnl.md) §1:
   revenue $0.00, total expenses $926.12, net loss −$926.12.
-
----
-
-## Adding the images
-
-Drop the twelve PNGs into this directory using exactly the filenames above.
-No other file needs to change — the evidence index already points here.
+- Keep any README embed sparse — a handful inline, the rest linked through
+  [`docs/PRODUCT_EVIDENCE_INDEX.md`](../../docs/PRODUCT_EVIDENCE_INDEX.md).

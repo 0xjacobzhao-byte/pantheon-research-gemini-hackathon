@@ -1,0 +1,247 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 1010" width="1280" height="1010" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" role="img" aria-label="Pantheon Research high-level architecture: seven layers from external data sources through a governed data platform, deterministic research engines, a deterministic plus five-model AI layer with Gemini as the hackathon integration, the information layer, the signal and agent layer, and a staged execution boundary. AI research flows to human review and a human decision; there is no path from a model output to an order.">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#94a3b8"/>
+    </marker>
+    <marker id="arg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2e7d32"/>
+    </marker>
+  </defs>
+
+  <!-- card background: explicit white so it stays legible in both GitHub themes -->
+  <rect x="0" y="0" width="1280" height="1010" rx="16" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- ══════════ HEADER ══════════ -->
+  <text x="640" y="42" text-anchor="middle" font-size="23" font-weight="700" fill="#0f172a">Pantheon Research — High-Level Architecture</text>
+  <text x="640" y="66" text-anchor="middle" font-size="13.5" fill="#475569">Governed AI-native cross-asset investment research OS · seven layers · human remains the portfolio manager</text>
+
+  <!-- Gemini badge -->
+  <rect x="951" y="82" width="305" height="26" rx="13" fill="#e8f0fe" stroke="#4285f4" stroke-width="1.5"/>
+  <circle cx="971" cy="95" r="5" fill="#4285f4"/>
+  <text x="983" y="99.5" font-size="12" font-weight="700" fill="#1a56db">Gemini 2.5 Flash — hackathon AI layer (L4)</text>
+
+  <!-- ══════════ LAYER 1 — EXTERNAL DATA ══════════ -->
+  <rect x="24" y="82" width="150" height="72" rx="9" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+  <circle cx="46" cy="104" r="11" fill="#3b82f6"/>
+  <text x="46" y="108.5" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">1</text>
+  <text x="64" y="108.5" font-size="12.5" font-weight="700" fill="#1e40af">External</text>
+  <text x="38" y="132" font-size="12.5" font-weight="700" fill="#1e40af">Data Sources</text>
+
+  <rect x="186" y="82" width="753" height="72" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="202" y="106" font-size="12.5" fill="#334155">Macro &amp; rates · Equities (US / CN / HK / SG) · Crypto &amp; on-chain · DeFi protocols</text>
+  <text x="202" y="128" font-size="12.5" fill="#334155">Filings &amp; fundamentals · Social / alternative data · Positioning · Market structure</text>
+  <text x="202" y="146" font-size="11.5" font-style="italic" fill="#64748b">Raw provider data is never passed straight to a model.</text>
+
+  <!-- ══════════ LAYER 2 — GOVERNED DATA PLATFORM ══════════ -->
+  <rect x="24" y="166" width="150" height="98" rx="9" fill="#ecfdf5" stroke="#059669" stroke-width="1.5"/>
+  <circle cx="46" cy="188" r="11" fill="#059669"/>
+  <text x="46" y="192.5" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">2</text>
+  <text x="64" y="192.5" font-size="12.5" font-weight="700" fill="#065f46">Governed</text>
+  <text x="38" y="216" font-size="12.5" font-weight="700" fill="#065f46">Data Platform</text>
+  <text x="38" y="238" font-size="10.5" fill="#047857">PostgreSQL</text>
+  <text x="38" y="254" font-size="10.5" fill="#047857">database-first</text>
+
+  <rect x="186" y="166" width="1070" height="98" rx="9" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+  <rect x="200" y="180" width="152" height="34" rx="6" fill="#ffffff" stroke="#bbf7d0"/>
+  <text x="276" y="201" text-anchor="middle" font-size="11.5" fill="#166534">Scheduled ingestion</text>
+  <rect x="362" y="180" width="152" height="34" rx="6" fill="#ffffff" stroke="#bbf7d0"/>
+  <text x="438" y="201" text-anchor="middle" font-size="11.5" fill="#166534">Provider health</text>
+  <rect x="524" y="180" width="180" height="34" rx="6" fill="#ffffff" stroke="#bbf7d0"/>
+  <text x="614" y="201" text-anchor="middle" font-size="11.5" fill="#166534">Validation / normalization</text>
+  <rect x="714" y="180" width="180" height="34" rx="6" fill="#ffffff" stroke="#bbf7d0"/>
+  <text x="804" y="201" text-anchor="middle" font-size="11.5" fill="#166534">Canonical observations</text>
+  <rect x="904" y="180" width="152" height="34" rx="6" fill="#ffffff" stroke="#bbf7d0"/>
+  <text x="980" y="201" text-anchor="middle" font-size="11.5" fill="#166534">Snapshots</text>
+  <rect x="1066" y="180" width="176" height="34" rx="6" fill="#ffffff" stroke="#bbf7d0"/>
+  <text x="1154" y="201" text-anchor="middle" font-size="11.5" fill="#166534">Evidence artifacts</text>
+
+  <rect x="200" y="222" width="428" height="30" rx="6" fill="#dcfce7" stroke="#4ade80"/>
+  <text x="414" y="241" text-anchor="middle" font-size="11.5" font-weight="600" fill="#14532d">TTL / freshness · data-quality labels · fail-closed on stale or missing</text>
+  <text x="646" y="241" font-size="11.5" fill="#166534">Missing or stale data is labelled — never silently guessed. Evidence packs are SHA-256 content-hashed.</text>
+
+  <!-- ══════════ LAYER 3 — RESEARCH ENGINES ══════════ -->
+  <rect x="24" y="276" width="150" height="86" rx="9" fill="#fff7ed" stroke="#ea580c" stroke-width="1.5"/>
+  <circle cx="46" cy="298" r="11" fill="#ea580c"/>
+  <text x="46" y="302.5" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">3</text>
+  <text x="64" y="302.5" font-size="12.5" font-weight="700" fill="#9a3412">Strategy /</text>
+  <text x="38" y="326" font-size="12.5" font-weight="700" fill="#9a3412">Research Engines</text>
+  <text x="38" y="348" font-size="10.5" fill="#c2410c">deterministic first</text>
+
+  <rect x="186" y="276" width="1070" height="86" rx="9" fill="#fffbeb" stroke="#fed7aa" stroke-width="1"/>
+  <rect x="200" y="290" width="126" height="32" rx="6" fill="#ffffff" stroke="#fdba74"/>
+  <text x="263" y="310" text-anchor="middle" font-size="11.5" fill="#9a3412">Global Macro</text>
+  <rect x="336" y="290" width="126" height="32" rx="6" fill="#ffffff" stroke="#fdba74"/>
+  <text x="399" y="310" text-anchor="middle" font-size="11.5" fill="#9a3412">Equities</text>
+  <rect x="472" y="290" width="126" height="32" rx="6" fill="#ffffff" stroke="#fdba74"/>
+  <text x="535" y="310" text-anchor="middle" font-size="11.5" fill="#9a3412">BTC / ETH</text>
+  <rect x="608" y="290" width="126" height="32" rx="6" fill="#ffffff" stroke="#fdba74"/>
+  <text x="671" y="310" text-anchor="middle" font-size="11.5" fill="#9a3412">DeFi</text>
+  <rect x="744" y="290" width="126" height="32" rx="6" fill="#ffffff" stroke="#fdba74"/>
+  <text x="807" y="310" text-anchor="middle" font-size="11.5" fill="#9a3412">FICC</text>
+  <rect x="880" y="290" width="164" height="32" rx="6" fill="#ffffff" stroke="#fdba74"/>
+  <text x="962" y="310" text-anchor="middle" font-size="11.5" fill="#9a3412">Technical Analysis</text>
+  <rect x="1054" y="290" width="188" height="32" rx="6" fill="#ffffff" stroke="#fdba74"/>
+  <text x="1148" y="310" text-anchor="middle" font-size="11.5" fill="#9a3412">Narrative / Capital Flow</text>
+
+  <rect x="200" y="330" width="300" height="26" rx="6" fill="#ffedd5" stroke="#fb923c"/>
+  <text x="350" y="347" text-anchor="middle" font-size="11.5" font-weight="600" fill="#7c2d12">Backtest / Forward Validation</text>
+  <text x="516" y="347" font-size="11.5" fill="#9a3412">Reproducible scores, regimes and signal candidates are computed <tspan font-weight="700">before</tspan> any model interprets them.</text>
+
+  <!-- ══════════ LAYER 4 — DETERMINISTIC + FIVE-MODEL AI (HERO) ══════════ -->
+  <rect x="24" y="374" width="150" height="168" rx="9" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <circle cx="46" cy="396" r="11" fill="#7c3aed"/>
+  <text x="46" y="400.5" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">4</text>
+  <text x="64" y="400.5" font-size="12.5" font-weight="700" fill="#5b21b6">Deterministic</text>
+  <text x="38" y="424" font-size="12.5" font-weight="700" fill="#5b21b6">+ Five-Model</text>
+  <text x="38" y="443" font-size="12.5" font-weight="700" fill="#5b21b6">AI Layer</text>
+  <text x="38" y="470" font-size="10.5" fill="#6d28d9">evidence in,</text>
+  <text x="38" y="485" font-size="10.5" fill="#6d28d9">research out</text>
+  <text x="38" y="509" font-size="10.5" font-weight="700" fill="#4285f4">Gemini = the</text>
+  <text x="38" y="524" font-size="10.5" font-weight="700" fill="#4285f4">hackathon layer</text>
+
+  <rect x="186" y="374" width="1070" height="168" rx="9" fill="#faf5ff" stroke="#ddd6fe" stroke-width="1.5"/>
+
+  <!-- deterministic sub-block -->
+  <rect x="200" y="388" width="240" height="140" rx="7" fill="#ffffff" stroke="#c4b5fd" stroke-width="1.5"/>
+  <text x="320" y="409" text-anchor="middle" font-size="12.5" font-weight="700" fill="#5b21b6">Deterministic Engine</text>
+  <text x="214" y="431" font-size="11.5" fill="#4c1d95">• Value / risk models</text>
+  <text x="214" y="450" font-size="11.5" fill="#4c1d95">• Factor regressions</text>
+  <text x="214" y="469" font-size="11.5" fill="#4c1d95">• Ratings &amp; hard stops</text>
+  <text x="214" y="488" font-size="11.5" fill="#4c1d95">• Signal candidates</text>
+  <rect x="214" y="498" width="212" height="22" rx="5" fill="#ede9fe"/>
+  <text x="320" y="513" text-anchor="middle" font-size="10.5" font-weight="600" fill="#5b21b6">LLM output never mutates these</text>
+
+  <!-- pipeline -->
+  <rect x="452" y="388" width="180" height="140" rx="7" fill="#ffffff" stroke="#c4b5fd" stroke-width="1.5"/>
+  <text x="542" y="409" text-anchor="middle" font-size="12.5" font-weight="700" fill="#5b21b6">Overlay Pipeline</text>
+  <rect x="464" y="420" width="156" height="24" rx="5" fill="#f5f3ff" stroke="#ddd6fe"/>
+  <text x="542" y="436" text-anchor="middle" font-size="11" fill="#4c1d95">Source Pack Builder</text>
+  <rect x="464" y="448" width="156" height="24" rx="5" fill="#f5f3ff" stroke="#ddd6fe"/>
+  <text x="542" y="464" text-anchor="middle" font-size="11" fill="#4c1d95">Prompt Builder</text>
+  <rect x="464" y="476" width="156" height="24" rx="5" fill="#f5f3ff" stroke="#ddd6fe"/>
+  <text x="542" y="492" text-anchor="middle" font-size="11" fill="#4c1d95">Schema Validation</text>
+  <rect x="464" y="504" width="156" height="24" rx="5" fill="#ede9fe" stroke="#a78bfa"/>
+  <text x="542" y="520" text-anchor="middle" font-size="11" font-weight="600" fill="#4c1d95">Overlay Comparison</text>
+
+  <!-- five providers -->
+  <rect x="644" y="388" width="598" height="140" rx="7" fill="#ffffff" stroke="#c4b5fd" stroke-width="1.5"/>
+  <text x="943" y="409" text-anchor="middle" font-size="12.5" font-weight="700" fill="#5b21b6">Five-Model Research Layer — disagreement is surfaced, not averaged</text>
+
+  <!-- GEMINI hero card -->
+  <rect x="658" y="420" width="168" height="60" rx="7" fill="#e8f0fe" stroke="#4285f4" stroke-width="3"/>
+  <circle cx="676" cy="440" r="6" fill="#4285f4"/>
+  <text x="690" y="444.5" font-size="14" font-weight="700" fill="#1a56db">GEMINI</text>
+  <text x="742" y="444.5" font-size="9.5" font-weight="700" fill="#4285f4">★ HACKATHON</text>
+  <text x="670" y="462" font-size="10.5" fill="#1a56db">gemini-2.5-flash · Cloud Run</text>
+  <text x="670" y="474" font-size="10" fill="#3b6fd4">Analyst / Risk-Review overlay</text>
+
+  <!-- other four providers -->
+  <rect x="838" y="420" width="96" height="28" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="886" y="438.5" text-anchor="middle" font-size="11.5" fill="#334155">Claude</text>
+  <rect x="944" y="420" width="96" height="28" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="992" y="438.5" text-anchor="middle" font-size="11.5" fill="#334155">ChatGPT</text>
+  <rect x="1050" y="420" width="96" height="28" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="1098" y="438.5" text-anchor="middle" font-size="11.5" fill="#334155">DeepSeek</text>
+  <rect x="1156" y="420" width="72" height="28" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="1192" y="438.5" text-anchor="middle" font-size="11.5" fill="#334155">Qwen</text>
+  <text x="838" y="466" font-size="10.5" fill="#64748b">Claude · ChatGPT · DeepSeek · Qwen (Alibaba DashScope) —</text>
+  <text x="838" y="479" font-size="10.5" fill="#64748b">the pre-existing four-provider lane Gemini joined.</text>
+
+  <!-- lanes -->
+  <rect x="658" y="490" width="284" height="30" rx="6" fill="#ecfdf5" stroke="#6ee7b7"/>
+  <text x="800" y="509" text-anchor="middle" font-size="11" font-weight="600" fill="#065f46">Lane A — Evidence-backed (graded by source tier)</text>
+  <rect x="950" y="490" width="278" height="30" rx="6" fill="#fef3c7" stroke="#fcd34d"/>
+  <text x="1089" y="509" text-anchor="middle" font-size="11" font-weight="600" fill="#92400e">Lane B — Model-inferred / AI-prior (labelled)</text>
+
+  <!-- ══════════ LAYER 5 — INFORMATION ══════════ -->
+  <rect x="24" y="554" width="150" height="72" rx="9" fill="#ecfeff" stroke="#0891b2" stroke-width="1.5"/>
+  <circle cx="46" cy="576" r="11" fill="#0891b2"/>
+  <text x="46" y="580.5" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">5</text>
+  <text x="64" y="580.5" font-size="12.5" font-weight="700" fill="#155e75">Information</text>
+  <text x="38" y="604" font-size="12.5" font-weight="700" fill="#155e75">Layer</text>
+
+  <rect x="186" y="554" width="1070" height="72" rx="9" fill="#f0fdff" stroke="#a5f3fc" stroke-width="1"/>
+  <rect x="200" y="568" width="160" height="30" rx="6" fill="#ffffff" stroke="#67e8f9"/>
+  <text x="280" y="587" text-anchor="middle" font-size="11.5" fill="#155e75">Pantheon Dashboard</text>
+  <rect x="370" y="568" width="150" height="30" rx="6" fill="#ffffff" stroke="#67e8f9"/>
+  <text x="445" y="587" text-anchor="middle" font-size="11.5" fill="#155e75">Ticker Profile</text>
+  <rect x="530" y="568" width="164" height="30" rx="6" fill="#ffffff" stroke="#67e8f9"/>
+  <text x="612" y="587" text-anchor="middle" font-size="11.5" fill="#155e75">Equity Decisions</text>
+  <rect x="704" y="568" width="176" height="30" rx="6" fill="#ffffff" stroke="#67e8f9"/>
+  <text x="792" y="587" text-anchor="middle" font-size="11.5" fill="#155e75">AI Analyst Consensus</text>
+  <rect x="890" y="568" width="164" height="30" rx="6" fill="#ffffff" stroke="#67e8f9"/>
+  <text x="972" y="587" text-anchor="middle" font-size="11.5" fill="#155e75">Macro / BTC views</text>
+  <rect x="1064" y="568" width="178" height="30" rx="6" fill="#ffffff" stroke="#67e8f9"/>
+  <text x="1153" y="587" text-anchor="middle" font-size="11.5" fill="#155e75">Research Ops (internal)</text>
+  <text x="200" y="616" font-size="11" fill="#0e7490">Web dashboard · PWA / mobile · application APIs · module-maturity registry</text>
+
+  <!-- ══════════ LAYER 6 — SIGNAL + AGENT ══════════ -->
+  <rect x="24" y="638" width="150" height="72" rx="9" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+  <circle cx="46" cy="660" r="11" fill="#dc2626"/>
+  <text x="46" y="664.5" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">6</text>
+  <text x="64" y="664.5" font-size="12.5" font-weight="700" fill="#991b1b">Signal +</text>
+  <text x="38" y="688" font-size="12.5" font-weight="700" fill="#991b1b">Agent Layer</text>
+
+  <rect x="186" y="638" width="1070" height="72" rx="9" fill="#fff5f5" stroke="#fecaca" stroke-width="1"/>
+  <rect x="200" y="652" width="150" height="30" rx="6" fill="#ffffff" stroke="#fca5a5"/>
+  <text x="275" y="671" text-anchor="middle" font-size="11.5" fill="#991b1b">Research alerts</text>
+  <rect x="360" y="652" width="150" height="30" rx="6" fill="#ffffff" stroke="#fca5a5"/>
+  <text x="435" y="671" text-anchor="middle" font-size="11.5" fill="#991b1b">Telegram Agent</text>
+  <rect x="520" y="652" width="160" height="30" rx="6" fill="#ffffff" stroke="#fca5a5"/>
+  <text x="600" y="671" text-anchor="middle" font-size="11.5" fill="#991b1b">Weekly reports</text>
+  <rect x="690" y="652" width="150" height="30" rx="6" fill="#ffffff" stroke="#fca5a5"/>
+  <text x="765" y="671" text-anchor="middle" font-size="11.5" fill="#991b1b">User feed</text>
+  <rect x="850" y="652" width="392" height="30" rx="6" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+  <text x="1046" y="671" text-anchor="middle" font-size="11.5" font-weight="700" fill="#14532d">HUMAN REVIEW GATE — mandatory before any decision</text>
+  <text x="200" y="700" font-size="11" fill="#b91c1c">Advice is permitted (views, ratings, direction, risk/reward). Execution instructions and position sizing are refused in code.</text>
+
+  <!-- ══════════ LAYER 7 — EXECUTION BOUNDARY ══════════ -->
+  <rect x="24" y="722" width="150" height="72" rx="9" fill="#f8fafc" stroke="#64748b" stroke-width="1.5" stroke-dasharray="5 3"/>
+  <circle cx="46" cy="744" r="11" fill="#64748b"/>
+  <text x="46" y="748.5" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">7</text>
+  <text x="64" y="748.5" font-size="12.5" font-weight="700" fill="#334155">Staged</text>
+  <text x="38" y="772" font-size="12.5" font-weight="700" fill="#334155">Execution</text>
+  <text x="38" y="788" font-size="10.5" fill="#64748b">independently gated</text>
+
+  <rect x="186" y="722" width="1070" height="72" rx="9" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="5 3"/>
+  <rect x="200" y="738" width="180" height="30" rx="6" fill="#ffffff" stroke="#94a3b8"/>
+  <text x="290" y="757" text-anchor="middle" font-size="11.5" font-weight="600" fill="#334155">Manual execution (today)</text>
+  <rect x="390" y="738" width="170" height="30" rx="6" fill="#f1f5f9" stroke="#cbd5e1" stroke-dasharray="4 3"/>
+  <text x="475" y="757" text-anchor="middle" font-size="11.5" fill="#64748b">Paper harness (staged)</text>
+  <rect x="570" y="738" width="180" height="30" rx="6" fill="#f1f5f9" stroke="#cbd5e1" stroke-dasharray="4 3"/>
+  <text x="660" y="757" text-anchor="middle" font-size="11.5" fill="#64748b">Broker integration (planned)</text>
+  <rect x="770" y="738" width="472" height="30" rx="6" fill="#fee2e2" stroke="#ef4444" stroke-width="2"/>
+  <text x="1006" y="757" text-anchor="middle" font-size="11.5" font-weight="700" fill="#991b1b">NO LIVE AUTONOMOUS TRADING · no order path from any model output</text>
+  <text x="200" y="786" font-size="11" fill="#475569">Pantheon holds no broker credential and no signing key. Layer 7 is not reachable from Layer 4.</text>
+
+  <!-- ══════════ SAFETY STATEMENT ══════════ -->
+  <rect x="24" y="812" width="1232" height="72" rx="10" fill="#f0fdf4" stroke="#22c55e" stroke-width="2.5"/>
+  <text x="640" y="838" text-anchor="middle" font-size="14" font-weight="700" fill="#14532d">The governing path — AI decides what the research says; a human decides what the portfolio does</text>
+
+  <rect x="286" y="848" width="182" height="26" rx="13" fill="#dcfce7" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="377" y="865.5" text-anchor="middle" font-size="12.5" font-weight="700" fill="#14532d">AI Research</text>
+  <path d="M474,861 L516,861" fill="none" stroke="#2e7d32" stroke-width="2" marker-end="url(#arg)"/>
+  <rect x="522" y="848" width="196" height="26" rx="13" fill="#dcfce7" stroke="#4ade80" stroke-width="1.5"/>
+  <text x="620" y="865.5" text-anchor="middle" font-size="12.5" font-weight="700" fill="#14532d">Human Review</text>
+  <path d="M724,861 L766,861" fill="none" stroke="#2e7d32" stroke-width="2" marker-end="url(#arg)"/>
+  <rect x="772" y="848" width="196" height="26" rx="13" fill="#bbf7d0" stroke="#22c55e" stroke-width="2"/>
+  <text x="870" y="865.5" text-anchor="middle" font-size="12.5" font-weight="700" fill="#14532d">Human Decision</text>
+
+  <!-- ══════════ FOOTER / FLOW + LEGEND ══════════ -->
+  <text x="640" y="912" text-anchor="middle" font-size="12" fill="#475569">Providers → Canonical Observations → Product Snapshots &amp; Evidence Packs → Deterministic Engines → Gemini / Multi-Model Research → Signals &amp; Human Review → Human Decision → Independently Gated Execution</text>
+
+  <text x="640" y="936" text-anchor="middle" font-size="11.5" fill="#64748b">Not claimed: autonomous trading · model-generated alpha · proven investment performance · AI override of deterministic ratings · movement of user capital.</text>
+
+  <rect x="330" y="958" width="15" height="12" rx="2" fill="#e8f0fe" stroke="#4285f4" stroke-width="1.5"/>
+  <text x="352" y="968" font-size="11" fill="#475569">Gemini (hackathon)</text>
+  <rect x="472" y="958" width="15" height="12" rx="2" fill="#faf5ff" stroke="#c4b5fd"/>
+  <text x="494" y="968" font-size="11" fill="#475569">AI layer</text>
+  <rect x="566" y="958" width="15" height="12" rx="2" fill="#f0fdf4" stroke="#22c55e"/>
+  <text x="588" y="968" font-size="11" fill="#475569">governance / human gate</text>
+  <rect x="742" y="958" width="15" height="12" rx="2" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="3 2"/>
+  <text x="764" y="968" font-size="11" fill="#475569">staged / not live</text>
+  <rect x="866" y="958" width="15" height="12" rx="2" fill="#fee2e2" stroke="#ef4444"/>
+  <text x="888" y="968" font-size="11" fill="#475569">explicit non-claim</text>
+
+  <text x="640" y="992" text-anchor="middle" font-size="10.5" fill="#94a3b8">Pantheon Research · pantheon-research.com · Build with Gemini XPRIZE 2026 · Snapshot 2026-08-14</text>
+</svg>
