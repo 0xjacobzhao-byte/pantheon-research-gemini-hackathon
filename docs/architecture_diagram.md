@@ -42,25 +42,4 @@ Strategy ──► Information ──► Signal ──► Trading
                             comparison   (LLMs never trade)
 ```
 
-## Deployment topology (honest host reporting)
-
-```
-   Same container image, two hosts:
-
-   ┌─────────────────────────┐        ┌─────────────────────────────┐
-   │ Railway                 │        │ Alibaba Cloud ECS           │
-   │ alibaba_hosted = false  │        │ alibaba_hosted = true       │
-   │ (honest: not Alibaba    │        │ Nginx → Dockerized FastAPI  │
-   │  compute)               │        │ 8.222.191.152               │
-   └─────────────────────────┘        └──────────────┬──────────────┘
-              │                                        │
-              └──────────► Qwen AI provider ◄──────────┘
-                   Alibaba Cloud DashScope (Model Studio)
-                   — the AI provider is Alibaba on BOTH hosts —
-```
-
-`alibaba_hosted` is detected from the environment, so the deployment proof never
-claims Alibaba compute when it is not running on it. The Qwen **AI provider** is
-always Alibaba Cloud DashScope, regardless of compute host.
-
 A rendered SVG version is at [`../assets/architecture_diagram.svg`](../assets/architecture_diagram.svg).

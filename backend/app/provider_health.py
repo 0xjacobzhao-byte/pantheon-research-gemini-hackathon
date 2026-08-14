@@ -1,8 +1,8 @@
 """Provider health panel — public-safe, secret-free status snapshot.
 
 Reports whether each provider (Qwen, DeepSeek) is configured, whether sample
-evidence is present, whether Alibaba proof is documented, and whether the
-system is in offline or live mode. No secrets are ever exposed.
+evidence is present, and whether the system is in offline or live mode. No
+secrets are ever exposed.
 """
 
 from __future__ import annotations
@@ -11,7 +11,7 @@ import os
 from datetime import datetime, timezone
 from typing import Any, Dict
 
-from .alibaba_cloud_proof import provider_snapshot
+from .qwen_overlay import provider_snapshot
 from .sample_loader import list_available_tickers
 
 
@@ -45,10 +45,6 @@ def get_provider_health() -> Dict[str, Any]:
             "present": len(tickers) > 0,
             "tickers": tickers,
             "count": len(tickers),
-        },
-        "alibaba_proof": {
-            "documented": True,
-            "endpoint": "/api/proof/alibaba-cloud",
         },
         "offline_mode": {
             "available": True,

@@ -60,12 +60,6 @@ The comparison section shows:
 - **Evidence gaps** merged from both providers
 - **Human review required** flag
 
-### Step 7: Check Alibaba Cloud Proof
-
-Scroll to the Alibaba Cloud Integration section to see:
-- Cloud provider, backend runtime, reverse proxy, database service, Qwen provider
-- Or call `GET /api/alibaba/proof` for the full JSON
-
 ## API Endpoints for Manual Testing
 
 ```bash
@@ -93,11 +87,8 @@ curl http://localhost:8000/api/comparison/MA
 # Get demo flow steps
 curl http://localhost:8000/api/demo-flow
 
-# Alibaba Cloud deployment proof
-curl http://localhost:8000/api/alibaba/proof
-
 # Qwen/DashScope configuration
-curl http://localhost:8000/api/alibaba/qwen-config
+curl http://localhost:8000/api/qwen-config
 ```
 
 ## Docker Compose Demo

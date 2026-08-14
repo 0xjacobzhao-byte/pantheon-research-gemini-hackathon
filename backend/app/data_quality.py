@@ -14,11 +14,11 @@ import os
 from datetime import datetime, timezone
 from typing import Any, Dict
 
-from .alibaba_cloud_proof import provider_snapshot
 from .comparison import build_comparison
 from .evidence_pack import build_evidence_pack
 from .models import DataState, OverlayStatus
 from .qwen_overlay import _load_sample_overlay as _load_qwen_sample
+from .qwen_overlay import provider_snapshot
 from .deepseek_overlay import _load_sample_overlay as _load_deepseek_sample
 from .sample_loader import list_available_tickers, load_evidence
 
@@ -72,7 +72,6 @@ def get_data_quality_report() -> Dict[str, Any]:
             "deepseek_configured": providers["deepseek"]["configured"],
             "deepseek_model": providers["deepseek"]["model"],
         },
-        "alibaba_proof_reachable": True,  # served in-process by this app
         "sample_evidence_coverage": {
             "tickers": tickers,
             "evidence_packs_present": len(present),

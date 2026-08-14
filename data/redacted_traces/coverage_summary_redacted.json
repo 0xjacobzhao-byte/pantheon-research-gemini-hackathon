@@ -5,7 +5,7 @@
   "coverage_state": "withheld_production_verified_public_demo",
   "purpose": "Qwen-vs-DeepSeek qualitative-overlay comparison coverage",
   "model_qwen_demo": "qwen-plus (public demo default)",
-  "model_qwen_production": "qwen3.7-plus (live Alibaba deployment; see /api/proof/alibaba-cloud)",
+  "model_qwen_production": "qwen3.7-plus (production; model routing not exposed publicly)",
   "model_deepseek": "deepseek-chat",
   "product_demo_tickers": [
     "NVDA",

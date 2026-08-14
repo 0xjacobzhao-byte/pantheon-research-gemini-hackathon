@@ -50,8 +50,7 @@ runs five.
 │  │  GET  /api/overlay/deepseek/{ticker}     │            │
 │  │  GET  /api/comparison/{ticker}           │            │
 │  │  GET  /api/demo-flow                      │            │
-│  │  GET  /api/alibaba/proof                   │            │
-│  │  GET  /api/alibaba/qwen-config            │            │
+│  │  GET  /api/qwen-config                     │            │
 │  └───┬───────┬──────────┬───────────────────┘            │
 │      │       │          │                               │
 │  ┌───▼──┐ ┌──▼───┐ ┌───▼────────────┐                  │
@@ -106,7 +105,6 @@ trading/execution boundary. See
 | `app/qwen_overlay.py`    | Qwen Cloud (DashScope) API integration                 |
 | `app/deepseek_overlay.py`| DeepSeek API integration                              |
 | `app/comparison.py`     | Tone classification, divergence detection, agreement scoring, full comparison |
-| `app/alibaba_cloud_proof.py` | Alibaba Cloud deployment proof endpoints           |
 
 ### Frontend (`frontend/`)
 

@@ -109,39 +109,6 @@ export interface ComparisonResult {
   human_review_reason: string | null;
 }
 
-export interface DatabaseProof {
-  provider: string;
-  configured: boolean;
-  connected: boolean | null;
-  role: string;
-  production_data_migrated: boolean;
-  note: string;
-}
-
-export interface AlibabaCloudProof {
-  schema_version: string;
-  project: string;
-  cloud_provider: string;
-  host_runtime: string;
-  alibaba_hosted: boolean;
-  backend_runtime: string;
-  reverse_proxy: string;
-  frontend_source: string;
-  qwen_provider: string;
-  qwen_base_url: string;
-  qwen_model: string;
-  qwen_configured: boolean;
-  dashscope_api_key_configured: boolean;
-  demo_mode: string;
-  region: string;
-  git_sha: string;
-  timestamp_utc: string;
-  proof_endpoints: Record<string, string>;
-  database: DatabaseProof;
-  safe_claims: string[];
-  non_claims: string[];
-}
-
 export interface QwenConfig {
   provider: string;
   base_url: string;
@@ -163,7 +130,6 @@ export interface DataQualityReport {
     deepseek_configured: boolean;
     deepseek_model: string;
   };
-  alibaba_proof_reachable: boolean;
   sample_evidence_coverage: {
     tickers: string[];
     evidence_packs_present: number;
@@ -218,9 +184,7 @@ export const fetchProject = () => getJson<ProjectInfo>("/project");
 export const fetchDemoFlow = () => getJson<DemoFlow>("/demo-flow");
 export const fetchComparison = (ticker: string) =>
   getJson<ComparisonResult>(`/comparison/${ticker}`);
-export const fetchAlibabaProof = () =>
-  getJson<AlibabaCloudProof>("/proof/alibaba-cloud");
-export const fetchQwenConfig = () => getJson<QwenConfig>("/alibaba/qwen-config");
+export const fetchQwenConfig = () => getJson<QwenConfig>("/qwen-config");
 export const fetchDataQuality = () => getJson<DataQualityReport>("/data-quality");
 export const fetchModules = () => getJson<ModuleSnapshotGridData>("/modules");
 
@@ -299,10 +263,6 @@ export interface ProviderHealthData {
     present: boolean;
     tickers: string[];
     count: number;
-  };
-  alibaba_proof: {
-    documented: boolean;
-    endpoint: string;
   };
   offline_mode: {
     available: boolean;

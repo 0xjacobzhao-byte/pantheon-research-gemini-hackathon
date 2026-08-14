@@ -47,13 +47,6 @@ export default function DataQualityPanel({
           </span>
         </div>
         <div className="dq-metric">
-          <span className="label">Alibaba Proof</span>
-          <span className="value">
-            <Dot ok={report.alibaba_proof_reachable} />
-            {report.alibaba_proof_reachable ? "reachable" : "unreachable"}
-          </span>
-        </div>
-        <div className="dq-metric">
           <span className="label">Healthy Comparisons</span>
           <span className="value">
             {cov.healthy_comparisons}/{cov.evidence_packs_present}

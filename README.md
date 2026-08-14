@@ -160,10 +160,6 @@ Providers
   → Independently Gated Execution
 ```
 
-<p align="center">
-  <img src="docs/assets/architecture_high_level.png" alt="Pantheon Research high-level architecture" width="100%" />
-</p>
-
 The critical property: **layer 7 is not reachable from layer 4.** AI output
 enters the signal layer as research, passes a human-review gate, and a human
 makes the allocation decision. There is no code path from a model output to an
@@ -469,11 +465,10 @@ single source of code — the clouds do not each hold their own copy.
 | **Vercel** | Production frontend (`pantheon-research.com`) | — | — |
 | **Railway** | Production backend — **canonical writer** | Canonical PostgreSQL | **Enabled** |
 | **GCP Cloud Run** | **Gemini shadow / proof** | Isolated shadow role | Fail-closed OFF |
-| **Alibaba Cloud** | Qwen shadow / proof | Selected mirror (shadow) | Fail-closed OFF |
 
 **Only one environment is ever the canonical production writer.** Vercel +
-Railway is the primary production path. Google Cloud and Alibaba Cloud run
-isolated **shadow / proof** deployments used to validate portability, regional
+Railway is the primary production path. Google Cloud runs an isolated
+**shadow / proof** deployment used to validate portability, regional
 deployment, provider-specific AI integration, cost, latency, and observability.
 
 Each deployment is stamped with non-secret runtime markers. The application
@@ -596,7 +591,6 @@ cd frontend && npm install && npm run dev
 | GET | `/api/overlay/deepseek/{ticker}` | DeepSeek overlay (secondary) |
 | GET | `/api/comparison/{ticker}` | Multi-provider comparison |
 | **Platform** | | |
-| GET | `/api/proof/alibaba-cloud` | Alibaba deployment proof |
 | GET | `/api/data-quality` | Research-Ops governance |
 | GET | `/api/modules` | Module snapshot grid |
 | GET | `/api/provider-health` | Provider health |

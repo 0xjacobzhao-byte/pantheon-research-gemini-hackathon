@@ -255,80 +255,8 @@ class ProjectInfo(BaseModel):
 
 
 # ---------------------------------------------------------------------------
-# Alibaba Cloud proof (v2) & Qwen config
+# Qwen model config
 # ---------------------------------------------------------------------------
-
-class DatabaseProof(BaseModel):
-    """Precise, non-overclaiming database representation.
-
-    Distinguishes RDS *provisioning* from full production-data *migration*, and
-    never asserts live connectivity from an endpoint that makes no external
-    calls.
-    """
-
-    provider: str = Field(..., description="Target database engine descriptor")
-    configured: bool = Field(..., description="Whether DATABASE_URL is set in this runtime")
-    connected: Optional[bool] = Field(None, description="Live connectivity — null when not probed")
-    role: str = Field(..., description="What the database is used for (or 'not asserted')")
-    mirror_state: str = Field(
-        "partial_selected_mirror",
-        description="Mirror scope: 'partial_selected_mirror' means only selected evidence tables are mirrored, not the full production database",
-    )
-    production_data_migrated: bool = Field(False, description="Whether full prod data is asserted migrated")
-    full_production_clone_verified: bool = Field(
-        False,
-        description="Whether a full production-database clone has been verified via row counts and API read-path checks",
-    )
-    note: str = Field(..., description="Precise disclosure separating provisioning from migration")
-
-
-class AlibabaCloudProof(BaseModel):
-    """Alibaba Cloud deployment proof v2 — public-safe, secret-free, honest host.
-
-    Credentials are reported as booleans only. The compute *host* is reported
-    honestly (``alibaba_hosted``): the same image runs on Railway and on an
-    Alibaba Cloud ECS box, and this proof never claims Alibaba compute when it
-    is not on it. The Qwen *AI provider* is always Alibaba Cloud DashScope.
-    """
-
-    schema_version: str = "alibaba-proof-2.0"
-    project: str = "Pantheon Research"
-    cloud_provider: str = "Alibaba Cloud"
-    host_runtime: str = "local/unknown"
-    alibaba_hosted: bool = False
-    backend_runtime: str = "Dockerized FastAPI"
-    reverse_proxy: str = "Nginx"
-    frontend_source: str = "React + TypeScript + Vite (static build)"
-    qwen_provider: str = "Alibaba Cloud DashScope (Model Studio)"
-    qwen_base_url: str = "https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
-    qwen_model: str = "qwen-plus"
-    qwen_configured: bool = False
-    dashscope_api_key_configured: bool = False
-    demo_mode: str = "offline"
-    region: str = "ap-southeast-1"
-    git_sha: str = "unknown"
-    timestamp_utc: str = ""
-    alibaba_services: dict = Field(
-        default_factory=dict,
-        description="Structured Alibaba Cloud service map: compute, AI, database (secret-free)",
-    )
-    proof_endpoints: dict = Field(default_factory=dict)
-    database: DatabaseProof
-    safe_claims: list[str] = Field(default_factory=list)
-    non_claims: list[str] = Field(default_factory=list)
-    judge_evidence: dict = Field(
-        default_factory=dict,
-        description="Quick-reference map for judges: proof code paths, live URLs, verification doc",
-    )
-    attestation: dict = Field(
-        default_factory=dict,
-        description="Explicit attestation: no external calls, no credential values returned, host detection source",
-    )
-    runtime_mode: dict = Field(
-        default_factory=dict,
-        description="Runtime context: public_repo_default vs live_alibaba_ecs, external call policy, live call location",
-    )
-
 
 class QwenConfig(BaseModel):
     """Qwen / DashScope configuration (no secrets)."""

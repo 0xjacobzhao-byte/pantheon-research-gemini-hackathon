@@ -65,7 +65,7 @@ The response follows the OpenAI chat completions format. The `content` field fro
 
 ## Configuration Endpoint
 
-The `GET /api/alibaba/qwen-config` endpoint returns the current Qwen/DashScope configuration:
+The `GET /api/qwen-config` endpoint returns the current Qwen/DashScope configuration:
 
 ```json
 {
@@ -91,5 +91,4 @@ The following official Alibaba Cloud MaaS endpoints are also supported:
 
 - Integration: `backend/app/qwen_overlay.py`
 - Models: `backend/app/models.py`
-- Proof: `backend/app/alibaba_cloud_proof.py`
 - Sample data: `data/sample_qwen_output_ma.json`, `data/sample_qwen_output_nvda.json`

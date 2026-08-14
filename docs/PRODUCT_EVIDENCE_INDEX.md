@@ -111,7 +111,6 @@ access · 🌐 requires the live product.
 |---|---|---|---|---|---|
 | **Primary production** (Vercel + Railway) | LIVE | [README §14](../README.md#14-deployment-architecture) | ✅ [pantheon-research.com](https://pantheon-research.com) | 🔒 private repo | The **only** canonical writer |
 | **GCP Gemini shadow** | PROOF | [gemini_production_evidence.md](gemini_production_evidence.md) | ✅ [Cloud Run health](https://pantheon-gemini-549837878368.asia-southeast1.run.app/health) | [`scripts/deploy_gcp.sh`](../scripts/deploy_gcp.sh) | Fail-closed OFF for writes and schedulers |
-| **Alibaba Qwen shadow** | PROOF | [alibaba_deployment_parity.md](alibaba_deployment_parity.md) | — | — | Fail-closed OFF; selected mirror, not a replica |
 
 **Not claimed:** three simultaneous production writers, active-active
 replication, automatic cross-cloud failover, or a full production database clone.

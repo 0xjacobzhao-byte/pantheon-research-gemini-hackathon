@@ -135,9 +135,8 @@ Implementation: [`backend/app/gemini_overlay.py`](../backend/app/gemini_overlay.
   — the only canonical writer.
 - **Google Cloud:** the Gemini service on Cloud Run, as an isolated shadow /
   proof deployment. Cloud SQL is **not** configured.
-- **Alibaba Cloud:** the Qwen path, as a separate shadow / proof deployment.
 
-Multi-cloud was not built to look complicated. It was built to test
+The shadow deployment was not built to look complicated. It was built to test
 portability, cost, reliability, and provider integration under real deployment
 constraints. Only one environment is ever the canonical production writer.
 

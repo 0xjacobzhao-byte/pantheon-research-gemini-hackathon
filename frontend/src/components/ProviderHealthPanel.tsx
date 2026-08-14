@@ -2,8 +2,8 @@ import type { ProviderHealthData } from "../api";
 
 /**
  * ProviderHealthPanel — public-safe provider health status.
- * Shows Qwen/DeepSeek config, sample evidence, Alibaba proof, offline/live
- * mode, secrets exposure, and fail-closed state. No secrets exposed.
+ * Shows Qwen/DeepSeek config, sample evidence, offline/live mode, secrets
+ * exposure, and fail-closed state. No secrets exposed.
  */
 
 function StatusDot({ ok }: { ok: boolean }) {
@@ -26,7 +26,7 @@ export default function ProviderHealthPanel({ data }: { data: ProviderHealthData
         <div className="ph-card">
           <div className="ph-card-header">
             <StatusDot ok={data.qwen.configured} />
-            <h4>Qwen via Alibaba Cloud</h4>
+            <h4>Qwen (Alibaba DashScope)</h4>
           </div>
           <div className="ph-detail">
             <span>Provider: {data.qwen.provider}</span>
@@ -59,10 +59,6 @@ export default function ProviderHealthPanel({ data }: { data: ProviderHealthData
             <span>
               <StatusDot ok={data.sample_evidence.present} />
               Sample evidence: {data.sample_evidence.count} tickers ({data.sample_evidence.tickers.join(", ")})
-            </span>
-            <span>
-              <StatusDot ok={data.alibaba_proof.documented} />
-              Alibaba proof: documented ({data.alibaba_proof.endpoint})
             </span>
             <span>
               <StatusDot ok={data.offline_mode.available} />

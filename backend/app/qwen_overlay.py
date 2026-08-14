@@ -17,12 +17,14 @@ from typing import Optional
 
 import httpx
 
+from .deepseek_overlay import DEEPSEEK_MODEL
 from .models import (
     EquityEvidence,
     LLMProvider,
     OverlayAssessment,
     OverlayStatus,
     QualitativeOverlay,
+    QwenConfig,
     TokenUsage,
 )
 
@@ -263,3 +265,30 @@ def _load_sample_overlay(ticker: str) -> QualitativeOverlay:
         prompt_version=PROMPT_VERSION,
         output_schema_version=OUTPUT_SCHEMA_VERSION,
     )
+
+
+def get_qwen_config() -> QwenConfig:
+    """Return Qwen / DashScope configuration (no secrets)."""
+    return QwenConfig(
+        base_url=QWEN_BASE_URL,
+        model=QWEN_MODEL,
+        prompt_version=PROMPT_VERSION,
+        output_schema_version=OUTPUT_SCHEMA_VERSION,
+        credential_configured=_check_credential(),
+        demo_mode=os.environ.get("DEMO_MODE", "offline"),
+    )
+
+
+def provider_snapshot() -> dict:
+    """Small, secret-free provider snapshot for the data-quality panel."""
+    return {
+        "qwen": {
+            "model": QWEN_MODEL,
+            "base_url": QWEN_BASE_URL,
+            "configured": _check_credential(),
+        },
+        "deepseek": {
+            "model": DEEPSEEK_MODEL,
+            "configured": bool(os.environ.get("DEEPSEEK_API_KEY")),
+        },
+    }
