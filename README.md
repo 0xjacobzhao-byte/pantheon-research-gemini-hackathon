@@ -93,7 +93,8 @@ LLM research lane (Claude · ChatGPT · DeepSeek · Qwen).
 - **Circle Agent Wallet on-chain payment proof** — mainnet USDC, independently verifiable *(2026-08-11 → 2026-08-13)*
 - **Submission evidence package** — evidence index, production references, documentation reconciliation
 
-Gemini was added to a **pre-existing five-model lane**. That is stated so the
+Gemini was added to a **pre-existing four-model lane** (Claude · ChatGPT ·
+DeepSeek · Qwen), making the resulting stack five-model. That is stated so the
 contribution can be weighted correctly rather than over- or under-credited.
 
 ---

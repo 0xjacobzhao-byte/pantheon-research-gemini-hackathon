@@ -114,7 +114,8 @@ reconciliation of the public documentation set against production truth.
 
 ## 5. Attribution of the AI layer
 
-Gemini is a **new provider added to a pre-existing five-model research lane**,
+Gemini is a **new provider added to a pre-existing four-model research lane**
+(Claude · ChatGPT · DeepSeek · Qwen), making the resulting stack five-model,
 plus a new Google Cloud deployment and proof surface. The lane it joined —
 schema validation, evidence tiering, overlay comparison, human-review gating —
 pre-existed. That is stated plainly so a judge can weight the Gemini
