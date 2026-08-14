@@ -135,7 +135,9 @@ customer data, operational topology, and strategy IP before publication.
 ---
 
 ## 5. High-Level Architecture
-
+## Deployment Architecture 
+ 
+![Pantheon High Level Architecture](docs/assets/pantheon_research_high_level_architecture.png)
 Pantheon spans **seven layers**:
 
 | # | Layer | Role |
