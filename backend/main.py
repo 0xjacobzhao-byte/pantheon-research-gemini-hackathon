@@ -8,12 +8,11 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.alibaba_cloud_proof import get_alibaba_proof, get_qwen_config
 from app.comparison import run_comparison
 from app.data_quality import get_data_quality_report
 from app.evidence_pack import build_evidence_pack
 from app.models import ProjectInfo
-from app.qwen_overlay import run_qwen_overlay
+from app.qwen_overlay import run_qwen_overlay, get_qwen_config
 from app.deepseek_overlay import run_deepseek_overlay
 from app.gemini_overlay import run_gemini_overlay
 from app.gemini_proof import get_gemini_proof
@@ -216,23 +215,12 @@ async def demo_flow():
 
 
 # ---------------------------------------------------------------------------
-# Alibaba Cloud proof
+# Qwen config
 # ---------------------------------------------------------------------------
 
-@app.get("/api/proof/alibaba-cloud")
-async def alibaba_cloud_proof():
-    """Canonical deployment-proof path (matches the production backend)."""
-    return get_alibaba_proof()
-
-
-@app.get("/api/alibaba/proof")
-async def alibaba_proof():
-    """Back-compat alias for the deployment proof."""
-    return get_alibaba_proof()
-
-
-@app.get("/api/alibaba/qwen-config")
+@app.get("/api/qwen-config")
 async def qwen_config():
+    """Qwen / DashScope model configuration (secret-free)."""
     return get_qwen_config()
 
 

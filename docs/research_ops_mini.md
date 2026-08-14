@@ -22,7 +22,6 @@ rendered by [`DataQualityPanel.tsx`](../frontend/src/components/DataQualityPanel
 | `mode` | offline (bundled samples) vs live |
 | `providers.qwen_configured` / `deepseek_configured` | credential presence (boolean only) |
 | `providers.*_model` | active model id per provider |
-| `alibaba_proof_reachable` | whether the deployment proof is served |
 | `sample_evidence_coverage` | tickers, evidence packs present, healthy comparisons |
 | `overlay_statuses[]` | per-ticker: qwen/deepseek status, `data_state`, agreement, review flag |
 | `fail_closed_states` | the full enum of fail-closed provider statuses |

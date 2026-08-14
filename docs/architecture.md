@@ -1,8 +1,27 @@
-# Architecture
+# Architecture — Public Demo Slice
+
+> **Scope note.** This document describes the internal architecture of **this
+> repository** — the runnable, judge-facing vertical slice. It is *not* the
+> production Pantheon architecture.
+>
+> For the production system — the **seven layers** and the **five-model**
+> research overlay (Claude · ChatGPT · Gemini · DeepSeek · Qwen) — see
+> [README §5](../README.md#5-high-level-architecture) and
+> [`architecture_diagram.md`](architecture_diagram.md). For representative
+> production source, see [`production_reference/`](../production_reference/).
 
 ## Overview
 
-This application implements a **dual-LLM equity qualitative overlay** — a system that takes quantitative equity evidence and produces structured qualitative analysis from two independent LLM providers (Qwen Cloud and DeepSeek), then renders them side-by-side for comparison with agreement scoring, tone classification, and divergence detection.
+This application implements a **Gemini-primary equity qualitative overlay with
+secondary multi-provider comparison**. It takes a quantitative equity evidence
+pack and produces structured qualitative analysis from Gemini (the hackathon
+analyst layer), alongside independent overlays from Qwen Cloud and DeepSeek,
+then renders them for comparison with agreement scoring, tone classification,
+and divergence detection.
+
+The demo slice carries three providers because those are the three whose
+overlays can be generated without private production credentials. Production
+runs five.
 
 ## System Diagram
 
@@ -31,8 +50,7 @@ This application implements a **dual-LLM equity qualitative overlay** — a syst
 │  │  GET  /api/overlay/deepseek/{ticker}     │            │
 │  │  GET  /api/comparison/{ticker}           │            │
 │  │  GET  /api/demo-flow                      │            │
-│  │  GET  /api/alibaba/proof                   │            │
-│  │  GET  /api/alibaba/qwen-config            │            │
+│  │  GET  /api/qwen-config                     │            │
 │  └───┬───────┬──────────┬───────────────────┘            │
 │      │       │          │                               │
 │  ┌───▼──┐ ┌──▼───┐ ┌───▼────────────┐                  │
@@ -55,16 +73,25 @@ This application implements a **dual-LLM equity qualitative overlay** — a syst
     └──────────────┘  └──────────────────┘
 ```
 
-## Four-Layer Architecture
+## Demo-Slice Layers
+
+The demo slice collapses the production seven layers into four, because it
+ships bundled evidence rather than a governed data platform:
 
 ```
 Strategy → Information → Signal → Trading
 ```
 
 1. **Strategy** — Investment thesis and universe selection
-2. **Information** — Evidence pack: quantitative metrics, fundamentals, and market data
-3. **Signal** — Dual-LLM qualitative overlay generates structured assessment fields
+2. **Information** — Evidence pack: quantitative metrics, fundamentals, market data
+3. **Signal** — Gemini analyst overlay + Qwen/DeepSeek comparison overlays
 4. **Trading** — Human-in-the-loop decision gate (LLMs never execute trades)
+
+**Production maps these onto seven layers** — external data sources, a governed
+data platform, strategy/research engines, the deterministic + multi-model AI
+layer, the information layer, the signal/agent layer, and a separated
+trading/execution boundary. See
+[README §5](../README.md#5-high-level-architecture).
 
 ## Component Responsibilities
 
@@ -78,7 +105,6 @@ Strategy → Information → Signal → Trading
 | `app/qwen_overlay.py`    | Qwen Cloud (DashScope) API integration                 |
 | `app/deepseek_overlay.py`| DeepSeek API integration                              |
 | `app/comparison.py`     | Tone classification, divergence detection, agreement scoring, full comparison |
-| `app/alibaba_cloud_proof.py` | Alibaba Cloud deployment proof endpoints           |
 
 ### Frontend (`frontend/`)
 

@@ -1,6 +1,6 @@
-# Frontend — Pantheon Research Qwen Hackathon
+# Frontend — Pantheon Research Gemini Hackathon
 
-Vite + React + TypeScript frontend that renders dual-LLM equity qualitative overlays side-by-side with agreement scoring, tone classification, and divergence detection.
+Vite + React + TypeScript frontend that renders the Gemini analyst overlay plus dual-LLM (Qwen/DeepSeek) equity qualitative overlays side-by-side with agreement scoring, tone classification, and divergence detection.
 
 ## Running
 
@@ -21,7 +21,7 @@ npm run build
 
 - Ticker selector (MA, NVDA) with sample data
 - Four-layer architecture display (Strategy → Information → Signal → Trading)
-- Tech stack and Alibaba Cloud integration panels
+- Gemini integration panel (proof, safe claims / non-claims)
 - Qwen + DeepSeek dual-model workflow diagram
 - Side-by-side Qwen Cloud vs DeepSeek comparison
 - Assessment fields: business_quality, moat, pricing_power, capital_allocation, red_flags, confidence, missing_evidence

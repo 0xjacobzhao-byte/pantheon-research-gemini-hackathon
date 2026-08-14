@@ -3,7 +3,6 @@ import {
   fetchProject,
   fetchDemoFlow,
   fetchComparison,
-  fetchAlibabaProof,
   fetchDataQuality,
   fetchModules,
   fetchTickerProfile,
@@ -17,7 +16,6 @@ import {
   type ProjectInfo,
   type DemoFlow,
   type ComparisonResult,
-  type AlibabaCloudProof,
   type DataQualityReport,
   type ModuleSnapshotGridData,
   type TickerProfile,
@@ -45,7 +43,6 @@ const TICKERS = ["MA", "NVDA"];
 function App() {
   const [project, setProject] = useState<ProjectInfo | null>(null);
   const [demoFlow, setDemoFlow] = useState<DemoFlow | null>(null);
-  const [proof, setProof] = useState<AlibabaCloudProof | null>(null);
   const [dataQuality, setDataQuality] = useState<DataQualityReport | null>(null);
   const [modules, setModules] = useState<ModuleSnapshotGridData | null>(null);
   const [providerHealth, setProviderHealth] = useState<ProviderHealthData | null>(null);
@@ -64,7 +61,6 @@ function App() {
   useEffect(() => {
     fetchProject().then(setProject).catch(() => {});
     fetchDemoFlow().then(setDemoFlow).catch(() => {});
-    fetchAlibabaProof().then(setProof).catch(() => {});
     fetchDataQuality().then(setDataQuality).catch(() => {});
     fetchModules().then(setModules).catch(() => {});
     fetchProviderHealth().then(setProviderHealth).catch(() => {});
@@ -125,20 +121,20 @@ function App() {
             research overlays. Gemini does not execute trades — humans remain
             final decision-makers.
           </p>
-          <div className="alibaba-grid">
-            <div className="alibaba-item">
+          <div className="proof-grid">
+            <div className="proof-item">
               <span className="label">Provider</span>
               <span className="value">{geminiProof.provider}</span>
             </div>
-            <div className="alibaba-item">
+            <div className="proof-item">
               <span className="label">Model</span>
               <span className="value">{geminiProof.model}</span>
             </div>
-            <div className="alibaba-item">
+            <div className="proof-item">
               <span className="label">Demo Mode</span>
               <span className="value">{geminiProof.demo_mode}</span>
             </div>
-            <div className="alibaba-item">
+            <div className="proof-item">
               <span className="label">Credential</span>
               <span className="value">
                 {geminiProof.credential_configured
@@ -146,11 +142,11 @@ function App() {
                   : "not set (offline samples)"}
               </span>
             </div>
-            <div className="alibaba-item">
+            <div className="proof-item">
               <span className="label">Prompt</span>
               <span className="value">{geminiProof.prompt_version}</span>
             </div>
-            <div className="alibaba-item">
+            <div className="proof-item">
               <span className="label">External Calls</span>
               <span className="value">
                 {geminiProof.proof_endpoint_external_calls ? "yes" : "none (secret-free)"}
@@ -340,35 +336,6 @@ function App() {
             The Gemini Analyst overlay above is the primary hackathon submission feature.
           </p>
           <OverlayComparisonPanel comparison={comparison} />
-        </section>
-      )}
-
-      {/* Alibaba Cloud proof (secondary context) */}
-      {proof && (
-        <section className="card">
-          <details>
-            <summary style={{ cursor: "pointer", fontWeight: 600 }}>
-              Platform Deployment Proof (Alibaba Cloud — secondary context)
-            </summary>
-            <p className="proof-schema" style={{ marginTop: "0.5rem" }}>
-              schema <code>{proof.schema_version}</code> · git{" "}
-              <code>{proof.git_sha}</code> · {proof.demo_mode} mode
-            </p>
-            <div className="alibaba-grid">
-              <div className="alibaba-item">
-                <span className="label">Compute Host</span>
-                <span className="value">{proof.host_runtime}</span>
-              </div>
-              <div className="alibaba-item">
-                <span className="label">Backend</span>
-                <span className="value">{proof.backend_runtime}</span>
-              </div>
-              <div className="alibaba-item">
-                <span className="label">Database</span>
-                <span className="value">{proof.database.provider}</span>
-              </div>
-            </div>
-          </details>
         </section>
       )}
 

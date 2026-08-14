@@ -1,114 +1,175 @@
-# Demo Video Script — Pantheon Research Gemini Hackathon
+# Demo Video Script — Pantheon Research
 
-> **Target length:** 2:30–2:50
-> **Tone:** Professional, concise, product-focused. No alpha claims. No autonomous trading claims.
+> **Target length: 2:40–2:50.** Hard ceiling 3:00. Judges should not need to
+> watch past three minutes to see everything that matters.
+>
+> **Priority: the live product first.** The local demo appears only as a
+> reproducibility note near the end. Showing a localhost demo for two minutes
+> when a live cross-asset product exists undersells the submission.
 
----
-
-## Footage Plan
-
-### 0:00–0:15 — Title / README
-
-**Screen:** GitHub repo README, scrolled to the top.
-
-**Voiceover:**
-> "Pantheon Research — Gemini-powered investment research overlay for human-in-the-loop financial decision intelligence. Built for the Gemini Hackathon."
+**Tone:** professional, concise, product-focused. No alpha claims. No autonomous
+trading claims.
 
 ---
 
-### 0:15–0:45 — Local Web App Running
+## Shot list
 
-**Screen:** Terminal running `docker compose up --build`, then browser opening `http://localhost:5173`.
+| Time | Segment | Screen |
+|---|---|---|
+| 0:00–0:15 | Pantheon / the problem | Live product landing + hero line |
+| 0:15–0:40 | Seven-layer architecture | Architecture diagram |
+| 0:40–1:15 | Live GOOGL Ticker Profile / Equity Decision | Live product |
+| 1:15–1:45 | AI Analyst Consensus + Gemini detail | Live product |
+| 1:45–2:05 | Macro / BTC / validation | Live product |
+| 2:05–2:25 | Telegram Agent / automated reports | Telegram + email |
+| 2:25–2:40 | Gemini / GCP public proof | Browser + terminal |
+| 2:40–2:50 | Circle proof + close | BaseScan + repo |
 
-**Voiceover:**
-> "The entire demo runs locally with Docker. No API keys required in offline mode. The frontend loads the Gemini integration panel, module snapshots, and the analysis interface."
-
-**Actions:**
-- Show the frontend homepage loading
-- Scroll past the Gemini Integration proof banner
-- Show the architecture layers (Strategy → Information → Signal → Trading)
-
----
-
-### 0:45–1:30 — Gemini Overlay for NVDA
-
-**Screen:** Click "NVDA" ticker, then "Run Analysis."
-
-**Voiceover:**
-> "Let's analyze NVIDIA. The backend loads a structured evidence pack with P/E, ROIC, margins, and growth data. Then Gemini generates a qualitative overlay — business quality, moat, pricing power, capital allocation, red flags, and a confidence score."
-
-**Actions:**
-- Click NVDA
-- Click Run Analysis
-- Scroll to the **Gemini Analyst Overlay** section
-- Highlight the takeaway, assessment fields, confidence bar, and missing evidence
-- Pause on the confidence score and red flags
+Pacing is a guide, not a metronome — borrow 3–5 seconds between adjacent
+segments wherever the footage reads better.
 
 ---
 
-### 1:30–1:55 — Evidence Pack / Human Review / Safety
+### 0:00–0:15 — Pantheon / the problem
 
-**Screen:** Scroll to Evidence Pack section, then to Qwen vs DeepSeek comparison.
+**Screen:** [pantheon-research.com](https://pantheon-research.com), top of page.
 
-**Voiceover:**
-> "Every evidence pack is hashed with SHA-256 for provenance. The Qwen and DeepSeek overlays provide secondary comparison context. When models disagree, the system flags human review. LLMs never execute trades — a human portfolio manager always makes the final decision."
+> "Investors aren't short of data. They're short of governed, explainable,
+> decision-ready intelligence. Pantheon Research is an AI-native cross-asset
+> research operating system — macro, equities, crypto, and FICC in one governed
+> stack."
 
-**Actions:**
-- Show evidence pack with hash
-- Show divergence section in comparison panel
-- Show human review banner if present
-
----
-
-### 1:55–2:15 — Gemini Proof Endpoint
-
-**Screen:** Terminal with curl command.
-
-```bash
-curl -s http://localhost:8000/api/proof/gemini | jq
+On-screen text:
+```text
+Wrong Strategy × AI = Faster Loss
+Right Strategy × AI = Compounded Discipline
 ```
 
-**Voiceover:**
-> "The Gemini proof endpoint returns secret-free metadata — model, credential state, safe claims, and non-claims. It makes no external calls and returns no secrets."
+---
 
-**Actions:**
-- Run the curl command
-- Highlight `schema_version`, `provider`, `model`, `credential_configured`, `proof_endpoint_external_calls: false`
+### 0:15–0:40 — Seven-layer architecture
+
+**Screen:** the architecture diagram, panning across layers.
+
+> "Seven layers. External data flows into a governed data platform — canonical
+> observations, provider health, freshness and quality labels. Deterministic
+> research engines compute scores and signals *before* any AI runs. Then a
+> five-model AI layer interprets that governed evidence. Signals reach a human
+> review gate. Execution sits behind an independent boundary — Pantheon has no
+> order path."
+
+Emphasize on screen: **layer 7 is not reachable from layer 4.**
 
 ---
 
-### 2:15–2:35 — GitHub Code
+### 0:40–1:15 — Live GOOGL Ticker Profile / Equity Decision
 
-**Screen:** GitHub repo, navigating to key files.
+**Screen:** live product → GOOGL Ticker Profile → Equity Decision.
 
-**Voiceover:**
-> "The Gemini API call is implemented in `backend/app/gemini_overlay.py` — fail-closed by design with three explicit error modes. Evidence docs and production evidence are in the `docs/` folder."
+> "This is live production, not a demo fixture. A Ticker Profile pulls governed
+> fundamentals, valuation, price target and fair value, technical structure, and
+> event context — every field carrying provenance and freshness."
 
 **Actions:**
-- Show `backend/app/gemini_overlay.py` — scroll through the fail-closed statuses
-- Show `data/gemini_samples/` directory
-- Show `docs/gemini_production_evidence.md`
+- Open GOOGL Ticker Profile
+- Scroll through fundamentals → valuation → price target / fair value
+- Pause on a **data-quality or freshness label**
+- Show the technical signal timeline
 
 ---
 
-### 2:35–2:50 — Business Model / Closing
+### 1:15–1:45 — AI Analyst Consensus + Gemini
 
-**Screen:** `docs/business_model_and_pnl.md` scrolled to P&L table.
+**Screen:** AI Analyst Consensus panel → Gemini overlay detail.
 
-**Voiceover:**
-> "Pantheon Research targets $5M to $10M ARR in five years through subscription SaaS and B2B API access. The business model is research tooling — not trading performance. Gemini amplifies human judgment; it doesn't replace it."
+> "Five models — Claude, ChatGPT, Gemini, DeepSeek, and Qwen — each read the
+> same governed evidence pack and produce an independent structured overlay.
+> Gemini, built for this hackathon, returns business quality, moat, pricing
+> power, capital allocation, red flags, missing evidence, and a confidence
+> score. Where the models disagree, Pantheon shows the disagreement instead of
+> averaging it away — and that becomes a human-review trigger."
 
 **Actions:**
-- Show P&L projection table
-- Fade to repo URL and license
+- Show the consensus panel with all five providers
+- Open the Gemini overlay detail
+- **Highlight a divergence and the evidence-backed vs. AI-prior lane label**
 
 ---
 
-## Key Rules
+### 1:45–2:05 — Macro / BTC / validation
+
+**Screen:** Macro framework → BTC framework → validation surface.
+
+> "The same governance runs cross-asset. Macro regime classification, the
+> Bitcoin cycle framework, and forward validation — signals captured
+> prospectively and allowed to mature. Pantheon does not claim validated alpha
+> where maturity doesn't support it."
+
+---
+
+### 2:05–2:25 — Telegram Agent / automated reports
+
+**Screen:** Telegram agent conversation → automated research report email.
+
+> "Research reaches the user through a Telegram agent and automated reports. The
+> agent will give you a view — direction, risk, invalidation. What it will never
+> do is place an order. Advice is allowed; execution is not authorized, and
+> that boundary is enforced in code."
+
+---
+
+### 2:25–2:40 — Gemini / GCP public proof
+
+**Screen:** split — browser on the proof endpoint, terminal running curl.
+
+```bash
+curl -s https://pantheon-gemini-549837878368.asia-southeast1.run.app/api/proof/google-cloud | jq
+```
+
+> "The Gemini layer is deployed on Google Cloud Run with Artifact Registry,
+> Secret Manager, and Cloud Logging. The proof endpoints return no secrets and
+> make no external calls. Everything a judge needs is verifiable from a browser."
+
+**Highlight:** `model: gemini-2.5-flash` · `secret_manager_used: true` ·
+`artifact_registry: true` · `cloud_logging_used: true`
+
+Brief note on screen: *"Full stack also runs locally — `docker compose up`, no
+API keys required."*
+
+---
+
+### 2:40–2:50 — Circle proof + close
+
+**Screen:** BaseScan transaction, ERC-20 Tokens Transferred row highlighted.
+
+> "And a Circle Agent Wallet payment settled on Base mainnet — founder-funded,
+> operator-mediated, independently verifiable on-chain. Pantheon Research: AI
+> should not replace the investor. It should compound the investor's discipline."
+
+**On-screen close:**
+```text
+pantheon-research.com
+github.com/0xjacobzhao-byte/pantheon-research-gemini-hackathon
+```
+
+---
+
+## Recording notes
+
+- **Ticker scope.** The live product covers GOOGL and a broad universe. The
+  local demo ships evidence packs for **MA and NVDA only** — do not imply the
+  local demo serves GOOGL.
+- **Circle framing.** Say "founder-funded" and "operator-mediated." Do not imply
+  autonomy or a recurring treasury.
+- **Beta surfaces.** Telegram and email delivery are controlled beta — say so or
+  don't dwell on them.
+
+## Key rules
 
 - **Do NOT claim** autonomous trading or model-generated alpha
-- **Do NOT claim** investment performance or returns
-- **Do NOT show** any API keys, tokens, or credentials on screen
-- **Do NOT claim** the entire Pantheon Research platform was built during the hackathon
-- **DO emphasize** human-in-the-loop, fail-closed design, and evidence provenance
-- **DO show** actual product running (not just slides)
+- **Do NOT claim** investment performance, returns, revenue, or users
+- **Do NOT claim** the Pantheon platform was built during the hackathon
+- **Do NOT show** any API key, token, credential, or private URL on screen
+- **DO emphasize** human-in-the-loop, fail-closed design, evidence provenance,
+  and model disagreement
+- **DO show** the actual live product, not slides

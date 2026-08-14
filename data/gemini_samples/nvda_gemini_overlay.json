@@ -1,6 +1,7 @@
 {
   "provider": "gemini",
   "model": "gemini-2.0-flash",
+  "model_note": "Historical offline fixture captured with gemini-2.0-flash. The live Gemini path — local live mode and the Google Cloud Run deployment — uses gemini-2.5-flash. This label is left truthful rather than relabelled; see data/gemini_live_call_redacted.json for the verified live-call model.",
   "ticker": "NVDA",
   "takeaway": "NVIDIA commands a dominant position in AI computing with the CUDA ecosystem creating a formidable competitive moat. Data center revenue growth is extraordinary, driven by insatiable demand for AI training and inference compute.",
   "assessment": {

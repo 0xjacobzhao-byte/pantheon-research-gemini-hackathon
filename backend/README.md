@@ -1,6 +1,6 @@
-# Backend — Pantheon Research Qwen Hackathon
+# Backend — Pantheon Research Gemini Hackathon
 
-FastAPI backend that orchestrates dual-LLM qualitative equity analysis with agreement scoring, tone classification, and divergence detection.
+FastAPI backend that orchestrates the Gemini analyst overlay plus dual-LLM (Qwen/DeepSeek) qualitative equity analysis with agreement scoring, tone classification, and divergence detection.
 
 ## Endpoints
 
@@ -10,12 +10,13 @@ FastAPI backend that orchestrates dual-LLM qualitative equity analysis with agre
 | GET    | `/health`                         | Health check                                      |
 | GET    | `/api/project`                    | Project metadata                                  |
 | GET    | `/api/evidence/{ticker}`          | Get equity evidence data for a ticker             |
+| GET    | `/api/overlay/gemini/{ticker}`    | Run Gemini qualitative overlay                     |
 | GET    | `/api/overlay/qwen/{ticker}`      | Run Qwen Cloud qualitative overlay                |
 | GET    | `/api/overlay/deepseek/{ticker}`  | Run DeepSeek qualitative overlay                  |
 | GET    | `/api/comparison/{ticker}`        | Full dual-provider comparison with agreement score|
 | GET    | `/api/demo-flow`                  | Demo flow steps                                   |
-| GET    | `/api/alibaba/proof`              | Alibaba Cloud deployment proof                    |
-| GET    | `/api/alibaba/qwen-config`        | Qwen / DashScope configuration                    |
+| GET    | `/api/proof/gemini`               | Gemini proof (secret-free)                        |
+| GET    | `/api/qwen-config`                | Qwen / DashScope configuration                    |
 
 ## Running
 
@@ -44,7 +45,8 @@ In offline mode (default), no API keys are needed. The app uses bundled sample d
 - `app/qwen_overlay.py` — Qwen Cloud (DashScope) integration
 - `app/deepseek_overlay.py` — DeepSeek integration
 - `app/comparison.py` — Tone classification, divergence detection, agreement scoring, full comparison
-- `app/alibaba_cloud_proof.py` — Alibaba Cloud deployment proof endpoints
+- `app/gemini_overlay.py` — Gemini API integration (fail-closed)
+- `app/gemini_proof.py` — Gemini proof endpoint (secret-free)
 
 ## Comparison Fields
 

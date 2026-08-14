@@ -9,9 +9,10 @@
 comparison — how many tickers have both a Qwen and a DeepSeek overlay so they
 can be compared with agreement/divergence scoring.
 
-**Product demo tickers** (seen live on `pantheon-research.com` / `8.222.191.152`,
+**Product demo tickers** (seen live on `pantheon-research.com`,
 Ticker Profile → Qwen vs DeepSeek): `NVDA`, `0700.HK` (Tencent),
-`9988.HK` (Alibaba). **Public-repo bundled demo tickers:** `MA`, `NVDA`.
+`9988.HK` (Alibaba Group — an equity covered by the research product, unrelated
+to any deployment infrastructure). **Public-repo bundled demo tickers:** `MA`, `NVDA`.
 
 This report covers **only** the sanitized public demo below. Production universe
 sizes, refresh cadence, and cost figures live in the private repo and are not
@@ -60,16 +61,16 @@ runtime model is configurable:
 | Context | Model |
 |---------|-------|
 | Public demo default | `qwen-plus` (unless `QWEN_MODEL` is set) |
-| Live Alibaba proof | `qwen3.7-plus` |
+| Production live | `qwen3.7-plus` |
 | Production backfill provenance | `qwen3.7-max` |
 
 Do not hardcode "Qwen Max" globally — the model is a runtime configuration.
 
 ## Notes
 
-- The public demo uses `qwen-plus` as a safe default; the live Alibaba deployment
-  reports `qwen_model: "qwen3.7-plus"` (a reasoning-class Qwen model) — verify at
-  `GET http://8.222.191.152/api/proof/alibaba-cloud`.
+- The public demo uses `qwen-plus` as a safe default. Production runs a
+  reasoning-class Qwen model (`qwen3.7-plus`); model routing is not exposed
+  publicly.
 - The production system routes premium Qwen tiers via a private model registry.
 - Qwen coverage spans 4 markets: US (117), China (69), Hong Kong (103), Singapore (23).
 - Full-universe parity with DeepSeek's 1,331-ticker baseline is not pursued;

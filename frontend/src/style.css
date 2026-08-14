@@ -58,11 +58,11 @@ body {
 }
 .tech-item strong { color: var(--accent); }
 
-/* Alibaba Cloud */
-.alibaba-grid { display: flex; flex-direction: column; gap: 0.5rem; }
-.alibaba-item { display: flex; gap: 0.5rem; font-size: 0.9rem; }
-.alibaba-item .label { color: var(--text-muted); min-width: 140px; }
-.alibaba-item .value { color: var(--text); }
+/* Proof grids (Gemini integration, etc.) */
+.proof-grid { display: flex; flex-direction: column; gap: 0.5rem; }
+.proof-item { display: flex; gap: 0.5rem; font-size: 0.9rem; }
+.proof-item .label { color: var(--text-muted); min-width: 140px; }
+.proof-item .value { color: var(--text); }
 
 /* Workflow */
 .workflow-diagram {

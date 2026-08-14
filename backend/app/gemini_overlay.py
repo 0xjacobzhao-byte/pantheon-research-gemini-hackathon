@@ -32,7 +32,9 @@ GEMINI_BASE_URL = os.environ.get(
     "GEMINI_BASE_URL",
     "https://generativelanguage.googleapis.com/v1beta",
 )
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash")
+# Matches the model actually deployed on Cloud Run and reported by
+# /api/proof/gemini. Overridable via GEMINI_MODEL.
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
 
 PROMPT_VERSION = "gemini-overlay-v1.0"
 OUTPUT_SCHEMA_VERSION = "overlay-assessment-1.0"

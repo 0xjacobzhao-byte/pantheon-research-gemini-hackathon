@@ -4,20 +4,18 @@
 #
 # Exercises the local backend (offline mode, no secrets required) end-to-end.
 # Covers: health, evidence, Qwen/DeepSeek overlays, Gemini overlay & proof,
-# comparison, data quality, module grid, Alibaba proof, provider health,
-# validation timeline, ticker profiles, mini modules.
+# comparison, data quality, module grid, provider health, validation timeline,
+# ticker profiles, mini modules.
 #
 # Usage:
 #   ./scripts/judge_smoke.sh                 # assumes backend on :8000
 #   BASE=http://localhost:8000 ./scripts/judge_smoke.sh
-#   ALIBABA=http://8.222.191.152 ./scripts/judge_smoke.sh
 #
 # To start the local backend first:
 #   docker compose up -d --build backend
 set -uo pipefail
 
 BASE="${BASE:-http://localhost:8000}"
-ALIBABA="${ALIBABA:-http://8.222.191.152}"
 TICKER="${TICKER:-MA}"
 PASS=0; FAIL=0
 
@@ -44,16 +42,6 @@ secret_check() { # name url
   fi
 }
 
-softcheck() { # like check(), but never fails the run (best-effort live probe)
-  local name="$1" url="$2" filt="$3" want="$4"
-  local out; out=$(curl -sS -m 30 "$url" 2>/dev/null | jqget "$filt" 2>/dev/null)
-  if printf '%s' "$out" | grep -qi "$want"; then
-    printf "  PASS  %-34s %s\n" "$name" "$out"
-  else
-    printf "  SKIP  %-34s (live host not reachable — offline demo unaffected)\n" "$name"
-  fi
-}
-
 echo "== Local backend (offline mode, no secrets) @ $BASE =="
 check "health"             "$BASE/health"                       '.status'            "healthy"
 check "evidence pack hash" "$BASE/api/evidence/$TICKER"         '.provenance.evidence_hash' "sha256"
@@ -63,9 +51,7 @@ check "comparison state"   "$BASE/api/comparison/$TICKER"       '.data_state'   
 check "comparison agree"   "$BASE/api/comparison/$TICKER"       '.agreement_level'   "."
 check "data quality"       "$BASE/api/data-quality"             '.mode'              "."
 check "module grid"        "$BASE/api/modules"                  '.modules[0].data_state' "."
-check "alibaba proof (v2)" "$BASE/api/proof/alibaba-cloud"      '.schema_version'    "alibaba-proof"
-check "proof host honest"  "$BASE/api/proof/alibaba-cloud"      '.host_runtime'      "."
-check "proof db precise"   "$BASE/api/proof/alibaba-cloud"      '.database.production_data_migrated' "false"
+check "qwen config"        "$BASE/api/qwen-config"              '.base_url'          "dashscope"
 
 check "provider health"    "$BASE/api/provider-health"             '.qwen.provider'      "Alibaba"
 check "validation timeline" "$BASE/api/validation-timeline"          '.stages[0].name'      "Signal"
@@ -83,10 +69,6 @@ check "gemini proof cred"  "$BASE/api/proof/gemini"              '.credential_co
 check "gemini proof no-ext" "$BASE/api/proof/gemini"             '.proof_endpoint_external_calls' "false"
 secret_check "no secrets in Gemini proof"  "$BASE/api/proof/gemini"
 secret_check "no secrets in Gemini overlay" "$BASE/api/overlay/gemini/NVDA"
-
-echo
-echo "== Live Alibaba Cloud ECS proof @ $ALIBABA (best-effort; production backend) =="
-softcheck "alibaba live proof" "$ALIBABA/api/proof/alibaba-cloud" '.cloud_provider' "Alibaba"
 
 echo
 echo "-------------------------------------------"
