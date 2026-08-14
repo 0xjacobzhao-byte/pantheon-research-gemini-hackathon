@@ -131,41 +131,6 @@ Stated plainly so the contribution is weighted correctly.
 
 ---
 
-## Product in Action
-
-> **Note for reviewers:** the four images below are the judge-facing product
-> screenshots. They live in [`assets/submission/`](assets/submission/) under a
-> fixed naming contract and are added at submission time — see that directory's
-> README. Until they are committed, these four references will not render.
-
-<table>
-<tr>
-<td width="50%">
-<img src="assets/submission/02_AI_Analyst_Consensus_Dashboard.png" alt="AI Analyst Consensus dashboard comparing five research providers"/>
-<br/><sub><b>AI Analyst Consensus</b> — five independent providers compared over one governed evidence pack. Agreement, divergence and evidence discipline are reported; no winner is declared.</sub>
-</td>
-<td width="50%">
-<img src="assets/submission/03_Gemini_Multi_Model_Analysis.png" alt="Gemini analyst and risk-review output within the multi-model comparison"/>
-<br/><sub><b>Gemini Analysis</b> — the hackathon layer's analyst / risk-review output: business quality, moat, red flags, confidence, and explicitly named evidence gaps.</sub>
-</td>
-</tr>
-<tr>
-<td width="50%">
-<img src="assets/submission/05_Equity_Ticker_Profile_GOOGL.png" alt="Equity Ticker Profile for GOOGL in the live product"/>
-<br/><sub><b>Equity Ticker Profile (GOOGL)</b> — live production: governed fundamentals, valuation, price target and fair value, each field carrying provenance and freshness.</sub>
-</td>
-<td width="50%">
-<img src="assets/submission/10_Global_Macro_Framework.png" alt="Global Macro framework and regime classification"/>
-<br/><sub><b>Global Macro Framework</b> — deterministic regime classification feeding every downstream engine, so macro permission is inherited rather than re-derived.</sub>
-</td>
-</tr>
-</table>
-
-Remaining screenshots are indexed in
-[`docs/PRODUCT_EVIDENCE_INDEX.md`](docs/PRODUCT_EVIDENCE_INDEX.md).
-
----
-
 ## Gemini — the Hackathon AI Layer
 
 Gemini is the **AI layer built during this submission period**, integrated into
@@ -338,7 +303,7 @@ transaction, not a production writer) · `PUBLIC DEMO` (runnable in this repo) �
 | Capability | Production status | Public evidence | Judge verification |
 |---|---|---|---|
 | Cross-asset dashboard | `LIVE` | Live product | [pantheon-research.com](https://pantheon-research.com) |
-| Ticker Profile / Equity Decisions | `LIVE` | Live product + screenshots | Live product (GOOGL) |
+| Ticker Profile / Equity Decisions | `LIVE` | Live product | Live product (GOOGL) |
 | **Gemini Analyst layer** | `PROOF` (live deployed) | Cloud Run + proof endpoints | [`/api/proof/gemini`](https://pantheon-gemini-549837878368.asia-southeast1.run.app/api/proof/gemini) |
 | Five-model comparison | `LIVE` (cache-only) | Comparison contract | [`overlayComparison.ts`](production_reference/overlayComparison.ts) · `PUBLIC DEMO` |
 | Macro framework | `LIVE` | Live product | `/api/modules` (local) |
