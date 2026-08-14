@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 660" width="960" height="660" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" role="img" aria-label="Pantheon Research public demo architecture: a React frontend calls a FastAPI backend which builds a hash-committed evidence pack, runs the Gemini analyst overlay as the primary hackathon layer alongside Qwen and DeepSeek comparison lanes, compares them, and routes low agreement to a human review gate. LLMs never execute trades.">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="960" height="700" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" role="img" aria-label="Pantheon Research public demo architecture: a React frontend calls a FastAPI backend which builds a hash-committed evidence pack, then runs two independent paths — a standalone Gemini analyst overlay, the primary hackathon layer, and a separate Qwen-versus-DeepSeek comparison engine. Gemini's output is not an input to the comparator. Both paths are fail-closed and both reach a human review gate. LLMs never execute trades.">
   <defs>
     <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M0,0 L10,5 L0,10 z" fill="#94a3b8"/>
@@ -11,10 +11,10 @@
     </marker>
   </defs>
 
-  <rect x="0" y="0" width="960" height="660" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+  <rect x="0" y="0" width="960" height="700" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
 
   <text x="480" y="36" text-anchor="middle" font-size="19" font-weight="700" fill="#0f172a">Pantheon Research — Public Demo Architecture</text>
-  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#475569">Gemini analyst layer · multi-model comparison · human review gate · offline by default</text>
+  <text x="480" y="58" text-anchor="middle" font-size="12" fill="#475569">Gemini standalone analyst layer · separate Qwen/DeepSeek comparator · human review gate · offline by default</text>
 
   <!-- FRONTEND -->
   <rect x="40" y="78" width="880" height="66" rx="9" fill="#f5f9ff" stroke="#4285f4" stroke-width="1.5"/>
@@ -26,7 +26,7 @@
   <text x="492" y="162" font-size="10.5" fill="#64748b">/api/*</text>
 
   <!-- BACKEND -->
-  <rect x="40" y="170" width="880" height="292" rx="9" fill="#fafafa" stroke="#10b981" stroke-width="1.5"/>
+  <rect x="40" y="170" width="880" height="300" rx="9" fill="#fafafa" stroke="#10b981" stroke-width="1.5"/>
   <text x="480" y="192" text-anchor="middle" font-size="13" font-weight="700" fill="#047857">Backend — FastAPI · Python</text>
 
   <!-- evidence pack -->
@@ -34,61 +34,86 @@
   <text x="480" y="226" text-anchor="middle" font-size="12.5" font-weight="700" fill="#065f46">Governed Evidence Pack</text>
   <text x="480" y="243" text-anchor="middle" font-size="10.5" fill="#047857">sample_loader → evidence_pack · SHA-256 content hash</text>
 
-  <path d="M420,254 L250,282" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
-  <path d="M480,254 L480,282" fill="none" stroke="#4285f4" stroke-width="2" marker-end="url(#ab)"/>
-  <path d="M540,254 L712,282" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M400,254 L216,282" fill="none" stroke="#4285f4" stroke-width="2" marker-end="url(#ab)"/>
+  <path d="M560,254 L620,282" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M600,254 L804,282" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
 
-  <!-- GEMINI hero -->
-  <rect x="352" y="284" width="256" height="76" rx="8" fill="#e8f0fe" stroke="#4285f4" stroke-width="3"/>
-  <text x="480" y="305" text-anchor="middle" font-size="13" font-weight="700" fill="#1a56db">★ gemini_overlay.py</text>
-  <text x="480" y="322" text-anchor="middle" font-size="11" fill="#1a56db">gemini-2.5-flash · JSON mode</text>
-  <text x="480" y="338" text-anchor="middle" font-size="10.5" font-weight="600" fill="#3b6fd4">PRIMARY HACKATHON ANALYST LAYER</text>
-  <text x="480" y="353" text-anchor="middle" font-size="10" fill="#5b7fd4">fail-closed · never a hollow SUCCESS</text>
+  <!-- GEMINI hero — its own column, left side -->
+  <rect x="76" y="284" width="280" height="76" rx="8" fill="#e8f0fe" stroke="#4285f4" stroke-width="3"/>
+  <text x="216" y="305" text-anchor="middle" font-size="13" font-weight="700" fill="#1a56db">★ gemini_overlay.py</text>
+  <text x="216" y="322" text-anchor="middle" font-size="11" fill="#1a56db">gemini-2.5-flash · JSON mode</text>
+  <text x="216" y="338" text-anchor="middle" font-size="10.5" font-weight="600" fill="#3b6fd4">PRIMARY HACKATHON ANALYST LAYER</text>
+  <text x="216" y="353" text-anchor="middle" font-size="10" fill="#5b7fd4">fail-closed · never a hollow SUCCESS</text>
+
+  <!-- divider between the two independent paths -->
+  <line x1="420" y1="278" x2="420" y2="460" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="4 4"/>
+  <text x="420" y="270" text-anchor="middle" font-size="9.5" fill="#94a3b8">two independent paths — not merged</text>
 
   <!-- Qwen comparison lane -->
-  <rect x="76" y="284" width="240" height="76" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
-  <text x="196" y="305" text-anchor="middle" font-size="12.5" font-weight="700" fill="#334155">qwen_overlay.py</text>
-  <text x="196" y="322" text-anchor="middle" font-size="11" fill="#475569">Qwen (Alibaba DashScope)</text>
-  <text x="196" y="338" text-anchor="middle" font-size="10.5" fill="#64748b">secondary comparison lane</text>
-  <text x="196" y="353" text-anchor="middle" font-size="10" fill="#94a3b8">same fail-closed contract</text>
+  <rect x="452" y="284" width="180" height="76" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="542" y="305" text-anchor="middle" font-size="12.5" font-weight="700" fill="#334155">qwen_overlay.py</text>
+  <text x="542" y="322" text-anchor="middle" font-size="10.5" fill="#475569">Qwen (DashScope)</text>
+  <text x="542" y="338" text-anchor="middle" font-size="10" fill="#64748b">comparison lane</text>
+  <text x="542" y="352" text-anchor="middle" font-size="9.5" fill="#94a3b8">fail-closed</text>
 
   <!-- DeepSeek comparison lane -->
   <rect x="644" y="284" width="240" height="76" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
   <text x="764" y="305" text-anchor="middle" font-size="12.5" font-weight="700" fill="#334155">deepseek_overlay.py</text>
   <text x="764" y="322" text-anchor="middle" font-size="11" fill="#475569">DeepSeek (OpenAI-compatible)</text>
-  <text x="764" y="338" text-anchor="middle" font-size="10.5" fill="#64748b">secondary comparison lane</text>
-  <text x="764" y="353" text-anchor="middle" font-size="10" fill="#94a3b8">same fail-closed contract</text>
+  <text x="764" y="338" text-anchor="middle" font-size="10.5" fill="#64748b">comparison lane</text>
+  <text x="764" y="352" text-anchor="middle" font-size="10" fill="#94a3b8">fail-closed</text>
 
-  <path d="M196,360 L420,392" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
-  <path d="M480,360 L480,392" fill="none" stroke="#4285f4" stroke-width="2" marker-end="url(#ab)"/>
-  <path d="M764,360 L540,392" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
+  <!-- Gemini's own arrow, staying left of the divider -->
+  <path d="M216,360 L216,392" fill="none" stroke="#4285f4" stroke-width="2" marker-end="url(#ab)"/>
 
-  <!-- comparison -->
-  <rect x="266" y="394" width="428" height="54" rx="8" fill="#faf5ff" stroke="#7c3aed" stroke-width="2"/>
-  <text x="480" y="415" text-anchor="middle" font-size="12.5" font-weight="700" fill="#5b21b6">comparison.py</text>
-  <text x="480" y="433" text-anchor="middle" font-size="10.5" fill="#6d28d9">data_state · agreement · divergence · tone · evidence gaps</text>
+  <!-- Qwen + DeepSeek converge into comparison.py, staying right of the divider -->
+  <path d="M542,360 L620,392" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M764,360 L700,392" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
 
-  <path d="M480,462 L480,486" fill="none" stroke="#2e7d32" stroke-width="2" marker-end="url(#ag)"/>
+  <!-- Gemini structured output — standalone -->
+  <rect x="76" y="394" width="280" height="66" rx="8" fill="#f5f9ff" stroke="#4285f4" stroke-width="2"/>
+  <text x="216" y="415" text-anchor="middle" font-size="12" font-weight="700" fill="#1a56db">Structured Output — standalone</text>
+  <text x="216" y="432" text-anchor="middle" font-size="10" fill="#1565c0">business quality · moat · red flags</text>
+  <text x="216" y="447" text-anchor="middle" font-size="9.5" font-weight="600" fill="#3b6fd4">NOT an input to comparison.py</text>
+
+  <!-- comparison.py -->
+  <rect x="452" y="394" width="432" height="66" rx="8" fill="#faf5ff" stroke="#7c3aed" stroke-width="2"/>
+  <text x="668" y="415" text-anchor="middle" font-size="12.5" font-weight="700" fill="#5b21b6">comparison.py</text>
+  <text x="668" y="433" text-anchor="middle" font-size="10.5" fill="#6d28d9">data_state · agreement · divergence · tone</text>
+  <text x="668" y="448" text-anchor="middle" font-size="9.5" fill="#8b5cf6">Qwen vs DeepSeek only — Gemini is not a comparator input</text>
+
+  <path d="M216,460 L216,486" fill="none" stroke="#4285f4" stroke-width="2" marker-end="url(#ab)"/>
+  <path d="M668,460 L668,486" fill="none" stroke="#7c3aed" stroke-width="2" marker-end="url(#a)"/>
+
+  <!-- two rendered panels, still separate -->
+  <rect x="76" y="488" width="280" height="34" rx="6" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="216" y="509" text-anchor="middle" font-size="10.5" font-weight="600" fill="#1e40af">GeminiOverlayPanel (frontend)</text>
+
+  <rect x="452" y="488" width="432" height="34" rx="6" fill="#f3e8ff" stroke="#c4b5fd"/>
+  <text x="668" y="509" text-anchor="middle" font-size="10.5" font-weight="600" fill="#5b21b6">OverlayComparisonPanel (frontend)</text>
+
+  <path d="M216,522 L400,538" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M668,522 L560,538" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#a)"/>
 
   <!-- HUMAN REVIEW GATE -->
-  <rect x="266" y="488" width="428" height="56" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="3"/>
-  <text x="480" y="510" text-anchor="middle" font-size="13" font-weight="700" fill="#14532d">HUMAN REVIEW GATE</text>
-  <text x="480" y="530" text-anchor="middle" font-size="11" fill="#166534">low agreement or major divergence → mandatory human review</text>
+  <rect x="266" y="540" width="428" height="56" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="3"/>
+  <text x="480" y="562" text-anchor="middle" font-size="13" font-weight="700" fill="#14532d">HUMAN REVIEW GATE</text>
+  <text x="480" y="582" text-anchor="middle" font-size="11" fill="#166534">low agreement, major divergence, or a Gemini red flag → human review</text>
 
-  <path d="M480,544 L480,568" fill="none" stroke="#2e7d32" stroke-width="2" marker-end="url(#ag)"/>
+  <path d="M480,596 L480,620" fill="none" stroke="#2e7d32" stroke-width="2" marker-end="url(#ag)"/>
 
   <!-- human decision -->
-  <rect x="330" y="570" width="300" height="42" rx="21" fill="#bbf7d0" stroke="#22c55e" stroke-width="2"/>
-  <text x="480" y="596" text-anchor="middle" font-size="12.5" font-weight="700" fill="#14532d">Human Decision — LLMs never trade</text>
+  <rect x="330" y="622" width="300" height="42" rx="21" fill="#bbf7d0" stroke="#22c55e" stroke-width="2"/>
+  <text x="480" y="648" text-anchor="middle" font-size="12.5" font-weight="700" fill="#14532d">Human Decision — LLMs never trade</text>
 
   <!-- side notes -->
-  <text x="60" y="590" font-size="10.5" fill="#64748b">Production runs five providers:</text>
-  <text x="60" y="605" font-size="10.5" fill="#64748b">Claude · ChatGPT · Gemini ·</text>
-  <text x="60" y="620" font-size="10.5" fill="#64748b">DeepSeek · Qwen.</text>
+  <text x="60" y="622" font-size="10.5" fill="#64748b">Production runs five providers:</text>
+  <text x="60" y="637" font-size="10.5" fill="#64748b">Claude · ChatGPT · Gemini ·</text>
+  <text x="60" y="652" font-size="10.5" fill="#64748b">DeepSeek · Qwen — one comparator.</text>
 
-  <text x="900" y="590" text-anchor="end" font-size="10.5" fill="#64748b">Offline by default —</text>
-  <text x="900" y="605" text-anchor="end" font-size="10.5" fill="#64748b">bundled samples, no API key,</text>
-  <text x="900" y="620" text-anchor="end" font-size="10.5" fill="#64748b">no external calls.</text>
+  <text x="900" y="622" text-anchor="end" font-size="10.5" fill="#64748b">Offline by default —</text>
+  <text x="900" y="637" text-anchor="end" font-size="10.5" fill="#64748b">bundled samples, no API key,</text>
+  <text x="900" y="652" text-anchor="end" font-size="10.5" fill="#64748b">no external calls.</text>
 
-  <text x="480" y="640" text-anchor="middle" font-size="10" fill="#94a3b8">No order path exists anywhere in this diagram · Pantheon holds no broker credential and no signing key</text>
+  <text x="480" y="682" text-anchor="middle" font-size="10" fill="#94a3b8">No order path exists anywhere in this diagram · Pantheon holds no broker credential and no signing key</text>
 </svg>

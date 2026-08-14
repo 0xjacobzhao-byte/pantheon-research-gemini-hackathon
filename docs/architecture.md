@@ -12,16 +12,20 @@
 
 ## Overview
 
-This application implements a **Gemini-primary equity qualitative overlay with
-secondary multi-provider comparison**. It takes a quantitative equity evidence
-pack and produces structured qualitative analysis from Gemini (the hackathon
-analyst layer), alongside independent overlays from Qwen Cloud and DeepSeek,
-then renders them for comparison with agreement scoring, tone classification,
-and divergence detection.
+This application implements two independent overlay paths over one evidence
+pack: the **Gemini analyst / risk-review overlay** (the hackathon layer,
+displayed standalone) and a **Qwen-vs-DeepSeek comparison engine** (tone
+classification, divergence detection, agreement scoring). The two paths are
+fetched in parallel and rendered in separate panels — **Gemini's output does
+not feed the Qwen/DeepSeek comparator's agreement, tone, divergence, or
+`data_state` computation**, and the comparator does not touch Gemini's output
+either.
 
 The demo slice carries three providers because those are the three whose
 overlays can be generated without private production credentials. Production
-runs five.
+runs a five-model comparison; this repo's smaller comparator is the two
+providers it could stand up without private credentials, with Gemini
+demonstrated as a standalone parallel overlay.
 
 ## System Diagram
 
@@ -54,33 +58,47 @@ runs five.
 │  │  GET  /api/comparison/{ticker}           │            │
 │  │  GET  /api/demo-flow                      │            │
 │  │  GET  /api/qwen-config                     │            │
-│  └──┬──────┬──────────┬──────────┬──────────┘            │
-│     │      │          │          │                       │
-│  ┌──▼───┐ ┌▼────────┐ ┌▼──────┐ ┌▼──────────┐           │
-│  │Sample│ │ GEMINI ★│ │Qwen   │ │DeepSeek    │           │
-│  │Loader│ │ Overlay │ │Overlay│ │Overlay     │           │
-│  │      │ │ PRIMARY │ │(cmp.) │ │(cmp.)      │           │
-│  │data/ │ │ httpx   │ │httpx  │ │httpx       │           │
-│  └──────┘ └────┬────┘ └───┬───┘ └────┬───────┘           │
-│                │          │          │                   │
-│  ┌─────────────▼──────────▼──────────▼────┐              │
-│  │            comparison.py                │              │
-│  │  Tone · Divergence · Score · data_state │              │
-│  └────────────────────┬────────────────────┘              │
-└───────────────────────┼───────────────────────────────────┘
-                        ▼
-              ┌───────────────────────┐
-              │  HUMAN REVIEW GATE    │
-              │  LLMs never trade     │
-              └───────────────────────┘
+│  └──┬──────────┬──────────┬──────────┘                    │
+│     │          │          │                               │
+│  ┌──▼───┐  ┌───▼───┐  ┌───▼────────┐                      │
+│  │Sample│  │Qwen   │  │DeepSeek    │                      │
+│  │Loader│  │Overlay│  │Overlay     │                      │
+│  │data/ │  │httpx  │  │httpx       │                      │
+│  └──────┘  └───┬───┘  └────┬───────┘                      │
+│                │           │                               │
+│         ┌──────▼───────────▼──────┐    ┌─────────────────┐│
+│         │      comparison.py       │    │ ★ GEMINI Overlay││
+│         │ Tone · Divergence ·      │    │   PRIMARY        ││
+│         │ Score · data_state       │    │   httpx          ││
+│         │ (Qwen vs DeepSeek only)  │    │  standalone —     ││
+│         └────────────┬─────────────┘    │  NOT in the      ││
+│                       │                  │  comparator      ││
+└───────────────────────┼──────────────────┴─────────┬───────┘
+                        ▼                              ▼
+              ┌──────────────────┐          ┌────────────────────┐
+              │ OverlayComparison │          │ GeminiOverlayPanel │
+              │ Panel (frontend)  │          │ (frontend)         │
+              └─────────┬─────────┘          └──────────┬─────────┘
+                        │                                │
+                        └──────────────┬─────────────────┘
+                                       ▼
+                             HUMAN REVIEW · LLMs never trade
 
    External providers
    ┌──────────────────┐ ┌──────────────┐ ┌──────────────────┐
-   │ ★ Gemini API      │ │  Qwen Cloud  │ │   DeepSeek API   │
-   │ gemini-2.5-flash  │ │ (DashScope)  │ │  (OpenAI-comp.)  │
-   │ Google Cloud Run  │ │  comparison  │ │    comparison    │
+   │  Qwen Cloud       │ │ DeepSeek API │ │ ★ Gemini API      │
+   │  (DashScope)      │ │(OpenAI-comp.)│ │  gemini-2.5-flash │
+   │  comparison        │ │  comparison  │ │  Google Cloud Run │
    └──────────────────┘ └──────────────┘ └──────────────────┘
 ```
+
+**Gemini is deliberately not wired into `comparison.py`.** The comparator's
+`agreement_score`, `tone`, `divergences`, and `data_state` are computed only
+from Qwen and DeepSeek (`backend/app/comparison.py::run_comparison`). Gemini is
+fetched independently (`frontend/src/App.tsx::handleCompare` calls
+`fetchGeminiOverlay` alongside, not through, the comparison call) and rendered
+in its own panel. This keeps the hackathon layer's fail-closed contract fully
+visible on its own, rather than folded into a metric it doesn't participate in.
 
 ## Demo-Slice Layers
 
